@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: Data.jar UI.jar Control.jar
+Main-Class: ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTests
+
+

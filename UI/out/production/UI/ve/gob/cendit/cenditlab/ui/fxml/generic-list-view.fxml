@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+
+<fx:root  type="TitledPane" text="Title" collapsible="false" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" text="Title" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
+   <graphic>
+      <ImageView fx:id="iconImageView" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/task-icon.jpg" />
+         </image>
+      </ImageView>
+   </graphic>
+   <content>
+      <ListView fx:id="containerListView" maxWidth="1.7976931348623157E308">
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </ListView>
+   </content>
+   <font>
+      <Font name="System Bold" size="14.0" />
+   </font>
+<!-- </TitledPane> -->
+</fx:root>

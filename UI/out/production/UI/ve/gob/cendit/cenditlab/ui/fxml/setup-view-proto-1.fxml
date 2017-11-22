@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import ve.gob.cendit.cenditlab.ui.EnrSetupViewProto1?>
+<?import ve.gob.cendit.cenditlab.ui.EnrTablePane?>
+<?import ve.gob.cendit.cenditlab.ui.FrequencySetupViewProto1?>
+
+<fx:root type="TabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-1" minWidth="-1" prefHeight="-1" prefWidth="-1" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+<!-- <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1"> -->
+  <tabs>
+      <Tab text="Frecuencia">
+         <content>
+            <FrequencySetupViewProto1 fx:id="frequencySetupView"/>
+         </content>
+      </Tab>
+    <Tab text="Configuración ENR">
+      <content>
+          <EnrSetupViewProto1 fx:id="enrSetupView"/>
+      </content>
+    </Tab>
+    <Tab fx:id="commonEnrTab" text="ENR Comun">
+      <content>
+          <EnrTablePane fx:id="commonEnrTablePane" />
+      </content>
+    </Tab>
+    <Tab fx:id="measurementEnrTab" text="ENR Medición">
+      <content>
+        <EnrTablePane fx:id="measurementEnrTablePane" />
+      </content>
+    </Tab>
+  </tabs>
+<!-- </TabPane> -->
+</fx:root>

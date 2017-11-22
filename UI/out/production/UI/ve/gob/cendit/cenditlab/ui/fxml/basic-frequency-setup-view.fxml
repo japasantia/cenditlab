@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+
+<?import ve.gob.cendit.cenditlab.ui.FrequencyRangePane?>
+
+<fx:root type="GridPane" hgap="5.0" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<!-- <GridPane hgap="5.0" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"> -->
+  <children>
+    <Label text="Modo de frecuencia" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <ChoiceBox id="frequencyModeChoiceBox" fx:id="frequencyModeChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <FrequencyRangePane fx:id="frequencyRangePane" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2"></FrequencyRangePane>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
+    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="100.0" prefWidth="-1.0" />
+  </columnConstraints>
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+  </padding>
+  <rowConstraints>
+    <RowConstraints minHeight="30.0" prefHeight="-1.0" valignment="CENTER" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="30.0" prefHeight="-1.0" valignment="TOP" vgrow="ALWAYS" />
+  </rowConstraints>
+<!-- </GridPane> -->
+</fx:root>

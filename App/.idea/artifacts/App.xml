@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="App">
+    <output-path>$PROJECT_DIR$/out/artifacts/App</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTests" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="CenditLab" />
+        <option name="vendor" value="Jose Arias" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="App.jar">
+        <element id="module-output" name="App" />
+        <element id="library" level="project" name="UI" />
+        <element id="library" level="project" name="UI-Base" />
+        <element id="library" level="project" name="Data" />
+        <element id="library" level="project" name="Control" />
+      </element>
+    </root>
+  </artifact>
+</component>

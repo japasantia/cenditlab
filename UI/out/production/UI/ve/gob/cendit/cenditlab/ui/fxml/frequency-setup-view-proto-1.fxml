@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import ve.gob.cendit.cenditlab.ui.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root type="GridPane" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <GridPane hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
+   <children>
+      <Label text="Modo de frecuencia" GridPane.halignment="RIGHT" />
+      <ChoiceBox fx:id="frequencyModeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+         <!--
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Barrido" />
+               <String fx:value="Lista" />
+               <String fx:value="Valor" />
+            </FXCollections>
+         </items>
+         -->
+      </ChoiceBox>
+
+      <Label text="Ancho de banda" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+      <ChoiceBox fx:id="bandwidthChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+         <!--
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="100 kHz" />
+               <String fx:value="200 kHz" />
+               <String fx:value="400 kHz" />
+               <String fx:value="1 MHz" />
+               <String fx:value="2 MHz" />
+               <String fx:value="4 MHz" />
+            </FXCollections>
+         </items>
+         -->
+      </ChoiceBox>
+
+      <Label text="Promedios" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+      <FieldInput fx:id="pointsFieldInput" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+
+      <Label text="Minima" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+      <FieldInput fx:id="minFrequencyFieldInput" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+
+      <Label text="Maxima" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+      <FieldInput fx:id="maxFrequencyFieldInput" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+
+      <Label text="Central" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+      <FieldInput fx:id="centralFrequencyFieldInput" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
+
+      <Label text="Span" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+      <FieldInput fx:id="spanFrequencyFieldInput" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
+
+      <Label text="Valor" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+      <FieldInput fx:id="valueFrequencyFieldInput" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+
+   </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+   </rowConstraints>
+<!-- </GridPane> -->
+</fx:root>

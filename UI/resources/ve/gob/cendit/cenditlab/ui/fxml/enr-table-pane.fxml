@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="TitledPane" animated="false" text="Excess Noise Ratio Table" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <content>
+    <VBox maxWidth="1.7976931348623157E308">
+      <children>
+        <ToolBar maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+          <items>
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonClicked" prefHeight="30.0" prefWidth="30.0" text="+" />
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeButtonClicked" prefHeight="30.0" prefWidth="30.0" text="-" />
+          </items>
+        </ToolBar>
+        <ListView fx:id="containerListView" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+      </children>
+    </VBox>
+  </content>
+  <!-- </TitledPane> -->
+</fx:root>

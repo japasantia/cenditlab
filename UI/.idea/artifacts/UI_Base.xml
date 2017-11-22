@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="UI-Base">
+    <output-path>$PROJECT_DIR$/out/artifacts/UI_Base</output-path>
+    <root id="archive" name="UI-Base.jar">
+      <element id="directory" name="ve">
+        <element id="directory" name="gob">
+          <element id="directory" name="cendit">
+            <element id="directory" name="cenditlab">
+              <element id="directory" name="ui">
+                <element id="directory" name="base">
+                  <element id="file-copy" path="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/ui/base/ViewType.java" />
+                  <element id="file-copy" path="$PROJECT_DIR$/out/production/UI/ve/gob/cendit/cenditlab/ui/base/ViewType.class" />
+                </element>
+              </element>
+            </element>
+          </element>
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

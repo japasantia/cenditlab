@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="UI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import ve.gob.cendit.cenditlab.ui.FieldInput?>
+<?import ve.gob.cendit.cenditlab.ui.ToggleView?>
+
+<fx:root type="GridPane"  alignment="CENTER_RIGHT" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <GridPane alignment="CENTER_RIGHT" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
+    <children>
+
+        <Label alignment="CENTER" text="Modo ENR" GridPane.halignment="RIGHT" />
+        <ChoiceBox fx:id="enrModeChoiceBox" value="Tabla" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="0"/>
+
+        <Label alignment="CENTER" text="Modo Spot " GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+        <ChoiceBox fx:id="spotModeChoiceBox" maxWidth="-1.0" value="ENR" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1">
+            <!--
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="ENR"/>
+                    <String fx:value="Thot"/>
+                </FXCollections>
+            </items>
+            -->
+        </ChoiceBox>
+
+        <Label text="Valor ENR" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+        <FieldInput fx:id="spotEnrFieldInput" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+        <Label text="Auto carga ENR" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+        <ToggleView fx:id="autoLoadEnrToggleView" mnemonicParsing="false" selected="true" text="ON" textOff="OFF" textOn="ON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+
+        <Label text="Tabla comun" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+        <ToggleView fx:id="commonEnrTableToggleView" mnemonicParsing="false" selected="true" text="ON" textOff="OFF" textOn="ON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+
+        <Label text="SNS Tcold" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+        <ToggleView fx:id="snsTcoldToggleView" mnemonicParsing="false" selected="true" text="ON" textOff="OFF" textOn="ON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+
+        <Label text="User Tcold" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+        <ToggleView fx:id="userTcoldToggleView" mnemonicParsing="false" text="OFF" textOff="OFF" textOn="ON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+
+        <Label text="Valor Tcold" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+        <FieldInput fx:id="userTcoldFieldInput" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+
+        <Label text="Fuente de ruido" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+        <ChoiceBox fx:id="noiseSourcePreferenceChoiceBox" value="SNS" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <!--
+            <items>
+              <FXCollections fx:factory="observableArrayList">
+                <String fx:value="SNS" />
+                <String fx:value="Normal" />
+              </FXCollections>
+            </items>
+            -->
+        </ChoiceBox>
+
+    </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
+        <ColumnConstraints fillWidth="false" hgrow="ALWAYS" minWidth="10.0" prefWidth="-1.0" />
+    </columnConstraints>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+    <rowConstraints>
+        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints fillHeight="false" minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS" />
+    </rowConstraints>
+<!-- </GridPane> -->
+</fx:root>

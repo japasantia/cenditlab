@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane fx:id="bandwidthAveragePane" animated="false" text="Ancho de banda y promedio" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <GridPane>
+         <children>
+            <Label text="Ancho de banda" GridPane.columnIndex="0" GridPane.rowIndex="0">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin></Label>
+            <Label text="Promedios" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField promptText="Introduzca cantidad" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin></TextField>
+            <ChoiceBox maxWidth="1.7976931348623157E308" value="4 MHz" GridPane.columnIndex="1" GridPane.rowIndex="0">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="100 kHz" />
+                     <String fx:value="200 kHz" />
+                     <String fx:value="400 kHz" />
+                     <String fx:value="1 MHz" />
+                     <String fx:value="2 MHz" />
+                     <String fx:value="4 MHz" />
+                  </FXCollections>
+               </items>
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </ChoiceBox>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="50.0" prefWidth="-1.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </content>
+</TitledPane>

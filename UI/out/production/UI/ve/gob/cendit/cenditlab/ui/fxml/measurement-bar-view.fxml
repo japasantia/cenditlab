@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ToolBar?>
+
+<fx:root fx:id="containerToolBar" maxHeight="100.0" maxWidth="1.7976931348623157E308" minHeight="40.0" nodeOrientation="LEFT_TO_RIGHT" type="ToolBar" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <ToolBar fx:id="containerToolBar" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="100.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" /> -->
+</fx:root>

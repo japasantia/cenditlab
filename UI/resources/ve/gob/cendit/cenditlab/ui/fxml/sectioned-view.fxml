@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.*?>
+
+<fx:root fx:id="rootVBox" minHeight="200.0" minWidth="300.0" prefHeight="-1.0" prefWidth="-1.0" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <VBox fx:id="rootVBox" minHeight="200.0" minWidth="300.0" prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
+  <children>
+    <HBox fx:id="headerHBox" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="-1.0" spacing="5.0" VBox.vgrow="SOMETIMES">
+      <padding>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" fx:id="x1" />
+      </padding>
+    </HBox>
+    <SplitPane fx:id="centerSplitPane" focusTraversable="true" minHeight="200.0" minWidth="300.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
+    <HBox fx:id="footerHBox" maxHeight="-1.0" maxWidth="1.7976931348623157E308" padding="$x1" prefHeight="-1.0" prefWidth="-1.0" spacing="5.0" VBox.vgrow="SOMETIMES" />
+  </children>
+  <padding>
+    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+  </padding>
+<!-- </VBox> -->
+</fx:root>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="App.jnlp">
+  <information>
+    <title>CenditLab</title>
+    <vendor>Jose Arias</vendor>
+    <description>App</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="App.jar" size="18782" download="eager" />
+    <jar href="Control.jar" size="10056" download="eager" />
+    <jar href="Data.jar" size="24221" download="eager" />
+    <jar href="UI-Base.jar" size="1851" download="eager" />
+    <jar href="UI.jar" size="513626" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTests"  name="App" />
+  <update check="background"/>
+</jnlp>

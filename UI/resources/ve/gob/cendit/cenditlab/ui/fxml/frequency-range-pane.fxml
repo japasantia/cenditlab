@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ve.gob.cendit.cenditlab.ui.*?>
+<fx:root type="TitledPane" fx:id="frequencyRangePane" animated="false" text="Rangos de frecuencia" xmlns="http://javafx.com/javafx/2.2" xmlns:fx="http://javafx.com/fxml/1">
+<!--<TitledPane fx:id="frequencyRangePane" animated="false" text="Rangos de frecuencia" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">-->
+
+   <content>
+      <GridPane>
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="50.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+             <FieldInput fx:id="minFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+             <FieldInput fx:id="maxFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <FieldInput fx:id="centralFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <FieldInput fx:id="spanFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+             <FieldInput fx:id="pointsFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label text="Mínima">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Máxima" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Central" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Span" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Puntos" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+   </content>
+<!--</TitledPane>-->
+</fx:root>

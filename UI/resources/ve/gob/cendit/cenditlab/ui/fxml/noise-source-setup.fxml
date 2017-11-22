@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<fx:root type="TitledPane" animated="false" text="Fuente de ruido" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <content>
+    <GridPane disable="false" hgap="5.0" vgap="5.0">
+      <children>
+        <Label text="Selección" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="0" />
+        <RadioButton fx:id="normalNsRadioButton" mnemonicParsing="false" text="Normal" GridPane.columnIndex="1" GridPane.rowIndex="0">
+          <toggleGroup>
+            <ToggleGroup fx:id="nsSelectionToggleGroup" />
+          </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="smartNsRadioButton" mnemonicParsing="false" selected="true" text="SNS" toggleGroup="$nsSelectionToggleGroup" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <CheckBox fx:id="userTcoldCheckBox" disable="false" mnemonicParsing="false" prefHeight="-1.0" text="Tcold usuario" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.rowSpan="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+        <TextField fx:id="userTcoldTextField" disable="false" prefWidth="100.0" promptText="Introduzca Tcold" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+        <Button fx:id="loadFromSnsButton" disable="false" mnemonicParsing="false" onAction="#loadFromSnsButtonClicked" text="Cargar de SNS" GridPane.columnIndex="3" GridPane.columnSpan="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+        <ProgressIndicator fx:id="loadProgressIndicator" disable="true" progress="0.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      </columnConstraints>
+      <padding>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+      </padding>
+      <rowConstraints>
+        <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </content>
+  <!-- </TitledPane> -->
+</fx:root>
