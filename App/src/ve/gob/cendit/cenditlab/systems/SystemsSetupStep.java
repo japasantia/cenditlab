@@ -4,12 +4,13 @@ import ve.gob.cendit.cenditlab.app.CenditLabApplication;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.MeasurementStep;
 import ve.gob.cendit.cenditlab.ui.SystemsSetupStepView;
+import ve.gob.cendit.cenditlab.ui.SystemsSetupStepViewProto1;
 
 
 public class SystemsSetupStep extends MeasurementStep
 {
     private boolean blocked = false;
-    private SystemsSetupStepView systemsSetupView;
+    private SystemsSetupStepViewProto1 systemsSetupView;
 
     private System[] systemsArray;
 
@@ -35,14 +36,14 @@ public class SystemsSetupStep extends MeasurementStep
     @Override
     public void initialize()
     {
-        systemsSetupView = new SystemsSetupStepView();
+        systemsSetupView = new SystemsSetupStepViewProto1();
     }
 
     @Override
     public void load()
     {
         CenditLabApplication.getApp().setCenterContainer(systemsSetupView);
-        systemsSetupView.setSystems(systemsArray);
+        systemsSetupView.loadSystems(systemsArray);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class SystemsSetupStep extends MeasurementStep
     @Override
     public void unload()
     {
-        systemsSetupView.clearSystems();
+        systemsSetupView.unloadSystems();
     }
 
     public void setBlocked(boolean value)

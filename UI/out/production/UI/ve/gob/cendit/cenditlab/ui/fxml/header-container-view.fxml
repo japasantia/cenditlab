@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import ve.gob.cendit.cenditlab.ui.ExecutionToolbar?>
 
-<?import javafx.scene.layout.Pane?>
-<fx:root type="TitledPane" collapsible="false" maxHeight="Infinity" maxWidth="Infinity" text="Header Title" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root collapsible="false" maxHeight="Infinity" maxWidth="Infinity" text="Header Title" type="TitledPane" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Header Title" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"> -->
    <font>
       <Font name="System Bold" size="14.0" />
@@ -26,19 +24,26 @@
 
    <content>
 
-      <VBox fx:id="rootVBox" maxHeight="Infinity" maxWidth="Infinity" fillWidth="true">
+      <VBox fx:id="rootVBox" fillWidth="true" maxHeight="Infinity" maxWidth="Infinity">
 
          <children>
 
-            <HBox fx:id="topHBox" fillHeight="false"  maxWidth="Infinity" VBox.vgrow="SOMETIMES">
+            <HBox fx:id="topHBox" fillHeight="false" maxWidth="Infinity" VBox.vgrow="NEVER">
+               <!--
                <children>
                     <ExecutionToolbar />
                </children>
+               -->
             </HBox>
 
+            <!--
             <ScrollPane fx:id="centerScrollPane" fitToWidth="true" fitToHeight="false" maxWidth="Infinity" maxHeight="Infinity">
 
             </ScrollPane>
+            -->
+            <Pane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+
+            </Pane>
 
          </children>
 

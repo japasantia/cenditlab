@@ -97,10 +97,14 @@ public class ComponentListView<T extends Component> extends ListView<T>
             if (node != null)
             {
                 setGraphic(node);
-                node.setOnMouseClicked(event ->
+
+                if (onItemClickedHandler != null)
                 {
-                    onItemClickedHandler.handle(event);
-                });
+                    node.setOnMouseClicked(event ->
+                    {
+                        onItemClickedHandler.handle(event);
+                    });
+                }
             }
         }
     }

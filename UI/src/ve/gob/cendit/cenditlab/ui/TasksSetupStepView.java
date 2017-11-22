@@ -4,18 +4,26 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
+import java.util.Arrays;
+
 public class TasksSetupStepView extends SectionedView
 {
-    private ScrollPane masterScrollView;
+    private HeaderContainerView masterContainer;
+    private HeaderContainerView detailContainer;
+    private HeaderContainerView setupContainer;
+
+    private ComponentListView<Task> tasksListView;
+
     private SectionedView detailSetupSectionedView;
 
-    private VBox masterVBox;
+    private ScrollPane detailScrollView;
+    private ScrollPane setupScrollPane;
+
     private VBox detailVBox;
     private VBox setupVBox;
 
@@ -32,26 +40,38 @@ public class TasksSetupStepView extends SectionedView
 
     private void initialize()
     {
-        masterVBox = new VBox();
-        masterScrollView = new ScrollPane(masterVBox);
+        masterContainer = new HeaderContainerView();
+        detailContainer = new HeaderContainerView();
+        setupContainer = new HeaderContainerView();
 
-        masterScrollView.setFitToWidth(true);
-        masterScrollView.setPannable(true);
-        masterVBox.setFillWidth(true);
-        masterVBox.setPrefWidth(-1.0);
-        masterVBox.setPrefHeight(-1.0);
-        masterVBox.setMaxWidth(Double.POSITIVE_INFINITY);
+        masterContainer.setCaption("Tasks");
+        detailContainer.setCaption("Info");
+        setupContainer.setCaption("Setup");
+
+        tasksListView = new ComponentListView<>();
+        masterContainer.setCenter(tasksListView);
+
+        detailSetupSectionedView = new SectionedView();
 
         detailVBox = new VBox();
         setupVBox = new VBox();
+
+        detailScrollView = new ScrollPane(detailVBox);
+        setupScrollPane = new ScrollPane(setupVBox);
+
+        detailContainer.setCenter(detailScrollView);
+        setupContainer.setCenter(setupScrollPane);
+
         detailSetupSectionedView = new SectionedView();
 
-        detailSetupSectionedView.setCenterSectionOrientation(Orientation.HORIZONTAL);
-        detailSetupSectionedView.createCenterSection("Detail", detailVBox);
-        detailSetupSectionedView.createCenterSection("Setup", setupVBox);
+        detailSetupSectionedView.setCenterSectionOrientation(Orientation.VERTICAL);
+        detailSetupSectionedView.createCenterSection("Detail", detailContainer);
+        detailSetupSectionedView.createCenterSection("Setup", setupContainer);
 
-        this.createCenterSection("Master", masterScrollView);
+        this.createCenterSection("Master", masterContainer);
         this.createCenterSection("DetailSetup", detailSetupSectionedView);
+
+        tasksListView.setOnListSelectionChanged(this::onTaskSelected);
     }
 
     public void loadSystems(System... systems)
@@ -63,6 +83,10 @@ public class TasksSetupStepView extends SectionedView
 
     public void addSystems(System... systems)
     {
+        Arrays.stream(systems)
+            .forEach(system -> tasksListView.addComponents(system.getTasks()));
+
+        /*
         for (System system : systems)
         {
             HeaderComponentListView<Task> tasksListView = new HeaderComponentListView<>();
@@ -77,16 +101,32 @@ public class TasksSetupStepView extends SectionedView
             tasksListView.setTitle(system.getName());
             tasksListView.getItems().addAll(system.getTasks());
 
-            masterVBox.getChildren().add(tasksListView);
+            tasksListView.getChildren().add(tasksListView);
         }
+        */
     }
 
     public void unloadSystems()
     {
-        masterVBox.getChildren().clear();
+        clearTasksList();
 
+        clearSetup();
+
+        clearDetail();
+    }
+
+    public void clearTasksList()
+    {
+        tasksListView.getItems().clear();
+    }
+
+    public void clearDetail()
+    {
         detailVBox.getChildren().clear();
+    }
 
+    public void clearSetup()
+    {
         setupVBox.getChildren().clear();
     }
 
@@ -96,13 +136,17 @@ public class TasksSetupStepView extends SectionedView
         if (newTask == null)
             return;
 
-        detailVBox.getChildren().clear();
-        setupVBox.getChildren().clear();
+        clearDetail();
+        clearSetup();
+
+        String taskName = newTask.getName();
 
         Node viewNode = newTask.getView(ViewType.DETAILS);
 
         if (viewNode != null)
         {
+            String caption = String.format("%s info", taskName);
+            detailContainer.setCaption(caption);
             detailVBox.getChildren().add(viewNode);
         }
 
@@ -110,6 +154,8 @@ public class TasksSetupStepView extends SectionedView
 
         if (viewNode != null)
         {
+            String caption = String.format("%s setup", taskName);
+            setupContainer.setCaption(caption);
             setupVBox.getChildren().add(viewNode);
         }
     }

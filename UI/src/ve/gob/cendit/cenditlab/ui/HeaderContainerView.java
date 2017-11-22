@@ -2,12 +2,11 @@ package ve.gob.cendit.cenditlab.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 
 public class HeaderContainerView extends TitledPane
 {
@@ -20,7 +19,7 @@ public class HeaderContainerView extends TitledPane
     private HBox topHBox;
 
     @FXML
-    private ScrollPane centerScrollPane;
+    private Pane centerPane;
 
     @FXML
     private ImageView iconImageView;
@@ -33,6 +32,11 @@ public class HeaderContainerView extends TitledPane
     public void setCaption(String value)
     {
         this.setText(value);
+    }
+
+    public String getCaption()
+    {
+        return this.getText();
     }
 
     public void setIcon(Image iconImage)
@@ -48,6 +52,11 @@ public class HeaderContainerView extends TitledPane
         }
     }
 
+    public Image getIcon()
+    {
+        return iconImageView.getImage();
+    }
+
     public void addTop(Node... nodes)
     {
         topHBox.getChildren().addAll(nodes);
@@ -59,14 +68,15 @@ public class HeaderContainerView extends TitledPane
         topHBox.getChildren().addAll(nodes);
     }
 
-    public void setCenterContent(Node node)
+    public void setCenter(Node node)
     {
-        centerScrollPane.setContent(node);
+        clearCenter();
+        centerPane.getChildren().add(node);
     }
 
-    public Node getCenterContent ()
+    public Node getCenter()
     {
-        return centerScrollPane.getContent();
+        return centerPane.getChildren().get(0);
     }
 
     public void clearTop()
@@ -76,7 +86,7 @@ public class HeaderContainerView extends TitledPane
 
     public void clearCenter()
     {
-        centerScrollPane.setContent(null);
+        centerPane.getChildren().clear();
     }
 
     public void setTopVisible(boolean value)
@@ -86,6 +96,6 @@ public class HeaderContainerView extends TitledPane
 
     public void setCenterVisible(boolean value)
     {
-        centerScrollPane.setVisible(value);
+        centerPane.setVisible(value);
     }
 }
