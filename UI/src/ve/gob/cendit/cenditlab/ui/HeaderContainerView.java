@@ -1,12 +1,15 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class HeaderContainerView extends TitledPane
 {
@@ -16,10 +19,14 @@ public class HeaderContainerView extends TitledPane
             new ViewLoader(FXML_URL);
 
     @FXML
-    private HBox topHBox;
+    private VBox rootVBox;
+
+    // TODO: determionar el mejor contenedor para area top
+    @FXML
+    private Pane topPane;
 
     @FXML
-    private Pane centerPane;
+    private ScrollPane centerPane;
 
     @FXML
     private ImageView iconImageView;
@@ -57,41 +64,41 @@ public class HeaderContainerView extends TitledPane
         return iconImageView.getImage();
     }
 
-    public void addTop(Node... nodes)
+    public void setTop(Node node)
     {
-        topHBox.getChildren().addAll(nodes);
+        topPane.getChildren().add(node);
+    }
+
+    public Node getTop()
+    {
+        return topPane.getChildren().get(0);
     }
 
 
-    public void removeTop(Node... nodes)
+    public void clearTop()
     {
-        topHBox.getChildren().addAll(nodes);
+        topPane.getChildren().clear();
     }
 
     public void setCenter(Node node)
     {
         clearCenter();
-        centerPane.getChildren().add(node);
+        centerPane.setContent(node);
     }
 
     public Node getCenter()
     {
-        return centerPane.getChildren().get(0);
-    }
-
-    public void clearTop()
-    {
-        topHBox.getChildren().clear();
+        return centerPane.getContent();
     }
 
     public void clearCenter()
     {
-        centerPane.getChildren().clear();
+        centerPane.setContent(null);
     }
 
     public void setTopVisible(boolean value)
     {
-        topHBox.setVisible(value);
+        topPane.setVisible(value);
     }
 
     public void setCenterVisible(boolean value)

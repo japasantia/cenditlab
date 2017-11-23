@@ -55,6 +55,8 @@ public class SystemsSetupStepViewProto1 extends SplitPane
     private void initialize()
     {
         systemsListView = new ComponentListView<>();
+        systemsListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
         systemsContainerView.setCenter(systemsListView);
 
         systemsListView.setOnListSelectionChanged(this::onSystemSelected);

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import ve.gob.cendit.cenditlab.ui.ExecutionToolbar?>
 
-<fx:root hgap="5.0" maxHeight="Infinity" maxWidth="Infinity" type="GridPane" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root hgap="5.0" maxHeight="Infinity" maxWidth="Infinity" type="GridPane" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <GridPane hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"> -->
 
     <columnConstraints>
@@ -27,7 +27,7 @@
 
         <ImageView fx:id="taskIconImageView" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
             <image>
-                <Image url="@../images/task-icon-1.jpg" />
+                <Image url="@../images/task-icon.jpg" />
             </image>
         </ImageView>
 
@@ -37,16 +37,8 @@
             </font>
         </Label>
 
-        <ExecutionToolbar fx:id="taskExecutionToolbar" maxHeight="Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-        <!--
-        <FlowPane fx:id="taskIndicatorsFlowPane" maxWidth="1.7976931348623157E308" GridPane.columnSpan="3" GridPane.rowIndex="1">
-            <children>
-                <IconLabel>
-                    <Image url="@../images/warning-icon.png"/>
-                </IconLabel>
-            </children>
-        </FlowPane>
-        -->
+        <ExecutionToolbar fx:id="taskExecutionToolbar" maxWidth="1.7976931348623157E308" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+
     </children>
 
     <padding>

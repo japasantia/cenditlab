@@ -5,8 +5,8 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.control.System;
+import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 import java.util.Arrays;

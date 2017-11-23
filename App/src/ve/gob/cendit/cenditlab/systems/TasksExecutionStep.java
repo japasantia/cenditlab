@@ -4,8 +4,7 @@ import ve.gob.cendit.cenditlab.app.CenditLabApplication;
 import ve.gob.cendit.cenditlab.control.MeasurementStep;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
-import ve.gob.cendit.cenditlab.ui.IconView;
-import ve.gob.cendit.cenditlab.ui.TasksExecutionStepView;
+import ve.gob.cendit.cenditlab.ui.*;
 
 import java.util.Arrays;
 
@@ -14,7 +13,7 @@ public class TasksExecutionStep extends MeasurementStep
 {
     private boolean blocked = false;
 
-    private TasksExecutionStepView tasksExecutionStepView;
+    private TasksExecutionStepViewProto1 tasksExecutionStepView;
 
     private System[] systemsArray;
 
@@ -40,7 +39,7 @@ public class TasksExecutionStep extends MeasurementStep
     @Override
     public void initialize()
     {
-       tasksExecutionStepView = new TasksExecutionStepView();
+       tasksExecutionStepView = new TasksExecutionStepViewProto1();
     }
 
     @Override

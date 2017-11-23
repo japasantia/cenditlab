@@ -14,10 +14,11 @@
     <root id="root">
       <element id="archive" name="App.jar">
         <element id="module-output" name="App" />
-        <element id="library" level="project" name="UI" />
-        <element id="library" level="project" name="UI-Base" />
-        <element id="library" level="project" name="Data" />
-        <element id="library" level="project" name="Control" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/App.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/Control.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/Data.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/UI-Base.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/UI.jar" path-in-jar="/" />
       </element>
     </root>
   </artifact>
