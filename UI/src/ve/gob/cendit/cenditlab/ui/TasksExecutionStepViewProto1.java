@@ -69,7 +69,7 @@ public class TasksExecutionStepViewProto1 extends SplitPane
 
     public void addTasks(Task... tasks)
     {
-        tasksListView.setComponents(tasks);
+        tasksListView.addComponents(tasks);
     }
 
     public void unloadTasks()

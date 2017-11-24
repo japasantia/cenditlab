@@ -26,21 +26,24 @@
 
    <content>
 
-      <VBox fx:id="rootVBox" fillWidth="true" maxHeight="Infinity" maxWidth="Infinity">
+        <VBox fx:id="rootVBox" >
+        <!-- <VBox fx:id="rootVBox" fillWidth="true" maxHeight="Infinity" maxWidth="Infinity"> -->
 
-         <children>
+             <children>
 
-            <Pane fx:id="topPane" maxWidth="Infinity" VBox.vgrow="SOMETIMES">
 
-            </Pane>
+                <ScrollPane fx:id="centerPane" fitToWidth="true" fitToHeight="false" hbarPolicy="AS_NEEDED" maxWidth="Infinity" VBox.vgrow="ALWAYS">
 
-            <ScrollPane fx:id="centerPane" fitToWidth="true" fitToHeight="false" hbarPolicy="AS_NEEDED" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+                </ScrollPane>
 
-            </ScrollPane>
+                 <Pane fx:id="topPane">
+                 <!-- <Pane fx:id="topPane" maxWidth="Infinity" VBox.vgrow="SOMETIMES"> -->
 
-         </children>
+                 </Pane>
 
-      </VBox>
+             </children>
+
+        </VBox>
 
    </content>
 

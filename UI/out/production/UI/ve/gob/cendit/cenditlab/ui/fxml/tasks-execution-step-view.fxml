@@ -15,9 +15,7 @@
 
             <HeaderContainerView fx:id="tasksContainerView" maxWidth="Infinity" maxHeight="Infinity">
                 <top>
-                    <VBox>
-                        <ExecutionToolbar fx:id="mainExecutionToolbar" prefHeight="40"/>
-                    </VBox>
+                    <ExecutionToolbar fx:id="mainExecutionToolbar" />
                 </top>
             </HeaderContainerView>
 
