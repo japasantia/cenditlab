@@ -2,12 +2,9 @@ package ve.gob.cendit.cenditlab.control;
 
 public enum TaskState
 {
-    UNLOADED,
-    LOADED,
+    BEGIN,
     RUNNING,
     PAUSED,
     STOPPED,
-    KILLED,
-    TERMINATED,
 }
 

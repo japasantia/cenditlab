@@ -3,299 +3,87 @@ package ve.gob.cendit.cenditlab.control;
 import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.data.FieldsContainer;
 
-import java.lang.*;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 public abstract class Task extends Component
 {
-    private Thread thread;
-    private TaskState taskState = TaskState.UNLOADED;
-
-    private TaskProcedure currentProcedure;
+    private TaskState state = TaskState.BEGIN;
+    private TaskState requestedState = TaskState.BEGIN;
 
     public Task(String name, String description, Image iconImage)
     {
         super(name, description, iconImage);
     }
 
-    public void load()
-    {
-        if (isUnloaded())
-        {
-            currentProcedure = new TaskProcedure(() -> onLoad());
+    public abstract FieldsContainer getSetupFields();
 
-            currentProcedure.setOnTerminate(
-                    success -> setState(success ? TaskState.LOADED : TaskState.UNLOADED));
-        }
-    }
-
-    public void run()
-    {
-        if (isReady())
-        {
-            currentProcedure = new TaskProcedure(() -> onRun());
-
-            currentProcedure.setOnTerminate(success -> setState(TaskState.TERMINATED));
-
-            currentProcedure.run();
-
-            setState(TaskState.RUNNING);
-        }
-    }
-
-    public void unload()
-    {
-        if (isFinalized())
-        {
-            currentProcedure = new TaskProcedure(this::onUnload);
-            currentProcedure.setOnTerminate(success -> setState(TaskState.UNLOADED));
-        }
-    }
+    public abstract void run(TaskContext context);
 
     public void pause()
     {
-        currentProcedure.pause();
-    }
-
-    public void resume()
-    {
-        currentProcedure.resume();
+        requestedState =  TaskState.PAUSED;
     }
 
     public void stop()
     {
-        currentProcedure.stop();
+        requestedState = TaskState.STOPPED;
     }
 
-    public final boolean isUnloaded()
+    public void resume()
     {
-        return taskState == TaskState.UNLOADED;
+        requestedState = TaskState.RUNNING;
     }
 
-    public final boolean isLoaded()
+    protected void setState(TaskState value)
     {
-        return taskState == TaskState.LOADED;
+        state = value;
     }
+
+    public TaskState getState()
+    {
+        return state;
+    }
+
 
     public final boolean isRunning()
     {
-        return taskState == TaskState.RUNNING;
-    }
-
-    public final boolean isTerminated()
-    {
-        return taskState == TaskState.TERMINATED;
-    }
-
-    public boolean isPaused()
-    {
-        return currentProcedure.isPaused();
+        return state == TaskState.RUNNING;
     }
 
     public final boolean isStopped()
     {
-        return currentProcedure.isStopped();
+        return  state == TaskState.STOPPED;
     }
 
-    public final boolean isFinalized()
+    public final boolean isPaused()
     {
-        return isStopped() || isTerminated();
-    }
-
-    public final boolean isReady()
-    {
-        return isLoaded() || isFinalized();
-    }
-
-    protected final void enterPause()
-    {
-        currentProcedure.enterPause();
+        return state == TaskState.PAUSED;
     }
 
     protected final boolean isPauseRequested()
     {
-        return currentProcedure.isPauseRequested();
+        return requestedState == TaskState.PAUSED;
     }
 
     protected final boolean isStopRequested()
     {
-        return currentProcedure.isStopRequested();
+        return requestedState == TaskState.STOPPED;
     }
 
-    public abstract FieldsContainer getSetupFields();
-
-    protected boolean onLoad()
+    protected final boolean isResumeRequested()
     {
-        return true;
+        return requestedState == TaskState.RUNNING;
     }
 
-    protected boolean onRun()
+    protected void enterPause()
     {
-        return true;
+        state = TaskState.PAUSED;
+        requestedState = TaskState.BEGIN;
+
+        // while (isPaused());
     }
 
-    protected boolean onUnload()
+    protected void exitPause()
     {
-        return true;
-    }
-
-    protected abstract void execute();
-
-    private void setState(TaskState state)
-    {
-        taskState = state;
-    }
-
-    private class TaskProcedure
-    {
-        private static final int BEGIN = 0;
-        private static final int ACTIVE = 1;
-        private static final int PAUSED = 2;
-        private static final int STOPPED = 3;
-        private static final int TERMINATED = 4;
-
-        private Thread thread;
-        private boolean procedureReturn = false;
-
-        private Supplier<Boolean> procedure;
-        private Consumer<Boolean> onTerminate;
-
-        private volatile int state = BEGIN;
-        private volatile int requestState = BEGIN;
-
-        public TaskProcedure(Supplier<Boolean> procedure)
-        {
-            procedureReturn = false;
-            this.procedure = procedure;
-        }
-
-        public void run()
-        {
-            state = ACTIVE;
-            requestState = ACTIVE;
-
-            thread = new Thread(this::callThreadProcedure);
-            thread.setDaemon(true);
-
-            thread.start();
-        }
-
-        public void pause()
-        {
-            requestState = PAUSED;
-        }
-
-        public void resume()
-        {
-            state = ACTIVE;
-            requestState = ACTIVE;
-
-            notify();
-        }
-
-        public void stop()
-        {
-            if (state == ACTIVE)
-            {
-                if (requestState == ACTIVE)
-                {
-                    thread.interrupt();
-                    requestState = STOPPED;
-                }
-                else if (requestState == STOPPED)
-                {
-                    thread.stop();
-                    state = STOPPED;
-                }
-            }
-        }
-
-        public boolean isPauseRequested()
-        {
-            return requestState == PAUSED;
-        }
-
-        public boolean isStopRequested()
-        {
-            return requestState == STOPPED;
-        }
-
-        public boolean isReady()
-        {
-            return state == BEGIN || isStopped() || isTerminated();
-        }
-
-        public boolean isPaused()
-        {
-            return state == PAUSED;
-        }
-
-        public boolean isActive()
-        {
-            return state == ACTIVE;
-        }
-
-        public boolean isTerminated()
-        {
-            return state == TERMINATED;
-        }
-
-        public boolean isStopped()
-        {
-            return state == STOPPED;
-        }
-
-        public boolean isFinalized()
-        {
-            return isTerminated() || isStopped();
-        }
-
-        public void enterPause()
-        {
-            // FIXME: revisar si es necesario synchronized
-            try
-            {
-                state = PAUSED;
-
-                while (isPaused())
-                {
-                    wait();
-                }
-            }
-            catch (InterruptedException ex)
-            {
-                requestState = STOPPED;
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        public boolean success()
-        {
-            return procedureReturn;
-        }
-
-        public void setOnTerminate(Consumer<Boolean> handler)
-        {
-            onTerminate = handler;
-        }
-
-        private void callTerminationHandler(boolean procedureReturn)
-        {
-            if (onTerminate != null)
-            {
-                onTerminate.accept(procedureReturn);
-            }
-        }
-
-        private void callThreadProcedure()
-        {
-            procedureReturn = procedure.get();
-
-            state = TERMINATED;
-            requestState = BEGIN;
-
-            callTerminationHandler(procedureReturn);
-        }
+        state = TaskState.RUNNING;
+        requestedState = TaskState.BEGIN;
     }
 }
