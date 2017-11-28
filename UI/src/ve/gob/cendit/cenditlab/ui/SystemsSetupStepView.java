@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -59,8 +58,8 @@ public class SystemsSetupStepView extends SectionedView
         this.createCenterSection("Master", masterHeaderContainer);
         this.createCenterSection("SetupDetail", detailSetupSectionedView);
 
-        masterListView.setOnListItemClicked(this::onSystemClicked);
-        masterListView.setOnListSelectionChanged(this::onSystemSelected);
+        masterListView.setOnComponentViewClicked(this::onSystemClicked);
+        masterListView.setOnComponentSelectionChanged(this::onSystemSelected);
     }
 
     public ObservableList<System> getSystems()

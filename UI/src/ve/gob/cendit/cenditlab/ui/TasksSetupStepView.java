@@ -71,7 +71,7 @@ public class TasksSetupStepView extends SectionedView
         this.createCenterSection("Master", masterContainer);
         this.createCenterSection("DetailSetup", detailSetupSectionedView);
 
-        tasksListView.setOnListSelectionChanged(this::onTaskSelected);
+        tasksListView.setOnComponentSelectionChanged(this::onTaskSelected);
     }
 
     public void loadSystems(System... systems)
@@ -91,7 +91,7 @@ public class TasksSetupStepView extends SectionedView
         {
             HeaderComponentListView<Task> tasksListView = new HeaderComponentListView<>();
 
-            tasksListView.setOnListSelectionChanged(this::onTaskSelected);
+            tasksListView.setOnComponentSelectionChanged(this::onTaskSelected);
 
             tasksListView.setCollapsible(true);
             VBox.setVgrow(tasksListView, Priority.ALWAYS);

@@ -31,14 +31,12 @@
 
              <children>
 
-
                 <ScrollPane fx:id="centerPane" fitToWidth="true" fitToHeight="false" hbarPolicy="AS_NEEDED" maxWidth="Infinity" VBox.vgrow="ALWAYS">
 
                 </ScrollPane>
 
                  <Pane fx:id="topPane">
                  <!-- <Pane fx:id="topPane" maxWidth="Infinity" VBox.vgrow="SOMETIMES"> -->
-
                  </Pane>
 
              </children>

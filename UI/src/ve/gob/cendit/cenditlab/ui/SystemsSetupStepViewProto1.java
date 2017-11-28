@@ -59,8 +59,8 @@ public class SystemsSetupStepViewProto1 extends SplitPane
 
         systemsContainerView.setCenter(systemsListView);
 
-        systemsListView.setOnListSelectionChanged(this::onSystemSelected);
-        systemsListView.setOnListItemClicked(this::onSystemClicked);
+        systemsListView.setOnComponentSelectionChanged(this::onSystemSelected);
+        systemsListView.setOnComponentViewClicked(this::onSystemClicked);
     }
 
     public ObservableList<System> getSystems()

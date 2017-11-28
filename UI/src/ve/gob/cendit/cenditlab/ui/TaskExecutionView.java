@@ -20,7 +20,9 @@ public class TaskExecutionView extends GridPane
     @FXML
     private Label taskNameLabel;
 
-    @FXML
+
+
+
     private ExecutionToolbar executionToolbar;
 
     private Task task;
@@ -68,8 +70,20 @@ public class TaskExecutionView extends GridPane
         }
     }
 
+    public void setExecutionToolbar(ExecutionToolbar toolbar)
+    {
+        executionToolbar = toolbar;
+        this.add(executionToolbar, 0, 1,3, 1);
+    }
+
     public ExecutionToolbar getExecutionToolbar()
     {
         return executionToolbar;
+    }
+
+    public void removeExecutionToolbar()
+    {
+        this.getChildren().remove(executionToolbar);
+        executionToolbar = null;
     }
 }

@@ -8,8 +8,11 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 import ve.gob.cendit.cenditlab.control.Component;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
+
+import java.util.function.Consumer;
 
 public class ComponentListView<T extends Component> extends ListView<T>
 {
@@ -19,7 +22,9 @@ public class ComponentListView<T extends Component> extends ListView<T>
 
     private ViewType viewType = ViewType.LIST_ICON;
 
-    private EventHandler<MouseEvent> onItemClickedHandler;
+    private EventHandler<MouseEvent> onComponentViewClickedHandler;
+    private Consumer<Node> onComponentViewClicked;
+    private Consumer<T> onComponentSelectionChanged;
 
     private T[] components;
 
@@ -66,16 +71,28 @@ public class ComponentListView<T extends Component> extends ListView<T>
         return this.getSelectionModel().getSelectedItems();
     }
 
-    public void setOnListItemClicked(EventHandler<MouseEvent> eventHandler)
+    public void setOnComponentViewClicked(EventHandler<MouseEvent> eventHandler)
     {
-       onItemClickedHandler = eventHandler;
+       onComponentViewClickedHandler = eventHandler;
     }
 
-    public void setOnListSelectionChanged(ChangeListener<T> listener)
+    public void setOnComponentSelectionChanged(ChangeListener<T> listener)
     {
         this.getSelectionModel()
                 .selectedItemProperty()
                 .addListener(listener);
+    }
+
+    public void setOnComponentViewClicked(Consumer<Node> handler)
+    {
+        onComponentViewClicked = handler;
+    }
+
+    public void setOnComponentSelectionChanged(Consumer<T> handler)
+    {
+        this.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldComponent, newComponent) -> onComponentSelectionChanged.accept(newComponent));
     }
 
     private class ComponentListCell extends ListCell<T>
@@ -91,19 +108,20 @@ public class ComponentListView<T extends Component> extends ListView<T>
             if (empty || componentItem == null)
                 return;
 
-            // TODO: revisar por elemento null
             Node node = componentItem.getView(viewType);
 
             if (node != null)
             {
                 setGraphic(node);
 
-                if (onItemClickedHandler != null)
+                if (onComponentViewClickedHandler != null)
                 {
-                    node.setOnMouseClicked(event ->
-                    {
-                        onItemClickedHandler.handle(event);
-                    });
+                    node.setOnMouseClicked(event -> onComponentViewClickedHandler.handle(event));
+                }
+
+                if (onComponentViewClicked != null)
+                {
+                    node.setOnMouseClicked(event -> onComponentViewClicked.accept((Node)event.getSource()));
                 }
             }
         }

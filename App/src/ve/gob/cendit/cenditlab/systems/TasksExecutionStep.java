@@ -49,6 +49,7 @@ public class TasksExecutionStep extends MeasurementStep
                 .forEach(system -> tasksExecutionStepView.addTasks(system.getTasks()));
 
         CenditLabApplication.getApp().setCenterContainer(tasksExecutionStepView);
+
     }
 
     @Override
@@ -60,7 +61,7 @@ public class TasksExecutionStep extends MeasurementStep
     @Override
     public void unload()
     {
-        tasksExecutionStepView.unloadTasks();
+        //tasksExecutionStepView.unloadTasks();
     }
 
     public void setBlocked(boolean value)

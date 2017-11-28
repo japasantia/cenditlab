@@ -1,13 +1,13 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
-
-import java.util.Arrays;
 
 public class TasksExecutionStepViewProto1 extends SplitPane
 {
@@ -34,7 +34,11 @@ public class TasksExecutionStepViewProto1 extends SplitPane
     @FXML
     private ExecutionToolbar mainExecutionToolbar;
 
+    private ExecutionToolbar executionToolbar;
+
     private ComponentListView<Task> tasksListView;
+
+    private Task selectedTask;
 
     public TasksExecutionStepViewProto1()
     {
@@ -56,8 +60,13 @@ public class TasksExecutionStepViewProto1 extends SplitPane
 
         tasksListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         tasksListView.setViewType(ViewType.EXECUTION);
+        tasksListView.setOnComponentSelectionChanged(this::onTaskSelectionChange);
 
         tasksContainerView.setCenter(tasksListView);
+
+        executionToolbar = new ExecutionToolbar();
+        executionToolbar.setOnStart(this::onStartTaskButtonClicked);
+        executionToolbar.setOnStop(this::onStopTaskButtonClicked);
     }
 
     public void loadTasks(Task... tasks)
@@ -104,5 +113,58 @@ public class TasksExecutionStepViewProto1 extends SplitPane
     public void clearOutput()
     {
         outputVBox.getChildren().clear();
+    }
+
+    private <T extends Task> void onTaskSelectionChange(ObservableValue<? extends Task> observable,
+                                                        T oldTask, T newTask)
+    {
+        Node view = null;
+
+        if (oldTask != null)
+        {
+            view = oldTask.getView(ViewType.EXECUTION);
+
+            if (view != null && view instanceof TaskExecutionView)
+            {
+                TaskExecutionView taskExecutionView = (TaskExecutionView) view;
+                taskExecutionView.removeExecutionToolbar();
+            }
+        }
+
+        if (newTask != null)
+        {
+            selectedTask = newTask;
+            view  = newTask.getView(ViewType.EXECUTION);
+
+            if (view != null && view instanceof TaskExecutionView)
+            {
+                TaskExecutionView taskExecutionView = (TaskExecutionView) view;
+                taskExecutionView.setExecutionToolbar(executionToolbar);
+            }
+        }
+    }
+
+
+    private void onStartTaskButtonClicked(ActionEvent event)
+    {
+        if (selectedTask != null)
+        {
+            executionToolbar.setEnableStart(false);
+            executionToolbar.setEnableStop(true);
+            executionToolbar.setVisibleProgress(true);
+            executionToolbar.setProgress(-1);
+
+            selectedTask.execute();
+        }
+    }
+
+    private void onStopTaskButtonClicked(ActionEvent event)
+    {
+        if (selectedTask != null)
+        {
+            executionToolbar.setEnableStart(true);
+            executionToolbar.setEnableStop(false);
+            executionToolbar.setVisibleProgress(false);
+        }
     }
 }

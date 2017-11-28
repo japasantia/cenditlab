@@ -1,10 +1,9 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.System;
@@ -60,7 +59,7 @@ public class TasksSetupStepViewProto1 extends SplitPane
 
         tasksContainerView.setCenter(tasksListView);
 
-        tasksListView.setOnListSelectionChanged(this::onTaskSelected);
+        tasksListView.setOnComponentSelectionChanged(this::onTaskSelectionChange);
     }
 
     public void loadSystems(System... systems)
@@ -110,8 +109,8 @@ public class TasksSetupStepViewProto1 extends SplitPane
         setupVBox.getChildren().clear();
     }
 
-    private <T extends Task> void onTaskSelected(ObservableValue<? extends Task> observable,
-                                                 T oldTask, T newTask)
+    private <T extends Task> void onTaskSelectionChange(ObservableValue<? extends Task> observable,
+                                                        T oldTask, T newTask)
     {
         if (newTask == null)
             return;

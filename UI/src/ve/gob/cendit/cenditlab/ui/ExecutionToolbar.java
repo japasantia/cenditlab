@@ -36,14 +36,19 @@ public class ExecutionToolbar extends GridPane
         stopButton.setOnAction(eventHandler);
     }
 
-    public void enableStart(boolean value)
+    public void setEnableStart(boolean value)
     {
         startButton.setDisable(! value);
     }
 
-    public void enableStop(boolean value)
+    public void setEnableStop(boolean value)
     {
         stopButton.setDisable(! value);
+    }
+
+    public void setVisibleProgress(boolean value)
+    {
+        progressIndicator.setVisible(value);
     }
 
     public void setProgress(double value)
