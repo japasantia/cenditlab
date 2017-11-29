@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.Task;
+import ve.gob.cendit.cenditlab.control.TaskContext;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 public class TasksExecutionStepViewProto1 extends SplitPane
@@ -154,7 +155,7 @@ public class TasksExecutionStepViewProto1 extends SplitPane
             executionToolbar.setVisibleProgress(true);
             executionToolbar.setProgress(-1);
 
-            selectedTask.execute();
+            selectedTask.run(TaskContext.RUN);
         }
     }
 

@@ -5,8 +5,8 @@ import ve.gob.cendit.cenditlab.data.FieldsContainer;
 
 public abstract class Task extends Component
 {
-    private TaskState state = TaskState.BEGIN;
-    private TaskState requestedState = TaskState.BEGIN;
+    private TaskState state = TaskState.NULL;
+    private TaskState requestedState = TaskState.NULL;
 
     public Task(String name, String description, Image iconImage)
     {
@@ -42,7 +42,6 @@ public abstract class Task extends Component
         return state;
     }
 
-
     public final boolean isRunning()
     {
         return state == TaskState.RUNNING;
@@ -76,7 +75,7 @@ public abstract class Task extends Component
     protected void enterPause()
     {
         state = TaskState.PAUSED;
-        requestedState = TaskState.BEGIN;
+        requestedState = TaskState.NULL;
 
         // while (isPaused());
     }
@@ -84,6 +83,18 @@ public abstract class Task extends Component
     protected void exitPause()
     {
         state = TaskState.RUNNING;
-        requestedState = TaskState.BEGIN;
+        requestedState = TaskState.NULL;
+    }
+
+    protected void enterRun()
+    {
+        state = TaskState.RUNNING;
+        requestedState = TaskState.NULL;
+    }
+
+    protected void exitRun()
+    {
+        state = TaskState.STOPPED;
+        requestedState = TaskState.NULL;
     }
 }

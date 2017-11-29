@@ -74,6 +74,7 @@ public abstract class AsyncTask extends Task
             else
             {
                 super.stop();
+                thread.interrupt();
                 setState(TaskState.STOPPED);
             }
         }

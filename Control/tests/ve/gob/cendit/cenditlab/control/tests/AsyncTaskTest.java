@@ -1,10 +1,8 @@
 package ve.gob.cendit.cenditlab.control.tests;
 
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.control.AsyncTask;
 import ve.gob.cendit.cenditlab.control.TaskContext;
-import ve.gob.cendit.cenditlab.control.TaskState;
 import ve.gob.cendit.cenditlab.data.FieldsContainer;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
@@ -70,7 +68,7 @@ class TestAsyncTask extends AsyncTask
     {
         try
         {
-            setState(TaskState.RUNNING);
+            enterRun();
 
             this.enterPause();
 
@@ -87,7 +85,7 @@ class TestAsyncTask extends AsyncTask
         }
         finally
         {
-            setState(TaskState.STOPPED);
+            exitRun();
         }
     }
 }

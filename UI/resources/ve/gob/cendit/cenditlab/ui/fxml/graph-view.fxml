@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root  type="VBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1"> -->
+  <children>
+    <LineChart fx:id="lineChart" animated="false" legendVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="100.0" title="Graph" titleSide="TOP">
+      <xAxis>
+          <NumberAxis side="BOTTOM" />
+      </xAxis>
+      <yAxis>
+          <NumberAxis side="LEFT" />
+      </yAxis>
+    </LineChart>
+  </children>
+<!-- </VBox> -->
+</fx:root>

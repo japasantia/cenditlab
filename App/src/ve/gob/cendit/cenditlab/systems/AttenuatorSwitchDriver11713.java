@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.control.MeasurementManager;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
+import ve.gob.cendit.cenditlab.control.TaskContext;
 import ve.gob.cendit.cenditlab.data.FieldsContainer;
 import ve.gob.cendit.cenditlab.ui.ComponentViewFactory;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
@@ -70,7 +71,7 @@ public class AttenuatorSwitchDriver11713 extends System
         }
 
         @Override
-        public void execute()
+        public void run(TaskContext context)
         {
 
         }
@@ -108,7 +109,7 @@ public class AttenuatorSwitchDriver11713 extends System
         }
 
         @Override
-        public void execute()
+        public void run(TaskContext context)
         {
 
         }

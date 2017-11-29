@@ -61,7 +61,7 @@ public class TasksExecutionStep extends MeasurementStep
     @Override
     public void unload()
     {
-        //tasksExecutionStepView.unloadTasks();
+        tasksExecutionStepView.unloadTasks();
     }
 
     public void setBlocked(boolean value)

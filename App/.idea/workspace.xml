@@ -20,78 +20,18 @@
       <file leaf-file-name="NoiseFigureAnalyzer8975A.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/NoiseFigureAnalyzer8975A.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1602">
-              <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+            <state relative-caret-position="181">
+              <caret line="110" column="8" lean-forward="false" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AttenuatorSwitchDriver11713.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AttenuatorSwitchDriver11713.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/AttenuatorSwitchDriver11713.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="702">
-              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TasksSetupStep.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksSetupStep.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="666">
-              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TasksExecutionStep.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksExecutionStep.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="45" column="22" lean-forward="false" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TasksExecutionStepViewProto1.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/TasksExecutionStepViewProto1.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
-              <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ComponentListView.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/ComponentListView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1368">
-              <caret line="76" column="5" lean-forward="false" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskExecutionView.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/TaskExecutionView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1368">
-              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExecutionToolbar.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/ExecutionToolbar.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+            <state relative-caret-position="2001">
+              <caret line="112" column="8" lean-forward="false" selection-start-line="112" selection-start-column="8" selection-end-line="112" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -126,11 +66,9 @@
         <option value="$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/ve/gob/cendit/cenditlab/ui/SystemsSetupView.java" />
         <option value="$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/ve/gob/cendit/cenditlab/ui/ComponentViewFactory.java" />
         <option value="$PROJECT_DIR$/tests/TaskTests.java" />
-        <option value="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/NoiseFigureAnalyzer8975A.java" />
         <option value="$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/ve/gob/cendit/cenditlab/ui/component-description-view.fxml" />
         <option value="$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/ve/gob/cendit/cenditlab/ui/SystemsSetupStepView.java" />
         <option value="$PROJECT_DIR$/../Control/out/artifacts/Control_jar/Control.jar!/ve/gob/cendit/cenditlab/control/System.java" />
-        <option value="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/AttenuatorSwitchDriver11713.java" />
         <option value="$PROJECT_DIR$/../Control/out/artifacts/Control_jar/Control.jar!/ve/gob/cendit/cenditlab/control/MeasurementStep.java" />
         <option value="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
         <option value="$PROJECT_DIR$/tests/ve/gob/cendit/cenditlab/tests/app/CenditLabApplicationTests.java" />
@@ -138,15 +76,17 @@
         <option value="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksSetupStep.java" />
         <option value="$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/ComponentListView.java" />
         <option value="$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/TasksExecutionStepViewProto1.java" />
+        <option value="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/NoiseFigureAnalyzer8975A.java" />
+        <option value="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/AttenuatorSwitchDriver11713.java" />
         <option value="$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksExecutionStep.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="41" />
-    <option name="y" value="52" />
-    <option name="width" value="1325" />
-    <option name="height" value="716" />
+    <option name="x" value="-2" />
+    <option name="y" value="-3" />
+    <option name="width" value="1364" />
+    <option name="height" value="748" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -163,10 +103,60 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="App" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="App" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="App" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="cenditlab" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="App" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="cenditlab" type="462c0819:PsiDirectoryNode" />
+              <item name="systems" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Control" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Control" type="70bed36:NamedLibraryElementNode" />
+              <item name="Control.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Control" type="70bed36:NamedLibraryElementNode" />
+              <item name="Control.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="control" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -340,6 +330,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.4972635" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5027365" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -347,18 +338,17 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15480845" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30883503" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24941361" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27910686" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27906978" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.4972635" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -384,12 +374,6 @@
           <properties />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksExecutionStep.java</url>
-          <line>41</line>
-          <properties />
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -403,13 +387,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/TaskTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/META-INF/MANIFEST.MF" />
     <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI_jar/UI.jar!/ve/gob/cendit/cenditlab/ui/ComponentListView.java" />
     <entry file="jar:///usr/lib/jvm/java-1.8.0-oracle/javafx-src.zip!/javafx/scene/control/SelectionModel.java" />
@@ -520,31 +497,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksSetupStep.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="666">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/AttenuatorSwitchDriver11713.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-8-oracle/javafx-src.zip!/javafx/beans/property/ReadOnlyObjectPropertyBase.java" />
-    <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/NoiseFigureAnalyzer8975A.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1602">
-          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/TaskExecutionView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1368">
@@ -579,9 +532,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/../Control/out/artifacts/Control_jar/Control.jar!/ve/gob/cendit/cenditlab/control/Task.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="5" column="22" lean-forward="false" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/NoiseFigureAnalyzer8975A.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="110" column="8" lean-forward="false" selection-start-line="110" selection-start-column="8" selection-end-line="110" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/ve/gob/cendit/cenditlab/ui/TasksExecutionStepViewProto1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
+        <state relative-caret-position="-1764">
           <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
@@ -589,8 +558,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksExecutionStep.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="45" column="22" lean-forward="false" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+        <state relative-caret-position="214">
+          <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/TasksSetupStep.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="666">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ve/gob/cendit/cenditlab/systems/AttenuatorSwitchDriver11713.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2001">
+          <caret line="112" column="8" lean-forward="false" selection-start-line="112" selection-start-column="8" selection-end-line="112" selection-end-column="8" />
           <folding />
         </state>
       </provider>

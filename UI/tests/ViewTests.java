@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,6 +12,9 @@ import javafx.stage.Stage;
 
 import ve.gob.cendit.cenditlab.data.*;
 import ve.gob.cendit.cenditlab.ui.*;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ViewTests extends Application
 {
@@ -32,7 +36,9 @@ public class ViewTests extends Application
         // setupContainerViewTest();
         // basicFrequencySetupTest();
         // genericMainViewTest();
-        componentViewTests();
+        // componentViewTests();
+        // graphViewTest();
+        graphViewTest2();
     }
 
     public void setupViewTest()
@@ -186,6 +192,78 @@ public class ViewTests extends Application
 
         showView(scrollPane, "CenditLab.Reduced | Component Views Tests",
                 800, 600);
+    }
+
+    private void graphViewTest()
+    {
+        GraphView graphView = new GraphView();
+        GraphData graphData = new GraphData("Data 1");
+
+        int size = 100;
+        double[] pointsX = new double[size];
+        double[] pointsY = new double[size];
+
+        for (int i = 0; i < size; i++)
+        {
+            pointsX[i] = 10.0 * Math.random();
+            pointsY[i] = 10.0 * Math.random();
+        }
+
+        graphData.addPoints(pointsX, pointsY);
+        graphView.setTitle("Random points graph");
+        graphView.addGraph(graphData);
+
+        showView(graphView, "CenditLab.Reduced | Component Views Tests",
+                600.0, 400.0);
+    }
+
+    private void graphViewTest2()
+    {
+        GraphView graphView = new GraphView();
+        GraphData graphData1 = new GraphData("Normal");
+        GraphData graphData2 = new GraphData("Fixed Size");
+        GraphData graphData3 = new GraphData("Circula Buffer");
+        GraphData graphData4 = new GraphData("Queue Buffer");
+
+        graphData1.setGrowMode(GraphData.NORMAL, 10);
+        graphData1.setGrowMode(GraphData.QUEUE_BUFFER, 10);
+        graphData1.setGrowMode(GraphData.CIRCULAR_BUFFER, 10);
+        graphData1.setGrowMode(GraphData.FIXED_SIZE, 10);
+
+        graphView.addGraphs(graphData1, graphData2, graphData3, graphData4);
+
+        TimerTask timerTask = new TimerTask()
+        {
+            @Override
+           public void run()
+           {
+               Platform.runLater(() ->
+               {
+                   double x = Math.random();
+                   double y = Math.random();
+                   graphData1.addPoint(x, y);
+
+                   x = Math.random();
+                   y = Math.random();
+                   graphData2.addPoint(x, y);
+
+                   x = Math.random();
+                   y = Math.random();
+                   graphData3.addPoint(x, y);
+
+                   x = Math.random();
+                   y = Math.random();
+                   graphData4.addPoint(x, y);
+               });
+           }
+        };
+
+        Timer timer = new Timer();
+
+        timer.schedule(timerTask, 100, 500);
+
+        showView(graphView, "CenditLab.Reduced | Component Views Tests",
+                600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)
