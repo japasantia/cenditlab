@@ -7,32 +7,36 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GraphData extends Data
 {
+    public static final int NORMAL_BUFFER = 0;
+    public static final int FIXED_BUFFER = 1;
+    public static final int CIRCULAR_BUFFER = 2;
+    public static final int QUEUE_BUFFER = 3;
+
+    private static final int BUFFER_MODE_MIN = 0;
+    private static final int BUFFER_MODE_MAX = 3;
+
     private final static int DEFAULT_LIMIT_SIZE = 100;
 
     private ArrayList<XYChart.Data<Number, Number>> dataList;
-    ObservableList<XYChart.Data<Number, Number>> observableList;
     private XYChart.Series<Number, Number> series;
 
     private int limitSize = DEFAULT_LIMIT_SIZE;
     private int index = -1;
+    private int growMode = NORMAL_BUFFER;
 
-    public GraphData(String name, int size)
-    {
-        super(name);
-
-        limitSize = size;
-        dataList = new ArrayList<>();
-        observableList = FXCollections.observableArrayList();
-    }
+    private Consumer<XYChart.Data<Number, Number>> addPointFunction;
 
     public GraphData(String name)
     {
-        this(name, DEFAULT_LIMIT_SIZE);
+        super(name);
+
+        dataList = new ArrayList<>();
+        addPointFunction = this::addPointNormalMode;
     }
 
     public void addPoints(double[] pointsX, double[] pointsY)
@@ -50,32 +54,82 @@ public class GraphData extends Data
 
     public void addPoint(double pointX, double pointY)
     {
-        XYChart.Data<Number, Number> data = new XYChart.Data<>(pointX, pointY);
-        
+        addPointFunction.accept(new XYChart.Data<Number, Number>(pointX, pointY));
+    }
+
+    private void addPointNormalMode(XYChart.Data<Number, Number> data)
+    {
         if (index < limitSize)
         {
             ++index;
-            getPoints().add(data);
+            dataList.add(data);
+        }
+        else
+        {
+            flushAppendData();
+            clearPoints();
+            index = -1;
+        }
+    }
+
+    private void addPointFixedSizeMode(XYChart.Data<Number, Number> data)
+    {
+        if (limitSize == -1)
+        {
+            return;
+        }
+
+        if (index < limitSize)
+        {
+            ++index;
+            dataList.add(data);
+        }
+        else
+        {
+            limitSize = -1;
+            flushSetData();
+            clearPoints();
+        }
+    }
+
+    private void addPointCircularBufferMode(XYChart.Data<Number, Number> data)
+    {
+        if (index < limitSize)
+        {
+            ++index;
+            dataList.add(data);
         }
         else
         {
             index = -1;
-            flushData();
-            //clearPoints();
+            flushSetData();
+            clearPoints();
         }
-    } 
+    }
+
+    private void addPointQueueBufferMode(XYChart.Data<Number, Number> data)
+    {
+        if (index < limitSize)
+        {
+            ++index;
+            dataList.add(data);
+        }
+        else
+        {
+            index = -1;
+            flushAppendData();
+            clearPoints();
+        }
+    }
 
     public void clearPoints()
     {
-        getPoints().clear();
+        dataList.clear();
     }
 
     public List<XYChart.Data<Number, Number>> getPoints()
     {
-        synchronized (dataList)
-        {
-            return dataList;
-        }
+        return dataList;
     }
 
     public XYChart.Series<Number, Number> getSeries()
@@ -84,52 +138,70 @@ public class GraphData extends Data
         {
             series = new XYChart.Series<>();
             series.setName(getName());
-            series.setData(observableList);
         }
 
         return series;
     }
 
-    public void setSize(int value)
-    {
-        limitSize = value;
-    }
-
-    public int getSize()
-    {
-        return limitSize;
-    }
-
-    private void flushData()
+    private void flushSetData()
     {
         if (series != null)
         {
             Platform.runLater(() ->
                 {
-                    try
-                    {
-                        synchronized (dataList)
-                        {
-                            observableList.setAll(dataList);
-                            clearPoints();
-
-                            /*
-                            ObservableList<XYChart.Data<Number, Number>> list =
-                                    FXCollections.observableArrayList();
-
-                            list.setAll(dataList);
-                            getSeries().setData(list);
-
-                            clearPoints();
-                            */
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.out.println(ex.getMessage());
-                    }
+                    series.setData(FXCollections.observableList(dataList));
                 });
         }
+    }
+
+    private void flushAppendData()
+    {
+        if (series != null)
+        {
+            Platform.runLater(() ->
+                {
+
+                });
+        }
+    }
+
+    public void setGrowMode(int value, int limitSize)
+    {
+        if (value >= BUFFER_MODE_MIN && value <= BUFFER_MODE_MAX && limitSize > 0)
+        {
+            index = -1;
+            growMode = value;
+            this.limitSize = limitSize;
+
+            switch (growMode)
+            {
+                case NORMAL_BUFFER:
+                    addPointFunction = this::addPointNormalMode;
+                    break;
+
+                case FIXED_BUFFER:
+                    addPointFunction = this::addPointFixedSizeMode;
+                    break;
+
+                case CIRCULAR_BUFFER:
+                    addPointFunction = this::addPointCircularBufferMode;
+                    break;
+
+                case QUEUE_BUFFER:
+                    addPointFunction = this::addPointQueueBufferMode;
+                    break;
+
+                // TODO: revisar caso default
+                default:
+                    addPointFunction = this::addPointNormalMode;
+                    break;
+            }
+        }
+    }
+
+    public int getGrowMode()
+    {
+        return growMode;
     }
 
     private static final String POINT_SEPARATOR = ";";

@@ -220,41 +220,39 @@ public class ViewTests extends Application
     private void graphViewTest2()
     {
         GraphView graphView = new GraphView();
-        GraphData graphData1 = new GraphData("Normal");
-        GraphData graphData2 = new GraphData("Fixed Size");
-        GraphData graphData3 = new GraphData("Circula Buffer");
-        GraphData graphData4 = new GraphData("Queue Buffer");
 
-        graphData1.setGrowMode(GraphData.NORMAL, 10);
-        graphData1.setGrowMode(GraphData.QUEUE_BUFFER, 10);
-        graphData1.setGrowMode(GraphData.CIRCULAR_BUFFER, 10);
-        graphData1.setGrowMode(GraphData.FIXED_SIZE, 10);
+        int size = 100;
 
-        graphView.addGraphs(graphData1, graphData2, graphData3, graphData4);
+        GraphData[] graphsData = new GraphData[]
+            {
+                new GraphData("Data 1", size),
+                new GraphData("Data 2", size),
+                new GraphData("Data 3", size),
+                new GraphData("Data 4", size)
+            };
+
+        graphView.addGraphs(graphsData);
 
         TimerTask timerTask = new TimerTask()
         {
             @Override
            public void run()
            {
-               Platform.runLater(() ->
+               for (int j = 0; j < graphsData.length; ++j)
                {
-                   double x = Math.random();
-                   double y = Math.random();
-                   graphData1.addPoint(x, y);
+                   double phase = 2 * Math.PI * Math.random();
+                   double deltaX = 2 * Math.PI / size;
+                   double x = 0.0;
+                   double y = 0.0;
 
-                   x = Math.random();
-                   y = Math.random();
-                   graphData2.addPoint(x, y);
+                   for (int i = 0; i < size; i++)
+                   {
+                       x += deltaX;
+                       y = Math.sin(x + phase);
 
-                   x = Math.random();
-                   y = Math.random();
-                   graphData3.addPoint(x, y);
-
-                   x = Math.random();
-                   y = Math.random();
-                   graphData4.addPoint(x, y);
-               });
+                       graphsData[j].addPoint(x, y);
+                   }
+               }
            }
         };
 
@@ -264,6 +262,8 @@ public class ViewTests extends Application
 
         showView(graphView, "CenditLab.Reduced | Component Views Tests",
                 600.0, 400.0);
+
+        stage.setOnCloseRequest(event -> timer.cancel());
     }
 
     private static void showView(Parent root, String title, double width, double height)

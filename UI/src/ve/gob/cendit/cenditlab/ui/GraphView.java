@@ -59,10 +59,10 @@ public class GraphView extends VBox
 
     public void addGraph(GraphData graphData)
     {
-        Series<Number, Number> series = new Series<>(graphData.getPoints());
-        series.setName(graphData.getName());
-
-        seriesList.add(series);
+        if (graphData != null)
+        {
+            seriesList.add(graphData.getSeries());
+        }
     }
 
     public void addGraph(String name, double[] pointsX, double[] pointsY)
