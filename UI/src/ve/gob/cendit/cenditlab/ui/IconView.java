@@ -9,6 +9,9 @@ import javafx.scene.layout.VBox;
 public class IconView extends VBox
 {
     private static final String FXML_URL = "fxml/icon-view.fxml";
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
+
     private static final String DEFAULT_ICON = "/ve/gob/cendit/cenditlab/ui/images/system-icon.png";
     private static final Image DEFAULT_IMAGE =
             new Image(IconView.class.getResource(DEFAULT_ICON).toExternalForm());
@@ -27,7 +30,7 @@ public class IconView extends VBox
 
     public IconView(String caption, Image image)
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
 
         setCaption(caption);
         setIcon(image);

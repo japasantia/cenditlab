@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
-import ve.gob.cendit.cenditlab.data.FrequencyField;
+import ve.gob.cendit.cenditlab.data.FrequencyData;
 import ve.gob.cendit.cenditlab.data.IValueValidator;
 
 import java.io.IOException;
@@ -18,6 +18,8 @@ public class FrequencyListPane extends TitledPane
 {
     private static final String FXML_URL = "fxml/frequency-list-pane.fxml";
 
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     @FXML
     private ListView frequencyListView;
 
@@ -27,40 +29,28 @@ public class FrequencyListPane extends TitledPane
     @FXML
     private Button removeButton;
 
-    private ObservableList<FieldInput> fieldsListInput;
+    private ObservableList<ValueView> valueViewsList;
 
     private static final IValueValidator valueValidator =
-            value -> FrequencyField.isValid(value);
+            value -> FrequencyData.isValid(value);
 
     public FrequencyListPane()
     {
-        FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource(FXML_URL));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
+        viewLoader.load(this, this);
 
-        try
-        {
-            fxmlLoader.load();
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-
-        fieldsListInput = frequencyListView.getItems();
-        FieldInput fieldInput = new FieldInput();
-        fieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
-        fieldsListInput.add(fieldInput);
+        valueViewsList = frequencyListView.getItems();
+        ValueView valueView = new ValueView(new FrequencyData());
+        valueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+        valueViewsList.add(valueView);
     }
 
     @FXML
     private void addButtonClicked(MouseEvent event)
     {
-        FieldInput fieldInput = new FieldInput();
-        fieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
+        ValueView valueView = new ValueView(new FrequencyData());
+        valueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
 
-        fieldsListInput.add(fieldInput);
+        valueViewsList.add(valueView);
     }
 
     @FXML
@@ -68,29 +58,26 @@ public class FrequencyListPane extends TitledPane
     {
         int selectedIndex = frequencyListView.getSelectionModel().getSelectedIndex();
 
-        if (selectedIndex >= 0 && selectedIndex < fieldsListInput.size())
+        if (selectedIndex >= 0 && selectedIndex < valueViewsList.size())
         {
-            fieldsListInput.remove(selectedIndex);
+            valueViewsList.remove(selectedIndex);
         }
     }
 
     public boolean validate()
     {
-        return fieldsListInput.stream()
+        return valueViewsList.stream()
                 .allMatch(fieldInput -> fieldInput.validate(valueValidator));
     }
 
     public List<String> getFrequencies()
     {
-        int size = fieldsListInput.size();
+        int size = valueViewsList.size();
 
         ArrayList<String> frequenciesList = new ArrayList<>(size);
 
-        fieldsListInput.stream()
-                .forEach(fieldInput ->
-                    {
-                        frequenciesList.add(fieldInput.toString());
-                    });
+        valueViewsList.stream()
+                .forEach( viewData -> frequenciesList.add(viewData.toString()) );
 
         return frequenciesList;
     }

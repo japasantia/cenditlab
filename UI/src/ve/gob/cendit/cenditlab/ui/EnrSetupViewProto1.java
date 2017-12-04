@@ -6,13 +6,16 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
-import ve.gob.cendit.cenditlab.data.EnrField;
+import ve.gob.cendit.cenditlab.data.EnrData;
+import ve.gob.cendit.cenditlab.data.EnrData;
 import ve.gob.cendit.cenditlab.data.EnrSetup;
-import ve.gob.cendit.cenditlab.data.TemperatureField;
+import ve.gob.cendit.cenditlab.data.TemperatureData;
 
 public class EnrSetupViewProto1 extends GridPane
 {
     private static final String FXML_URL = "fxml/enr-setup-view-proto-1.fxml";
+
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     private static final int SETUP_TO_VIEW = 0;
     private static final int VIEW_TO_SETUP = 1;
@@ -27,10 +30,10 @@ public class EnrSetupViewProto1 extends GridPane
     ChoiceBox<String> noiseSourcePreferenceChoiceBox;
 
     @FXML
-    FieldInput spotEnrFieldInput;
+    ValueView spotEnrValueView;
 
     @FXML
-    FieldInput userTcoldFieldInput;
+    ValueView userTcoldValueView;
 
     @FXML
     ToggleView autoLoadEnrToggleView;
@@ -51,7 +54,7 @@ public class EnrSetupViewProto1 extends GridPane
 
     public EnrSetupViewProto1()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
 
         initialize();
         attachListeners();
@@ -65,9 +68,9 @@ public class EnrSetupViewProto1 extends GridPane
         enableEnrTableModeProperty = new SimpleBooleanProperty();
         enableCommonEnrTableProperty = new SimpleBooleanProperty();
 
-        spotEnrFieldInput.setChoiceUnits(EnrField.FIELD_UNITS);
+        spotEnrValueView.setChoiceUnits(EnrData.FIELD_UNITS);
 
-        userTcoldFieldInput.setChoiceUnits(TemperatureField.FIELD_UNITS);
+        userTcoldValueView.setChoiceUnits(TemperatureData.FIELD_UNITS);
 
         transferSetup(SETUP_TO_VIEW);
     }
@@ -81,7 +84,7 @@ public class EnrSetupViewProto1 extends GridPane
 
         binding = enrModeChoiceBox.getSelectionModel()
                 .selectedIndexProperty().isEqualTo(0);
-        spotEnrFieldInput.disableProperty().bind(binding);
+        spotEnrValueView.disableProperty().bind(binding);
         enableEnrTableModeProperty.bind(binding);
 
         binding = commonEnrTableToggleView.textProperty()
@@ -91,7 +94,7 @@ public class EnrSetupViewProto1 extends GridPane
         binding = userTcoldToggleView.textProperty()
                 .isEqualTo("OFF");
 
-        userTcoldFieldInput.disableProperty().bind(binding);
+        userTcoldValueView.disableProperty().bind(binding);
     }
 
     private void transferSetup(int direction)
@@ -104,16 +107,10 @@ public class EnrSetupViewProto1 extends GridPane
             enrSetup.getSpotModeOptions()
                     .setSelected(spotModeChoiceBox.getValue());
 
-            /*
-            NumericField field =
-                    (NumericField) spotEnrFieldInput.getField();
-            enrSetup.getEnrField().setMagnitude(field.getMagnitude());
-            */
-
-            EnrField frequencyField =
-                    (EnrField) spotEnrFieldInput.getField();
-            enrSetup.getEnrField().setValue(frequencyField.getValue());
-            enrSetup.getEnrField().setUnit(frequencyField.getUnit());
+            EnrData spotEnrData =
+                    (EnrData) spotEnrValueView.getData();
+            enrSetup.getEnrData().setValue(spotEnrData.getValue());
+            enrSetup.getEnrData().setUnit(spotEnrData.getUnit());
 
             enrSetup.getAutoLoadEnrOptions()
                     .setSelected(autoLoadEnrToggleView.getText());
@@ -123,9 +120,9 @@ public class EnrSetupViewProto1 extends GridPane
             enrSetup.getUserTcoldOptions()
                     .setSelected(userTcoldToggleView.getText());
 
-            TemperatureField temperatureField = enrSetup.getUserTcoldField();
-            enrSetup.getUserTcoldField().setValue(temperatureField.getValue());
-            enrSetup.getUserTcoldField().setUnit(temperatureField.getUnit());
+            TemperatureData temperatureData = enrSetup.getUserTcoldField();
+            enrSetup.getUserTcoldField().setValue(temperatureData.getValue());
+            enrSetup.getUserTcoldField().setUnit(temperatureData.getUnit());
 
             enrSetup.getSnsTcoldOptions()
                     .setSelected(snsTcoldToggleView.getText());
@@ -137,25 +134,25 @@ public class EnrSetupViewProto1 extends GridPane
             // Presentar datos en vista
 
             enrModeChoiceBox.getItems()
-                    .addAll(enrSetup.getEnrModeOptions().getValues());
+                    .setAll(enrSetup.getEnrModeOptions().getValues());
             spotModeChoiceBox.getItems()
-                    .addAll(enrSetup.getSpotModeOptions().getValues());
+                    .setAll(enrSetup.getSpotModeOptions().getValues());
 
-            spotEnrFieldInput.setField(enrSetup.getEnrField());
+            spotEnrValueView.setData(enrSetup.getEnrData());
 
             autoLoadEnrToggleView
-                    .setTextOn(enrSetup.getAutoLoadEnrOptions().getDefault());
+                    .setTextOn(enrSetup.getAutoLoadEnrOptions().getSelected());
             commonEnrTableToggleView
-                    .setTextOn(enrSetup.getCommonEnrTableOptions().getDefault());
+                    .setTextOn(enrSetup.getCommonEnrTableOptions().getSelected());
             userTcoldToggleView
-                    .setTextOn(enrSetup.getUserTcoldOptions().getDefault());
+                    .setTextOn(enrSetup.getUserTcoldOptions().getSelected());
             snsTcoldToggleView
-                    .setTextOn(enrSetup.getSnsTcoldOptions().getDefault());
+                    .setTextOn(enrSetup.getSnsTcoldOptions().getSelected());
 
-            userTcoldFieldInput.setField(enrSetup.getUserTcoldField());
+            userTcoldValueView.setData(enrSetup.getUserTcoldField());
 
             noiseSourcePreferenceChoiceBox.getItems()
-                    .addAll(enrSetup.getNoiseSourcePreferenceOptions().getValues());
+                    .setAll(enrSetup.getNoiseSourcePreferenceOptions().getValues());
             noiseSourcePreferenceChoiceBox
                     .setValue(enrSetup.getNoiseSourcePreferenceOptions().getDefault());
         }

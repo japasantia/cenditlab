@@ -3,7 +3,7 @@ package ve.gob.cendit.cenditlab.ui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TitledPane;
-import ve.gob.cendit.cenditlab.data.FrequencyField;
+import ve.gob.cendit.cenditlab.data.FrequencyData;
 
 import java.io.IOException;
 
@@ -11,44 +11,34 @@ public class FrequencyFixedPane extends TitledPane
 {
     private static final String FXML_URL = "fxml/frequency-fixed-pane.fxml";
 
-    @FXML
-    FieldInput fixedFrequencyFieldInput;
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
-    FrequencyField fixedFrequencyField;
+    @FXML
+    ValueView fixedFrequencyValueView;
+
+    FrequencyData fixedFrequencyData;
 
     public FrequencyFixedPane()
     {
-        FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource(FXML_URL));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try
-        {
-            fxmlLoader.load();
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException(ex);
-        }
+        viewLoader.load(this, this);
 
         initialize();
     }
 
     private void initialize()
     {
-        fixedFrequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
+        fixedFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
     }
 
-    public void setFixedFrequency(FrequencyField value)
+    public void setFixedFrequency(FrequencyData value)
     {
-        fixedFrequencyField = value;
+        fixedFrequencyData = value;
 
-        fixedFrequencyFieldInput.setField(value);
+        fixedFrequencyValueView.setData(value);
     }
 
-    public FrequencyField getFixedFrequency()
+    public FrequencyData getFixedFrequency()
     {
-        return fixedFrequencyField;
+        return fixedFrequencyData;
     }
 }

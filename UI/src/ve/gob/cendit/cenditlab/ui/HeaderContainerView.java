@@ -15,8 +15,7 @@ public class HeaderContainerView extends TitledPane
 {
     private static final String FXML_URL = "fxml/header-container-view.fxml";
 
-    private static final ViewLoader viewLoader =
-            new ViewLoader(FXML_URL);
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private VBox rootVBox;

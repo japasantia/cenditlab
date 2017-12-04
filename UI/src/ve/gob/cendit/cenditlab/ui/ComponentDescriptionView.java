@@ -9,6 +9,9 @@ public class ComponentDescriptionView extends GridPane
 {
     private static final String FXML_URL  = "fxml/component-description-view.fxml";
 
+    private static final ViewLoader viewLoader =
+            new ViewLoader(FXML_URL);
+
     @FXML
     private Label componentNameLabel;
 
@@ -19,7 +22,7 @@ public class ComponentDescriptionView extends GridPane
 
     public ComponentDescriptionView()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
     }
 
     public ComponentDescriptionView(Component component)
@@ -32,6 +35,12 @@ public class ComponentDescriptionView extends GridPane
 
     public void setComponent(Component component)
     {
+        // TODO: check for null component (exception?)
+        if (component == null)
+        {
+            throw new IllegalArgumentException("component must not be null");
+        }
+
         this.component = component;
 
         String text = component.getName();

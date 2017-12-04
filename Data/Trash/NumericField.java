@@ -28,7 +28,7 @@ public class NumericField extends Field
     private static final Pattern numericUnitRegex =
             Pattern.compile(NUMERIC_UNIT_REGEX);
 
-    private FieldUnits fieldUnits = FieldUnits.EMPTY_UNITS;
+    private DataUnits dataUnits = DataUnits.EMPTY_UNITS;
 
     private float magnitude;
 
@@ -80,17 +80,17 @@ public class NumericField extends Field
         super.setUnit(unit);
     }
 
-    protected void setValidUnits(FieldUnits units)
+    protected void setValidUnits(DataUnits units)
     {
         if (units == null)
             throw new IllegalArgumentException("units must not be null");
 
-        fieldUnits = units;
+        dataUnits = units;
     }
 
-    public FieldUnits getValidUnits()
+    public DataUnits getValidUnits()
     {
-        return fieldUnits;
+        return dataUnits;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class NumericField extends Field
 
     private void normalize()
     {
-        Unit unit = fieldUnits.getUnitForMagnitude(magnitude);
+        Unit unit = dataUnits.getUnitForMagnitude(magnitude);
         float mag = NumericField.normalizeMagnitude(magnitude);
 
         super.setValue(String.valueOf(mag));
@@ -115,7 +115,7 @@ public class NumericField extends Field
         return value.matches(NUMERIC_FIELD_REGEX);
     }
 
-    public static NumericField parse(String value, FieldUnits fieldUnits)
+    public static NumericField parse(String value, DataUnits dataUnits)
     {
         Matcher matcher = numericFieldPattern.matcher(value);
 
@@ -123,7 +123,7 @@ public class NumericField extends Field
         {
             String scalar = matcher.group("scalar");
             String unitName = matcher.group("unit");
-            Unit unit = fieldUnits.get(unitName);
+            Unit unit = dataUnits.get(unitName);
 
             return new NumericField(scalar, unit);
         }
@@ -147,7 +147,7 @@ public class NumericField extends Field
 
         if (hasScalar(field))
         {
-            String scalar = FrequencyField.extractScalar(field);
+            String scalar = NumericField.extractScalar(field);
             magnitude = Float.parseFloat(scalar);
         }
 
@@ -155,14 +155,14 @@ public class NumericField extends Field
     }
 
     /*
-    public static float parseFloat(String field, ve.gob.cendit.cenditlab.data.FieldUnits units)
+    public static float parseFloat(String field, ve.gob.cendit.cenditlab.data.DataUnits units)
     {
         float magnitude = 0.0f;
         float multiplier = 1.0f;
 
         if (hasScalar(field))
         {
-            String scalar = ve.gob.cendit.cenditlab.data.FrequencyField.extractScalar(field);
+            String scalar = ve.gob.cendit.cenditlab.data.FrequencyData.extractScalar(field);
             magnitude = Float.parseFloat(scalar);
         }
 

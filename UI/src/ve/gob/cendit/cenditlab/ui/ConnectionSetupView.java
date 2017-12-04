@@ -11,6 +11,8 @@ public class ConnectionSetupView extends GridPane
 {
     private static final String FXML_URL = "fxml/connection-setup-view.fxml";
 
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     @FXML
     ComboBox addressComboBox;
 
@@ -22,7 +24,7 @@ public class ConnectionSetupView extends GridPane
 
     public ConnectionSetupView()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
     }
 
     @FXML

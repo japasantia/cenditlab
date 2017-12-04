@@ -12,6 +12,8 @@ public class ExecutionToolbar extends GridPane
 {
     private static final String FXML_URL = "fxml/execution-toolbar.fxml";
 
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     @FXML
     Button startButton;
 
@@ -23,7 +25,7 @@ public class ExecutionToolbar extends GridPane
 
     public ExecutionToolbar()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
     }
 
     public void setOnStart(EventHandler<ActionEvent> eventHandler)

@@ -23,18 +23,21 @@ public class EnrSetup
     private Options autoLoadEnrOptions =
             new Options("Carga automatica ENR", "ON", "OFF");
 
-    private EnrField enrField =
-            new EnrField();
+    private EnrData enrData =
+            new EnrData();
 
-    private TemperatureField userTcoldField =
-            new TemperatureField();
+    private TemperatureData userTcoldField =
+            new TemperatureData();
 
     public Options getEnrModeOptions()
     {
         return enrModeOptions;
     }
 
-    public Options getSpotModeOptions() { return spotModeOptions; }
+    public Options getSpotModeOptions()
+    {
+        return spotModeOptions;
+    }
 
     public Options getCommonEnrTableOptions()
     {
@@ -61,12 +64,12 @@ public class EnrSetup
         return autoLoadEnrOptions;
     }
 
-    public EnrField getEnrField()
+    public EnrData getEnrData()
     {
-        return enrField;
+        return enrData;
     }
 
-    public TemperatureField getUserTcoldField()
+    public TemperatureData getUserTcoldField()
     {
         return userTcoldField;
     }
@@ -82,7 +85,7 @@ public class EnrSetup
                 getUserTcoldOptions(),
                 getNoiseSourcePreferenceOptions(),
                 getAutoLoadEnrOptions(),
-                getEnrField(),
+                getEnrData(),
                 getUserTcoldField());
     }
 }

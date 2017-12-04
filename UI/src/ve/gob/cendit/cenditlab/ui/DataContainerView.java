@@ -6,10 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import ve.gob.cendit.cenditlab.data.Field;
 import ve.gob.cendit.cenditlab.data.Options;
+import ve.gob.cendit.cenditlab.data.ValueData;
 
-public class FieldContainerView extends VBox
+public class DataContainerView extends VBox
 {
     private static final String FXML_URL = "fxml/fields-view.fxml";
 
@@ -18,17 +18,17 @@ public class FieldContainerView extends VBox
     @FXML
     private GridPane parametersGridPane;
 
-    public FieldContainerView()
+    public DataContainerView()
     {
         ViewLoader.load(FXML_URL, this, this);
     }
 
-    public void addField(String name, Field field)
+    public void addField(String name, ValueData valueData)
     {
         int nextRow = nextRow();
 
         parametersGridPane.add(new Label(name), 0, nextRow);
-        parametersGridPane.add(new FieldInput(field), 1, nextRow);
+        parametersGridPane.add(new ValueView(valueData), 1, nextRow);
     }
 
     public void addOptions(String name, Options options)

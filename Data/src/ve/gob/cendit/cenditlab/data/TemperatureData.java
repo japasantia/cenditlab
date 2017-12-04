@@ -1,11 +1,7 @@
 package ve.gob.cendit.cenditlab.data;
 
 
-import ve.gob.cendit.cenditlab.data.FieldUnits;
-import ve.gob.cendit.cenditlab.data.NumericField;
-import ve.gob.cendit.cenditlab.data.Unit;
-
-public class TemperatureField extends NumericField
+public class TemperatureData extends NumericData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
@@ -18,24 +14,22 @@ public class TemperatureField extends NumericField
 
     public static final Unit DEFAULT_UNIT = KELVIN;
 
-    public static final FieldUnits FIELD_UNITS =
-            new FieldUnits(KELVIN, CELSIUS, FARENHEIT);
+    public static final DataUnits FIELD_UNITS =
+            new DataUnits(KELVIN, CELSIUS, FARENHEIT);
 
-    public TemperatureField()
+    public TemperatureData()
     {
-        super(DEFAULT_VALUE, DEFAULT_UNIT);
-
-        setValidUnits(FIELD_UNITS);
+        this(DEFAULT_VALUE, DEFAULT_UNIT);
     }
 
-    public TemperatureField(String scalar, Unit unit)
+    public TemperatureData(String scalar, Unit unit)
     {
         super(scalar, unit);
 
         setValidUnits(FIELD_UNITS);
     }
 
-    public TemperatureField(String field)
+    public TemperatureData(String field)
     {
         super(field);
 

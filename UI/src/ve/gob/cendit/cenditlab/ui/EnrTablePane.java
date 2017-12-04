@@ -9,14 +9,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
-import ve.gob.cendit.cenditlab.data.EnrField;
-import ve.gob.cendit.cenditlab.data.FrequencyField;
+import ve.gob.cendit.cenditlab.data.EnrData;
+import ve.gob.cendit.cenditlab.data.FrequencyData;
 
 import java.io.IOException;
 
 public class EnrTablePane extends TitledPane
 {
     private static final String FXML_URL = "fxml/enr-table-pane.fxml";
+
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private ListView containerListView;
@@ -31,19 +33,7 @@ public class EnrTablePane extends TitledPane
 
     public EnrTablePane()
     {
-        FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource(FXML_URL));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try
-        {
-            fxmlLoader.load();
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException(ex);
-        }
+        viewLoader.load(this, this);
 
         initialize();
     }
@@ -72,19 +62,19 @@ public class EnrTablePane extends TitledPane
     {
         HBox entryHBox = new HBox();
 
-        FrequencyField frequencyField = new FrequencyField();
-        EnrField enrField = new EnrField();
+        FrequencyData frequencyField = new FrequencyData();
+        EnrData enrField = new EnrData();
 
-        FieldInput frequencyFieldInput = new FieldInput();
-        FieldInput enrFieldInput = new FieldInput();
+        ValueView frequencyValueView = new ValueView();
+        ValueView enrValueView = new ValueView();
 
-        frequencyFieldInput.setField(frequencyField);
-        enrFieldInput.setField(enrField);
+        frequencyValueView.setData(frequencyField);
+        enrValueView.setData(enrField);
 
-        frequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
-        enrFieldInput.setChoiceUnits(EnrField.FIELD_UNITS);
+        frequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+        enrValueView.setChoiceUnits(EnrData.FIELD_UNITS);
 
-        entryHBox.getChildren().addAll(frequencyFieldInput, enrFieldInput);
+        entryHBox.getChildren().addAll(frequencyValueView, enrValueView);
 
         enrEntriesList.add(entryHBox);
     }

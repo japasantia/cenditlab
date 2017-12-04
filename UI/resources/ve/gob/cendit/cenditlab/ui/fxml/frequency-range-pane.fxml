@@ -21,11 +21,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-             <FieldInput fx:id="minFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-             <FieldInput fx:id="maxFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-             <FieldInput fx:id="centralFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-             <FieldInput fx:id="spanFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-             <FieldInput fx:id="pointsFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+             <ValueView fx:id="minFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+             <ValueView fx:id="maxFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <ValueView fx:id="centralFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <ValueView fx:id="spanFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+             <ValueView fx:id="pointsFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <Label text="Mínima">
                <GridPane.margin>

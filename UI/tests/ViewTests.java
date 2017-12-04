@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -102,20 +101,20 @@ public class ViewTests extends Application
     {
         SetupContainerView setupContainerView = new SetupContainerView();
 
-        Field field = new Field();
-        NumericField numericField = new NumericField();
-        EnrField enrField = new EnrField();
-        FrequencyField frequencyField = new FrequencyField();
+        ValueData data = new ValueData();
+        NumericData numericData = new NumericData();
+        EnrData enrData = new EnrData();
+        FrequencyData frequencyData = new FrequencyData();
 
         Options options = new Options("Opciones",
                 "Opcion 1", "Opcion 2", "Opcion 3");
 
         FrequencyListPane frequencyListPane = new FrequencyListPane();
 
-        setupContainerView.addField("Field", field);
-        setupContainerView.addField("Numeric field", numericField);
-        setupContainerView.addField("ENR field", enrField);
-        setupContainerView.addField("Frequency", frequencyField);
+        setupContainerView.addValueData("Field", data);
+        setupContainerView.addValueData("Numeric field", numericData);
+        setupContainerView.addValueData("ENR field", enrData);
+        setupContainerView.addValueData("Frequency", frequencyData);
 
         setupContainerView.addOptions("Options", options);
         setupContainerView.addFrequencyListPane(
@@ -260,7 +259,7 @@ public class ViewTests extends Application
 
         timer.schedule(timerTask, 100, 500);
 
-        showView(graphView, "CenditLab.Reduced | Component Views Tests",
+        showView(graphView, "CenditLab.Reduced | GraphView Test",
                 600.0, 400.0);
 
         stage.setOnCloseRequest(event -> timer.cancel());
@@ -272,6 +271,4 @@ public class ViewTests extends Application
         stage.setTitle(title);
         stage.show();
     }
-
-
 }

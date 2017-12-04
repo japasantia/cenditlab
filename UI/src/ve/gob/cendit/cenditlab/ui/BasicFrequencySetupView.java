@@ -17,7 +17,7 @@ public class BasicFrequencySetupView extends GridPane
     @FXML
     private FrequencyRangePane frequencyRangePane;
 
-    private FieldInput fixedFrequencyFieldInput;
+    private ValueView fixedFrequencyValueView;
 
     private FrequencyListPane frequencyListPane;
 
@@ -75,16 +75,16 @@ public class BasicFrequencySetupView extends GridPane
 
     private void loadFixedFrequencyFieldInput()
     {
-        if (fixedFrequencyFieldInput == null)
+        if (fixedFrequencyValueView == null)
         {
-            fixedFrequencyFieldInput = new FieldInput();
-            fixedFrequencyFieldInput.setField(frequencySetup.getFixedFrequencyField());
+            fixedFrequencyValueView = new ValueView();
+            fixedFrequencyValueView.setData(frequencySetup.getFixedFrequencyData());
         }
 
         removeCurrentSetupPane();
-        setCurrentFrequencySetupPane(fixedFrequencyFieldInput);
+        setCurrentFrequencySetupPane(fixedFrequencyValueView);
 
-        this.add(fixedFrequencyFieldInput,
+        this.add(fixedFrequencyValueView,
                 0, 1, 2, 1);
 
     }

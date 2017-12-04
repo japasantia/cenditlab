@@ -9,11 +9,9 @@ import javafx.scene.layout.GridPane;
 
 public class HeaderView extends GridPane
 {
-    private static final String FXML_URL =
-            "fxml/header-view.fxml";
+    private static final String FXML_URL = "fxml/header-view.fxml";
 
-    private static final ViewLoader viewLoader =
-            new ViewLoader(FXML_URL);
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     ImageView iconImageView;

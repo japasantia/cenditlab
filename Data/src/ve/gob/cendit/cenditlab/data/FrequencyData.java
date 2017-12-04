@@ -2,7 +2,7 @@ package ve.gob.cendit.cenditlab.data;
 
 import java.util.regex.Pattern;
 
-public class FrequencyField extends NumericField
+public class FrequencyData extends NumericData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
@@ -17,8 +17,8 @@ public class FrequencyField extends NumericField
 
     public static final Unit DEFAULT_UNIT = HZ;
 
-    public static final FieldUnits FIELD_UNITS =
-            new FieldUnits(HZ, KHZ, MHZ, GHZ);
+    public static final DataUnits FIELD_UNITS =
+            new DataUnits(HZ, KHZ, MHZ, GHZ);
 
     private static final String FREQUENCY_FIELD_REGEX =
         "^\\s*(?<scalar>[+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)(\\s*(?<unit>Hz|kHz|MHz|GHz))?\\s*$";
@@ -38,24 +38,23 @@ public class FrequencyField extends NumericField
     private static final Pattern frequencyUnitRegex =
             Pattern.compile(FREQUENCY_UNIT_REGEX);
 
-    public FrequencyField()
+    public FrequencyData()
     {
-        super(DEFAULT_VALUE, DEFAULT_UNIT);
-
-        setValidUnits(FIELD_UNITS);
+        this(DEFAULT_VALUE, DEFAULT_UNIT);
     }
 
-    public FrequencyField(String scalar, Unit unit)
+    public FrequencyData(String scalar, Unit unit)
     {
-        super(scalar, unit);
-
         setValidUnits(FIELD_UNITS);
+
+        setValue(scalar);
+        setUnit(unit);
     }
 
-    public FrequencyField(String field)
+    public FrequencyData(String field)
     {
-        super(field);
-
         setValidUnits(FIELD_UNITS);
+
+        setValue(field);
     }
 }

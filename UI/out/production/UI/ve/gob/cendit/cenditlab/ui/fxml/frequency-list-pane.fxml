@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.collections.FXCollections?>
-<?import ve.gob.cendit.cenditlab.ui.FieldInput?>
+<?import ve.gob.cendit.cenditlab.ui.ValueView?>
 
 <fx:root fx:id="frequencyListPane" animated="false" text="Lista de frecuencias" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <TitledPane fx:id="frequencyListPane" animated="false" text="Lista de frecuencias" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->

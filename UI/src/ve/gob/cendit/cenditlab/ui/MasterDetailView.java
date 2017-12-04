@@ -9,6 +9,7 @@ import javafx.scene.layout.TilePane;
 public class MasterDetailView extends SplitPane
 {
     private static final String FXML_URL = "fxml/master-detail-view.fxml";
+
     @FXML
     ListView<Node> masterListView;
 

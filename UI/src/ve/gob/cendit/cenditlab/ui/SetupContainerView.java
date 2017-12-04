@@ -7,12 +7,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
-import ve.gob.cendit.cenditlab.data.Field;
 import ve.gob.cendit.cenditlab.data.Options;
+import ve.gob.cendit.cenditlab.data.ValueData;
 
 public class SetupContainerView extends ScrollPane
 {
     private static final String FXML_URL = "fxml/setup-container-view.fxml";
+
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     private static RowConstraints singleRow;
     private static RowConstraints extendedRow;
 
@@ -33,15 +36,15 @@ public class SetupContainerView extends ScrollPane
 
     public SetupContainerView()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
     }
 
-    public void addField(String title, Field field)
+    public void addValueData(String title, ValueData data)
     {
         int nextRow = nextSingleRow();
 
         setupGridPane.add(new Label(title), 0, nextRow);
-        setupGridPane.add(new FieldInput(field), 1, nextRow);
+        setupGridPane.add(new ValueView(data), 1, nextRow);
     }
 
     public void addOptions(String title, Options options)
@@ -103,9 +106,9 @@ public class SetupContainerView extends ScrollPane
 
     public void addSetup(String title, Object setupObject)
     {
-        if (setupObject instanceof Field)
+        if (setupObject instanceof ValueData)
         {
-            addField(title, (Field) setupObject);
+            addValueData(title, (ValueData) setupObject);
         }
         else if (setupObject instanceof Options)
         {

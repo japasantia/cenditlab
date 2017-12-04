@@ -7,16 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GraphData extends Data
 {
-    private final static int DEFAULT_LIMIT_SIZE = 100;
+    private final static int DEFAULT_LIMIT_SIZE = Integer.MAX_VALUE;
 
     private ArrayList<XYChart.Data<Number, Number>> dataList;
     ObservableList<XYChart.Data<Number, Number>> observableList;
-    private XYChart.Series<Number, Number> series;
 
     private int limitSize = DEFAULT_LIMIT_SIZE;
     private int index = -1;
@@ -25,7 +23,7 @@ public class GraphData extends Data
     {
         super(name);
 
-        limitSize = size;
+        setSize(size);
         dataList = new ArrayList<>();
         observableList = FXCollections.observableArrayList();
     }
@@ -55,22 +53,29 @@ public class GraphData extends Data
         if (index < limitSize)
         {
             ++index;
-            getPoints().add(data);
+            getPointsList().add(data);
         }
         else
         {
             index = -1;
             flushData();
-            //clearPoints();
         }
     } 
 
     public void clearPoints()
     {
-        getPoints().clear();
+        getPointsList().clear();
     }
 
-    public List<XYChart.Data<Number, Number>> getPoints()
+    private void clearPoints(int fromIndex, int toIndex)
+    {
+        for (int i = fromIndex; i < toIndex; i++)
+        {
+            getPointsList().remove(i);
+        }
+    }
+
+    public List<XYChart.Data<Number, Number>> getPointsList()
     {
         synchronized (dataList)
         {
@@ -78,16 +83,9 @@ public class GraphData extends Data
         }
     }
 
-    public XYChart.Series<Number, Number> getSeries()
+    public ObservableList<XYChart.Data<Number, Number>> getPointsObservableList()
     {
-        if (series == null)
-        {
-            series = new XYChart.Series<>();
-            series.setName(getName());
-            series.setData(observableList);
-        }
-
-        return series;
+        return observableList;
     }
 
     public void setSize(int value)
@@ -102,34 +100,24 @@ public class GraphData extends Data
 
     private void flushData()
     {
-        if (series != null)
-        {
-            Platform.runLater(() ->
+        Platform.runLater(() ->
+            {
+                try
                 {
-                    try
+                    synchronized (dataList)
                     {
-                        synchronized (dataList)
-                        {
-                            observableList.setAll(dataList);
-                            clearPoints();
+                        observableList.setAll(dataList);
 
-                            /*
-                            ObservableList<XYChart.Data<Number, Number>> list =
-                                    FXCollections.observableArrayList();
+                        update();
 
-                            list.setAll(dataList);
-                            getSeries().setData(list);
-
-                            clearPoints();
-                            */
-                        }
+                        clearPoints();
                     }
-                    catch (Exception ex)
-                    {
-                        System.out.println(ex.getMessage());
-                    }
-                });
-        }
+                }
+                catch (Exception ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            });
     }
 
     private static final String POINT_SEPARATOR = ";";

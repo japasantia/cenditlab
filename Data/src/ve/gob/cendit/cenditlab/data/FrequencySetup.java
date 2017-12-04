@@ -30,25 +30,25 @@ public class FrequencySetup
     private final Options averageMode =
             new Options("Average", "Point", "Sweep");
 
-    private final FrequencyField maxFrequencyField =
-            new FrequencyField();
+    private final FrequencyData maxFrequencyData =
+            new FrequencyData();
 
-    private final FrequencyField minFrequencyField =
-            new FrequencyField();
+    private final FrequencyData minFrequencyData =
+            new FrequencyData();
 
-    private final FrequencyField centralFrequencyField =
-            new FrequencyField();
+    private final FrequencyData centralFrequencyData =
+            new FrequencyData();
 
-    private final FrequencyField spanFrequencyField =
-            new FrequencyField();
+    private final FrequencyData spanFrequencyData =
+            new FrequencyData();
 
-    private final NumericField averagePointsNumericField =
-            new NumericField();
+    private final NumericData averagePointsNumericData =
+            new NumericData();
 
-    private final FrequencyField fixedFrequencyField =
-            new FrequencyField();
+    private final FrequencyData fixedFrequencyData =
+            new FrequencyData();
 
-    private List<FrequencyField> frequencyList;
+    private List<FrequencyData> frequencyList;
 
 
     public String getFrequencyMode()
@@ -71,37 +71,37 @@ public class FrequencySetup
         return bandwidthOptions;
     }
 
-    public FrequencyField getMaxFrequencyField()
+    public FrequencyData getMaxFrequencyData()
     {
-        return maxFrequencyField;
+        return maxFrequencyData;
     }
 
-    public FrequencyField getMinFrequencyField()
+    public FrequencyData getMinFrequencyData()
     {
-        return minFrequencyField;
+        return minFrequencyData;
     }
 
-    public FrequencyField getCentralFrequencyField()
+    public FrequencyData getCentralFrequencyData()
     {
-        return centralFrequencyField;
+        return centralFrequencyData;
     }
 
-    public FrequencyField getSpanFrequencyField()
+    public FrequencyData getSpanFrequencyData()
     {
-        return spanFrequencyField;
+        return spanFrequencyData;
     }
     
-    public FrequencyField getFixedFrequencyField() 
+    public FrequencyData getFixedFrequencyData()
     {
-        return fixedFrequencyField;
+        return fixedFrequencyData;
     }
     
-    public NumericField getAveragePointsNumericField()
+    public NumericData getAveragePointsNumericData()
     {
-        return averagePointsNumericField;
+        return averagePointsNumericData;
     }
 
-    public List<FrequencyField> getFrequecyList()
+    public List<FrequencyData> getFrequecyList()
     {
         return frequencyList;
     }

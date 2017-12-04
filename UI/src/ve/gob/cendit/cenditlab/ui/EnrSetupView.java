@@ -11,6 +11,8 @@ public class EnrSetupView extends TitledPane
 {
     private static final String FXML_URL = "fxml/enr-setup-view.fxml";
 
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     @FXML
     private RadioButton enrTableModeRadioButton;
 
@@ -18,7 +20,7 @@ public class EnrSetupView extends TitledPane
     private CheckBox enrCommonTableCheckBox;
 
     @FXML
-    private FieldInput enrSpotFieldInput;
+    private ValueView enrSpotValueView;
 
     @FXML
     private Accordion enrTablesAccordion;
@@ -32,7 +34,7 @@ public class EnrSetupView extends TitledPane
 
     public EnrSetupView()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
 
         initialize();
     }
@@ -46,9 +48,9 @@ public class EnrSetupView extends TitledPane
         enrTablesAccordion.visibleProperty()
                 .bind(enrTableModeProperty);
 
-        enrSpotFieldInput.disableProperty()
+        enrSpotValueView.disableProperty()
                 .bind(enrTableModeProperty);
-        enrSpotFieldInput.visibleProperty()
+        enrSpotValueView.visibleProperty()
                 .bind(enrTableModeProperty.not());
 
         enrCommonTableCheckBox.disableProperty()
@@ -61,8 +63,8 @@ public class EnrSetupView extends TitledPane
                         enrTablesAccordion.setDisable(!newValue);
                         enrTablesAccordion.setVisible(newValue);
 
-                        enrSpotFieldInput.setDisable(newValue);
-                        enrSpotFieldInput.setVisible(!newValue);
+                        enrSpotValueView.setDisable(newValue);
+                        enrSpotValueView.setVisible(!newValue);
 
                         enrCommonTableCheckBox.setDisable(!newValue);
                     });

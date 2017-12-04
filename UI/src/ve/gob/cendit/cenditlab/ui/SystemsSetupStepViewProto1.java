@@ -16,11 +16,10 @@ public class SystemsSetupStepViewProto1 extends SplitPane
 {
     private static final String FXML_URL = "fxml/systems-setup-step-view.fxml";
 
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     private static final Image DEFAULT_ICON =
             new Image(SystemsSetupStepView.class.getResource("/ve/gob/cendit/cenditlab/ui/images/system-icon.png").toExternalForm());
-
-    private static final ViewLoader viewLoader
-            = new ViewLoader(FXML_URL);
 
     @FXML
     private HeaderContainerView systemsContainerView;

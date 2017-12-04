@@ -61,7 +61,11 @@ public class GraphView extends VBox
     {
         if (graphData != null)
         {
-            seriesList.add(graphData.getSeries());
+            Series<Number, Number> series = new Series();
+            series.setName(graphData.getName());
+            series.setData(graphData.getPointsObservableList());
+
+            seriesList.add(series);
         }
     }
 

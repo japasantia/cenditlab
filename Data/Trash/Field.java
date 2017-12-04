@@ -43,9 +43,9 @@ public class Field
         callUpdateListeners();
     }
 
-    public FieldUnits getValidUnits()
+    public DataUnits getValidUnits()
     {
-        return FieldUnits.EMPTY_UNITS;
+        return DataUnits.EMPTY_UNITS;
     }
 
     public void addUpdateListener(IUpdateListener listener)
@@ -74,7 +74,7 @@ public class Field
         if (listenersList != null)
         {
             listenersList.stream()
-                    .forEach( listener -> listener.onUpdate());
+                    .forEach( listener -> listener.onUpdate(this));
         }
     }
 

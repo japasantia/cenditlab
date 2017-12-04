@@ -2,5 +2,5 @@ package ve.gob.cendit.cenditlab.data;
 
 public interface IUpdateListener
 {
-    void onUpdate();
+    void onUpdate(Object source);
 }

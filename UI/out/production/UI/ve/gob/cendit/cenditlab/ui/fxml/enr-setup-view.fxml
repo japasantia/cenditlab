@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import ve.gob.cendit.cenditlab.ui.EnrTablePane?>
-<?import ve.gob.cendit.cenditlab.ui.FieldInput?>
+<?import ve.gob.cendit.cenditlab.ui.ValueView?>
 
 <fx:root animated="false" text="Configuración ENR" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <TitledPane animated="false" text="Configuración ENR" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
@@ -29,8 +29,8 @@
         <RadioButton fx:id="enrSpotModeRadioButton" mnemonicParsing="false" text="Spot" toggleGroup="$enrModeToggleGroup" GridPane.columnIndex="2" />
         <!-- Common table checkbox -->
         <CheckBox fx:id="enrCommonTableCheckBox" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" text="Tabla común" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <!-- Enr spot field input -->
-        <FieldInput fx:id="enrSpotFieldInput" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+        <!-- Enr spot data input -->
+        <ValueView fx:id="enrSpotFieldInput" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
         <!-- Enr tables entry pane -->
         <Accordion fx:id="enrTablesAccordion" GridPane.columnSpan="3" GridPane.rowIndex="4">
            <panes>

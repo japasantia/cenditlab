@@ -2,7 +2,7 @@ package ve.gob.cendit.cenditlab.data;
 
 import java.util.regex.Pattern;
 
-public class EnrField extends NumericField
+public class EnrData extends NumericData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
@@ -13,8 +13,8 @@ public class EnrField extends NumericField
 
     public static final Unit DEFAULT_UNIT = DB;
 
-    public static final FieldUnits FIELD_UNITS =
-            new FieldUnits(DB, PER_UNIT);
+    public static final DataUnits FIELD_UNITS =
+            new DataUnits(DB, PER_UNIT);
 
     private static final String ENR_FIELD_REGEX =
             "^\\s*(?<scalar>[+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)(\\s*(?<unit>dB|DB|db|K|C|F))?\\s*$";
@@ -34,23 +34,21 @@ public class EnrField extends NumericField
     private static final Pattern frequencyUnitRegex =
             Pattern.compile(ENR_UNIT_REGEX);
 
-    public EnrField()
+    public EnrData()
     {
-        super(DEFAULT_VALUE, DEFAULT_UNIT);
-
-        setValidUnits(FIELD_UNITS);
+        this(DEFAULT_VALUE, DEFAULT_UNIT);
     }
 
-    public EnrField(String scalar, Unit unit)
+    public EnrData(String scalar, Unit unit)
     {
         super(scalar, unit);
 
         setValidUnits(FIELD_UNITS);
     }
 
-    public EnrField(String field)
+    public EnrData(String value)
     {
-        super(field);
+        super(value);
 
         setValidUnits(FIELD_UNITS);
     }

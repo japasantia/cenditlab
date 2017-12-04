@@ -39,6 +39,7 @@ public class ComponentIconView extends GridPane
     public ComponentIconView(Component component)
     {
         this();
+
         setComponent(component);
     }
 

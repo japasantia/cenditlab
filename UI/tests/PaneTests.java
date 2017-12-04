@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ve.gob.cendit.cenditlab.data.FrequencyField;
+import ve.gob.cendit.cenditlab.data.FrequencyData;
 import ve.gob.cendit.cenditlab.ui.*;
 
 import java.util.List;
@@ -29,16 +29,16 @@ public class PaneTests extends Application
     {
         rootStage = primaryStage;
 
-        //loadFrequencyListPaneTest(primaryStage);
+        // frequencyListPaneTest(primaryStage);
         // frequencyRangePaneTest(primaryStage);
         // frequencyFixedTest(primaryStage);
-        // enrTablePaneTest(primaryStage);
+        // enrListPaneTest(primaryStage);
         // noiseSourcePaneTest(primaryStage);
 
         // enrSetupTest(primaryStage);
     }
 
-    private void loadFrequencyListPaneTest(Stage primaryStage)
+    private void frequencyListPaneTest(Stage primaryStage)
     {
         frequencyListPane = new FrequencyListPane();
 
@@ -101,13 +101,13 @@ public class PaneTests extends Application
         Label frequencyLabel = new Label();
         VBox containerVBox = new VBox();
 
-        FrequencyField frequencyField = new FrequencyField();
-        frequencyFixedPane.setFixedFrequency(frequencyField);
+        FrequencyData frequencyDat = new FrequencyData();
+        frequencyFixedPane.setFixedFrequency(frequencyDat);
 
         frequencyFixedPane.getFixedFrequency()
-                .addUpdateListener(() -> {
+                .addUpdateListener(source -> {
                     String data = String.format("Field: %s\nControl: %s",
-                            frequencyField.toString(),
+                            frequencyDat.toString(),
                             frequencyFixedPane.getFixedFrequency().toString());
 
                     frequencyLabel.setText(data);
@@ -120,7 +120,7 @@ public class PaneTests extends Application
         primaryStage.show();
     }
 
-    private void enrTablePaneTest(Stage primaryStage)
+    private void enrListPaneTest(Stage primaryStage)
     {
         VBox containerVBox = new VBox();
         EnrTablePane enrTablePane = new EnrTablePane();

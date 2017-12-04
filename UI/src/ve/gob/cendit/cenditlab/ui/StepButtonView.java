@@ -11,6 +11,8 @@ public class StepButtonView extends ToggleButton
 {
     private static final String FXML_URL = "fxml/step-button-view.fxml";
 
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
      @FXML
     ImageView iconImageView;
 
@@ -18,7 +20,7 @@ public class StepButtonView extends ToggleButton
 
     public StepButtonView()
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(this, this);
     }
 
     public StepButtonView(MeasurementStep step)

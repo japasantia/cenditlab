@@ -3,9 +3,10 @@ package ve.gob.cendit.cenditlab.ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
-import ve.gob.cendit.cenditlab.data.FrequencyField;
+import ve.gob.cendit.cenditlab.data.FrequencyData;
 import ve.gob.cendit.cenditlab.data.FrequencySetup;
-import ve.gob.cendit.cenditlab.data.NumericField;
+import ve.gob.cendit.cenditlab.data.NumericData;
+
 
 public class FrequencySetupViewProto1 extends GridPane
 {
@@ -13,6 +14,8 @@ public class FrequencySetupViewProto1 extends GridPane
     private static final int VIEW_TO_SETUP = 1;
 
     private String FXML_URL = "fxml/frequency-setup-view-proto-1.fxml";
+    
+    private ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private ChoiceBox<String> frequencyModeChoiceBox;
@@ -21,22 +24,22 @@ public class FrequencySetupViewProto1 extends GridPane
     private ChoiceBox<String> bandwidthChoiceBox;
 
     @FXML
-    private FieldInput minFrequencyFieldInput;
+    private ValueView minFrequencyValueView;
 
     @FXML
-    private FieldInput maxFrequencyFieldInput;
+    private ValueView maxFrequencyValueView;
 
     @FXML
-    private FieldInput centralFrequencyFieldInput;
+    private ValueView centralFrequencyValueView;
 
     @FXML
-    private FieldInput spanFrequencyFieldInput;
+    private ValueView spanFrequencyValueView;
 
     @FXML
-    private FieldInput valueFrequencyFieldInput;
+    private ValueView valueFrequencyValueView;
 
     @FXML
-    private FieldInput pointsFieldInput;
+    private ValueView pointsValueView;
 
     private Boolean blockUpdate;
 
@@ -55,11 +58,11 @@ public class FrequencySetupViewProto1 extends GridPane
 
         frequencySetup = new FrequencySetup();
 
-        minFrequencyFieldInput.addUpdateListener(() -> minMaxFrequenciesUpdate());
-        maxFrequencyFieldInput.addUpdateListener(() -> minMaxFrequenciesUpdate());
+        minFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
+        maxFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
 
-        centralFrequencyFieldInput.addUpdateListener(() -> centralSpanFrequenciesUpdate());
-        spanFrequencyFieldInput.addUpdateListener(() -> centralSpanFrequenciesUpdate());
+        centralFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
+        spanFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
 
         transferSetup(SETUP_TO_VIEW);
 
@@ -80,28 +83,28 @@ public class FrequencySetupViewProto1 extends GridPane
 
         blockUpdate = true;
 
-        FrequencyField maxFrequencyField = getFrequencySetup().getMaxFrequencyField();
-        FrequencyField minFrequencyField = getFrequencySetup().getMinFrequencyField();
-        FrequencyField centralFrequencyField = getFrequencySetup().getCentralFrequencyField();
-        FrequencyField spanFrequencyField = getFrequencySetup().getSpanFrequencyField();
+        FrequencyData maxFrequencyData = getFrequencySetup().getMaxFrequencyData();
+        FrequencyData minFrequencyData = getFrequencySetup().getMinFrequencyData();
+        FrequencyData centralFrequencyData = getFrequencySetup().getCentralFrequencyData();
+        FrequencyData spanFrequencyData = getFrequencySetup().getSpanFrequencyData();
 
-        float maxFrequency = maxFrequencyField.getMagnitude();
-        float minFrequency = minFrequencyField.getMagnitude();
+        float maxFrequency = maxFrequencyData.getMagnitude();
+        float minFrequency = minFrequencyData.getMagnitude();
 
         float centralFrequency = (maxFrequency + minFrequency) / 2.0f;
         float spanFrequency = (maxFrequency - minFrequency);
 
-        centralFrequencyField.setMagnitude(centralFrequency);
-        spanFrequencyField.setMagnitude(spanFrequency);
+        centralFrequencyData.setMagnitude(centralFrequency);
+        spanFrequencyData.setMagnitude(spanFrequency);
 
-        centralFrequencyFieldInput.setUpdateEnabled(false);
-        spanFrequencyFieldInput.setUpdateEnabled(false);
+        centralFrequencyValueView.setUpdateEnabled(false);
+        spanFrequencyValueView.setUpdateEnabled(false);
 
-        centralFrequencyFieldInput.setField(centralFrequencyField);
-        spanFrequencyFieldInput.setField(spanFrequencyField);
+        centralFrequencyValueView.setData(centralFrequencyData);
+        spanFrequencyValueView.setData(spanFrequencyData);
 
-        centralFrequencyFieldInput.setUpdateEnabled(true);
-        spanFrequencyFieldInput.setUpdateEnabled(true);
+        centralFrequencyValueView.setUpdateEnabled(true);
+        spanFrequencyValueView.setUpdateEnabled(true);
 
         blockUpdate = false;
     }
@@ -115,30 +118,30 @@ public class FrequencySetupViewProto1 extends GridPane
 
         blockUpdate = true;
 
-        FrequencyField maxFrequencyField = getFrequencySetup().getMaxFrequencyField();
-        FrequencyField minFrequencyField = getFrequencySetup().getMinFrequencyField();
-        FrequencyField centralFrequencyField = getFrequencySetup().getCentralFrequencyField();
-        FrequencyField spanFrequencyField = getFrequencySetup().getSpanFrequencyField();
+        FrequencyData maxFrequencyData = getFrequencySetup().getMaxFrequencyData();
+        FrequencyData minFrequencyData = getFrequencySetup().getMinFrequencyData();
+        FrequencyData centralFrequencyData = getFrequencySetup().getCentralFrequencyData();
+        FrequencyData spanFrequencyData = getFrequencySetup().getSpanFrequencyData();
 
-        float centralFrequency = centralFrequencyField.getMagnitude();
-        float spanFrequency = spanFrequencyField.getMagnitude();
+        float centralFrequency = centralFrequencyData.getMagnitude();
+        float spanFrequency = spanFrequencyData.getMagnitude();
 
         float maxFrequency =
                 centralFrequency + spanFrequency / 2.0f;
         float minFrequency =
                 centralFrequency - spanFrequency / 2.0f;
 
-        maxFrequencyField.setMagnitude(maxFrequency);
-        minFrequencyField.setMagnitude(minFrequency);
+        maxFrequencyData.setMagnitude(maxFrequency);
+        minFrequencyData.setMagnitude(minFrequency);
 
-        minFrequencyFieldInput.setUpdateEnabled(false);
-        maxFrequencyFieldInput.setUpdateEnabled(false);
+        minFrequencyValueView.setUpdateEnabled(false);
+        maxFrequencyValueView.setUpdateEnabled(false);
 
-        maxFrequencyFieldInput.setField(maxFrequencyField);
-        minFrequencyFieldInput.setField(minFrequencyField);
+        maxFrequencyValueView.setData(maxFrequencyData);
+        minFrequencyValueView.setData(minFrequencyData);
 
-        minFrequencyFieldInput.setUpdateEnabled(true);
-        maxFrequencyFieldInput.setUpdateEnabled(true);
+        minFrequencyValueView.setUpdateEnabled(true);
+        maxFrequencyValueView.setUpdateEnabled(true);
 
         blockUpdate = false;
     }
@@ -147,20 +150,20 @@ public class FrequencySetupViewProto1 extends GridPane
     {
         if (direction == SETUP_TO_VIEW)
         {
-            minFrequencyFieldInput.setField(frequencySetup.getMinFrequencyField());
-            maxFrequencyFieldInput.setField(frequencySetup.getCentralFrequencyField());
-            centralFrequencyFieldInput.setField(frequencySetup.getCentralFrequencyField());
-            spanFrequencyFieldInput.setField(frequencySetup.getSpanFrequencyField());
+            minFrequencyValueView.setData(frequencySetup.getMinFrequencyData());
+            maxFrequencyValueView.setData(frequencySetup.getCentralFrequencyData());
+            centralFrequencyValueView.setData(frequencySetup.getCentralFrequencyData());
+            spanFrequencyValueView.setData(frequencySetup.getSpanFrequencyData());
 
-            valueFrequencyFieldInput.setField(frequencySetup.getFixedFrequencyField());
+            valueFrequencyValueView.setData(frequencySetup.getFixedFrequencyData());
 
-            pointsFieldInput.setField(frequencySetup.getAveragePointsNumericField());
+            pointsValueView.setData(frequencySetup.getAveragePointsNumericData());
 
-            minFrequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
-            maxFrequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
-            centralFrequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
-            spanFrequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
-            valueFrequencyFieldInput.setChoiceUnits(FrequencyField.FIELD_UNITS);
+            minFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+            maxFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+            centralFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+            spanFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+            valueFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
 
             frequencyModeChoiceBox.getItems()
                     .addAll(frequencySetup.getFrequencyModeOptions().getValues());
@@ -174,31 +177,31 @@ public class FrequencySetupViewProto1 extends GridPane
         }
         else if (direction == VIEW_TO_SETUP)
         {
-            FrequencyField frequencyField;
+            FrequencyData frequencyData;
 
-            frequencyField = (FrequencyField)minFrequencyFieldInput.getField();
-            frequencySetup.getMinFrequencyField().setValue(frequencyField.getValue());
-            frequencySetup.getMinFrequencyField().setUnit(frequencyField.getUnit());
+            frequencyData = (FrequencyData) minFrequencyValueView.getData();
+            frequencySetup.getMinFrequencyData().setValue(frequencyData.getValue());
+            frequencySetup.getMinFrequencyData().setUnit(frequencyData.getUnit());
 
-            frequencyField = (FrequencyField)maxFrequencyFieldInput.getField();
-            frequencySetup.getMaxFrequencyField().setValue(frequencyField.getValue());
-            frequencySetup.getMaxFrequencyField().setUnit(frequencyField.getUnit());
+            frequencyData = (FrequencyData) maxFrequencyValueView.getData();
+            frequencySetup.getMaxFrequencyData().setValue(frequencyData.getValue());
+            frequencySetup.getMaxFrequencyData().setUnit(frequencyData.getUnit());
 
-            frequencyField = (FrequencyField)centralFrequencyFieldInput.getField();
-            frequencySetup.getCentralFrequencyField().setValue(frequencyField.getValue());
-            frequencySetup.getCentralFrequencyField().setUnit(frequencyField.getUnit());
+            frequencyData = (FrequencyData) centralFrequencyValueView.getData();
+            frequencySetup.getCentralFrequencyData().setValue(frequencyData.getValue());
+            frequencySetup.getCentralFrequencyData().setUnit(frequencyData.getUnit());
 
-            frequencyField = (FrequencyField)spanFrequencyFieldInput.getField();
-            frequencySetup.getSpanFrequencyField().setValue(frequencyField.getValue());
-            frequencySetup.getSpanFrequencyField().setUnit(frequencyField.getUnit());
+            frequencyData = (FrequencyData) spanFrequencyValueView.getData();
+            frequencySetup.getSpanFrequencyData().setValue(frequencyData.getValue());
+            frequencySetup.getSpanFrequencyData().setUnit(frequencyData.getUnit());
 
-            frequencyField = (FrequencyField) valueFrequencyFieldInput.getField();
-            frequencySetup.getFixedFrequencyField().setValue(frequencyField.getValue());
-            frequencySetup.getFixedFrequencyField().setUnit(frequencyField.getUnit());
+            frequencyData = (FrequencyData) valueFrequencyValueView.getData();
+            frequencySetup.getFixedFrequencyData().setValue(frequencyData.getValue());
+            frequencySetup.getFixedFrequencyData().setUnit(frequencyData.getUnit());
 
-            NumericField averagePointsField = (NumericField) pointsFieldInput.getField();
-            frequencySetup.getAveragePointsNumericField().setValue(averagePointsField.getValue());
-            frequencySetup.getAveragePointsNumericField().setUnit(averagePointsField.getUnit());
+            NumericData averagePointsField = (NumericData) pointsValueView.getData();
+            frequencySetup.getAveragePointsNumericData().setValue(averagePointsField.getValue());
+            frequencySetup.getAveragePointsNumericData().setUnit(averagePointsField.getUnit());
 
             frequencySetup.getBandwidthOptions().setSelected(
                     bandwidthChoiceBox.getSelectionModel().getSelectedItem());

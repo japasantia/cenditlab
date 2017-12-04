@@ -1,16 +1,15 @@
 package ve.gob.cendit.cenditlab.data;
 
 import java.util.Arrays;
-import java.util.Optional;
 
-public class FieldUnits
+public class DataUnits
 {
-    public static final FieldUnits EMPTY_UNITS =
-            new FieldUnits(Unit.EMPTY_UNIT);
+    public static final DataUnits EMPTY_UNITS =
+            new DataUnits(Unit.EMPTY_UNIT);
 
     private final Unit[] units;
 
-    public FieldUnits(Unit... units)
+    public DataUnits(Unit... units)
     {
         if (units == null || units.length == 0)
             throw new IllegalArgumentException("units must not be empty");
@@ -34,18 +33,9 @@ public class FieldUnits
     {
         Unit unit = Unit.EMPTY_UNIT;
 
-        // TODO: elegir el codigo stream o bucle
-        /*
-        Optional<Unit> result = Arrays.stream(units)
-            .filter(u -> magnitude > u.getMultiplier())
-            .findFirst();
-
-        return (result.isPresent() ? result.get() : Unit.EMPTY_UNIT);
-        */
-
         for (Unit u : units)
         {
-            if (magnitude > u.getMultiplier())
+            if (magnitude >= u.getMultiplier())
                 unit = u;
         }
 
@@ -56,18 +46,12 @@ public class FieldUnits
     {
         Unit unit = Unit.EMPTY_UNIT;
 
-        // TODO: elegir el codigo stream o bucle
-        /*
-        Optional<Unit> result = Arrays.stream(units)
-                .filter(u -> name == u.getName())
-                .findFirst();
-
-        return (result.isPresent() ? result.get() : Unit.EMPTY_UNIT);
-        */
+        if (name == null)
+            return unit;
 
         for (Unit u : units)
         {
-            if (name == u.getName())
+            if (name.equalsIgnoreCase(u.getName()))
                 unit = u;
         }
 

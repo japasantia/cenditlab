@@ -9,9 +9,11 @@ import ve.gob.cendit.cenditlab.data.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FieldInput extends HBox
+public class ValueView extends HBox
 {
-    private static final String FXML_URL = "fxml/field-input.fxml";
+    private static final String FXML_URL = "fxml/value-view.fxml";
+
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private TextField valueTextField;
@@ -22,22 +24,18 @@ public class FieldInput extends HBox
     private List<IUpdateListener> listenersList;
     private boolean updateEnabled;
 
-    private Field field;
+    private ValueData data;
 
-    public FieldInput()
+    public ValueView()
     {
-        ViewLoader.load(FXML_URL, this, this);
-
-        field = new Field();
-
-        initialize();
+        this(new ValueData());
     }
 
-    public FieldInput(Field field)
+    public ValueView(ValueData data)
     {
-        ViewLoader.load(FXML_URL, this, this);
+        viewLoader.load(FXML_URL, this, this);
 
-        setField(field);
+        setData(data);
 
         initialize();
     }
@@ -65,7 +63,7 @@ public class FieldInput extends HBox
         {
             setUpdateEnabled(false);
 
-            field.setValue(valueTextField.getText());
+            data.setValue(valueTextField.getText());
 
             updateFieldView();
 
@@ -83,7 +81,7 @@ public class FieldInput extends HBox
         {
             setUpdateEnabled(false);
 
-            field.setUnit(newUnit);
+            data.setUnit(newUnit);
 
             updateFieldView();
 
@@ -96,8 +94,8 @@ public class FieldInput extends HBox
 
     private void updateFieldView()
     {
-        valueTextField.setText(field.getValue());
-        unitsChoiceBox.setValue(field.getUnit());
+        valueTextField.setText(data.getValue());
+        unitsChoiceBox.setValue(data.getUnit());
     }
 
     public void addUpdateListener(IUpdateListener listener)
@@ -136,37 +134,37 @@ public class FieldInput extends HBox
         if (listenersList != null && isUpdateEnabled())
         {
             listenersList.stream()
-                    .forEach(listener -> listener.onUpdate());
+                    .forEach(listener -> listener.onUpdate(this));
         }
     }
 
-    public void setField(Field field)
+    public void setData(ValueData data)
     {
-        if (field == null)
+        if (data == null)
         {
-            throw new IllegalArgumentException("field must not be null");
+            throw new IllegalArgumentException("data must not be null");
         }
 
-        this.field = field;
+        this.data = data;
 
-        valueTextField.setText(field.getValue());
-        setChoiceUnits(field.getValidUnits());
+        valueTextField.setText(data.getValue());
+        setChoiceUnits(data.getValidUnits());
     }
 
-    public Field getField()
+    public ValueData getData()
     {
-        return field;
+        return data;
     }
 
     @Override
     public String toString()
     {
-        return field.toString();
+        return data.toString();
     }
 
-    public void setChoiceUnits(FieldUnits units)
+    public void setChoiceUnits(DataUnits units)
     {
-        if (units != null && units != FieldUnits.EMPTY_UNITS)
+        if (units != null && units != DataUnits.EMPTY_UNITS)
         {
             if (unitsChoiceBox.getItems().size() > 0)
                 unitsChoiceBox.getItems().clear();
@@ -181,9 +179,9 @@ public class FieldInput extends HBox
         }
     }
 
-    public FieldUnits getChoiceUnits()
+    public DataUnits getChoiceUnits()
     {
-        return field.getValidUnits();
+        return data.getValidUnits();
     }
 
     public Unit getUnit()

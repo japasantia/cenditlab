@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<?import ve.gob.cendit.cenditlab.ui.FieldInput?>
+<?import ve.gob.cendit.cenditlab.ui.ValueView?>
 <?import ve.gob.cendit.cenditlab.ui.ToggleView?>
 
 <fx:root type="GridPane"  alignment="CENTER_RIGHT" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
@@ -30,7 +30,7 @@
         </ChoiceBox>
 
         <Label text="Valor ENR" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-        <FieldInput fx:id="spotEnrFieldInput" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <ValueView fx:id="spotEnrValueView" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
         <Label text="Auto carga ENR" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
         <ToggleView fx:id="autoLoadEnrToggleView" mnemonicParsing="false" selected="true" text="ON" textOff="OFF" textOn="ON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
@@ -45,7 +45,7 @@
         <ToggleView fx:id="userTcoldToggleView" mnemonicParsing="false" text="OFF" textOff="OFF" textOn="ON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
 
         <Label text="Valor Tcold" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-        <FieldInput fx:id="userTcoldFieldInput" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+        <ValueView fx:id="userTcoldValueView" GridPane.columnIndex="3" GridPane.rowIndex="6" />
 
         <Label text="Fuente de ruido" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
         <ChoiceBox fx:id="noiseSourcePreferenceChoiceBox" value="SNS" GridPane.columnIndex="1" GridPane.rowIndex="7">
