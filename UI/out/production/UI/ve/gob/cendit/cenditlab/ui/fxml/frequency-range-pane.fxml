@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import ve.gob.cendit.cenditlab.ui.*?>
+
 <fx:root type="TitledPane" fx:id="frequencyRangePane" animated="false" text="Rangos de frecuencia" xmlns="http://javafx.com/javafx/2.2" xmlns:fx="http://javafx.com/fxml/1">
 <!--<TitledPane fx:id="frequencyRangePane" animated="false" text="Rangos de frecuencia" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">-->
-
    <content>
       <GridPane>
         <columnConstraints>
@@ -21,11 +21,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-             <ValueView fx:id="minFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-             <ValueView fx:id="maxFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-             <ValueView fx:id="centralFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-             <ValueView fx:id="spanFrequencyFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-             <ValueView fx:id="pointsFieldInput" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+             <ValueView fx:id="minFrequencyValueView" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+             <ValueView fx:id="maxFrequencyValueView" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <ValueView fx:id="centralFrequencyValueView" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+             <ValueView fx:id="spanFrequencyValueView" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+             <ValueView fx:id="pointsValueView" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <Label text="Mínima">
                <GridPane.margin>

@@ -1,30 +1,27 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TitledPane;
+import ve.gob.cendit.cenditlab.data.*;
 import ve.gob.cendit.cenditlab.data.ValueData;
-import ve.gob.cendit.cenditlab.data.FrequencyData;
-import ve.gob.cendit.cenditlab.data.IValueValidator;
-import ve.gob.cendit.cenditlab.data.ValueData;
-
-import java.io.IOException;
 
 public class FrequencyRangePane extends TitledPane
 {
     private static final String FXML_URL = "fxml/frequency-range-pane.fxml";
 
-    @FXML
-    private ValueView minFrequencyDataInput;
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
-    private ValueView maxFrequencyDataInput;
+    private ValueView minFrequencyValueView;
 
     @FXML
-    private ValueView centralFrequencyDataInput;
+    private ValueView maxFrequencyValueView;
 
     @FXML
-    private ValueView spanFrequencyDataInput;
+    private ValueView centralFrequencyValueView;
+
+    @FXML
+    private ValueView spanFrequencyValueView;
 
     @FXML
     private ValueView pointsValueView;
@@ -32,102 +29,114 @@ public class FrequencyRangePane extends TitledPane
     private static final IValueValidator valueValidator =
             value -> FrequencyData.isValid(value);
 
-    private FrequencyData minFrequencyData;
-    private FrequencyData maxFrequencyData;
-    private FrequencyData centralFrequencyData;
-    private FrequencyData spanFrequencyData;
-    private ValueData pointsData;
+    private FrequencySetup frequencySetup;
 
-    private Boolean blockUpdate;
+    private Boolean updateEnabled;
 
     public FrequencyRangePane()
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_URL));
+        this(new FrequencySetup());
+    }
 
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
+    public FrequencyRangePane(FrequencySetup setup)
+    {
+        viewLoader.load(this, this);
 
-        try
-        {
-            fxmlLoader.load();
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException(ex);
-        }
+        setFrequencySetup(setup);
 
         initialize();
     }
 
     private void initialize()
     {
-        blockUpdate = true;
+        setUpdateEnabled(false);
 
-        minFrequencyData = new FrequencyData();
-        maxFrequencyData = new FrequencyData();
-        centralFrequencyData = new FrequencyData();
-        spanFrequencyData = new FrequencyData();
-        pointsData = new ValueData();
+        minFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
+        maxFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
 
-        minFrequencyDataInput.addUpdateListener(source -> minMaxFrequenciesUpdate());
-        maxFrequencyDataInput.addUpdateListener(source -> minMaxFrequenciesUpdate());
+        centralFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
+        spanFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
 
-        centralFrequencyDataInput.addUpdateListener(source -> centralSpanFrequenciesUpdate());
-        spanFrequencyDataInput.addUpdateListener(source -> centralSpanFrequenciesUpdate());
+        minFrequencyValueView.setData(frequencySetup.getMinFrequencyData());
+        maxFrequencyValueView.setData(frequencySetup.getMaxFrequencyData());
+        centralFrequencyValueView.setData(frequencySetup.getCentralFrequencyData());
+        spanFrequencyValueView.setData(frequencySetup.getSpanFrequencyData());
+        pointsValueView.setData(frequencySetup.getAveragePointsNumericData());
 
-        minFrequencyDataInput.setData(minFrequencyData);
-        maxFrequencyDataInput.setData(maxFrequencyData);
-        centralFrequencyDataInput.setData(centralFrequencyData);
-        spanFrequencyDataInput.setData(spanFrequencyData);
-        pointsValueView.setData(pointsData);
+        setUpdateEnabled(true);
+    }
 
-        /*
-        minFrequencyDataInput.setChoiceUnits(FrequencyData.FIELD_UNITS);
-        maxFrequencyDataInput.setChoiceUnits(FrequencyData.FIELD_UNITS);
-        centralFrequencyDataInput.setChoiceUnits(FrequencyData.FIELD_UNITS);
-        spanFrequencyDataInput.setChoiceUnits(FrequencyData.FIELD_UNITS);
-        */
+    public void setUpdateEnabled(boolean value)
+    {
+        updateEnabled = value;
+    }
 
-        blockUpdate = false;
+    public boolean isUpdateEnabled()
+    {
+        return updateEnabled;
+    }
+
+    public void setFrequencySetup(FrequencySetup setup)
+    {
+        if (setup != null)
+        {
+            frequencySetup = setup;
+        }
+    }
+
+    public FrequencySetup getFrequencySetup()
+    {
+        return frequencySetup;
     }
 
     private void minMaxFrequenciesUpdate()
     {
-        if (blockUpdate)
+        if ( ! isUpdateEnabled() )
         {
             return;
         }
 
-        blockUpdate = true;
+        setUpdateEnabled(false);
+
+        FrequencyData maxFrequencyData = frequencySetup.getMaxFrequencyData();
+        FrequencyData minFrequencyData = frequencySetup.getMinFrequencyData();
+        FrequencyData centralFrequencyData = frequencySetup.getCentralFrequencyData();
+        FrequencyData spanFrequencyData = frequencySetup.getSpanFrequencyData();
 
         float centralFrequency =
                 (maxFrequencyData.getMagnitude() + minFrequencyData.getMagnitude()) / 2.0f;
+
         float spanFrequency =
                 (maxFrequencyData.getMagnitude() - minFrequencyData.getMagnitude());
 
         centralFrequencyData.setMagnitude(centralFrequency);
         spanFrequencyData.setMagnitude(spanFrequency);
 
-        centralFrequencyDataInput.setUpdateEnabled(false);
-        spanFrequencyDataInput.setUpdateEnabled(false);
+        centralFrequencyValueView.setUpdateEnabled(false);
+        spanFrequencyValueView.setUpdateEnabled(false);
 
-        centralFrequencyDataInput.setData(centralFrequencyData);
-        spanFrequencyDataInput.setData(spanFrequencyData);
+        centralFrequencyValueView.setData(centralFrequencyData);
+        spanFrequencyValueView.setData(spanFrequencyData);
 
-        centralFrequencyDataInput.setUpdateEnabled(true);
-        spanFrequencyDataInput.setUpdateEnabled(true);
+        centralFrequencyValueView.setUpdateEnabled(true);
+        spanFrequencyValueView.setUpdateEnabled(true);
 
-        blockUpdate = false;
+        setUpdateEnabled(true);
     }
 
     private void centralSpanFrequenciesUpdate()
     {
-        if (blockUpdate)
+        if ( ! isUpdateEnabled() )
         {
             return;
         }
 
-        blockUpdate = true;
+        setUpdateEnabled(false);
+
+        FrequencyData maxFrequencyData = frequencySetup.getMaxFrequencyData();
+        FrequencyData minFrequencyData = frequencySetup.getMinFrequencyData();
+        FrequencyData centralFrequencyData = frequencySetup.getCentralFrequencyData();
+        FrequencyData spanFrequencyData = frequencySetup.getSpanFrequencyData();
 
         float maxFrequency =
                 centralFrequencyData.getMagnitude() + spanFrequencyData.getMagnitude() / 2.0f;
@@ -137,91 +146,24 @@ public class FrequencyRangePane extends TitledPane
         maxFrequencyData.setMagnitude(maxFrequency);
         minFrequencyData.setMagnitude(minFrequency);
 
-        minFrequencyDataInput.setUpdateEnabled(false);
-        maxFrequencyDataInput.setUpdateEnabled(false);
+        minFrequencyValueView.setUpdateEnabled(false);
+        maxFrequencyValueView.setUpdateEnabled(false);
 
-        maxFrequencyDataInput.setData(maxFrequencyData);
-        minFrequencyDataInput.setData(minFrequencyData);
+        maxFrequencyValueView.setData(maxFrequencyData);
+        minFrequencyValueView.setData(minFrequencyData);
 
-        minFrequencyDataInput.setUpdateEnabled(true);
-        maxFrequencyDataInput.setUpdateEnabled(true);
+        minFrequencyValueView.setUpdateEnabled(true);
+        maxFrequencyValueView.setUpdateEnabled(true);
 
-        blockUpdate = false;
+        setUpdateEnabled(true);
     }
 
     public boolean validate()
     {
-        return minFrequencyDataInput.validate(valueValidator) &&
-                maxFrequencyDataInput.validate(valueValidator) &&
-                centralFrequencyDataInput.validate(valueValidator) &&
-                spanFrequencyDataInput.validate(valueValidator);
-    }
-
-    public FrequencyData getMinFrequency()
-{
-    return minFrequencyData;
-}
-
-    public FrequencyData getMaxFrequency()
-    {
-        return maxFrequencyData;
-    }
-
-    public FrequencyData getCentralFrequency()
-    {
-        return centralFrequencyData;
-    }
-
-    public FrequencyData getFrequencySpan()
-    {
-        return spanFrequencyData;
-    }
-
-    public ValueData getPoints()
-    {
-        return pointsData;
-    }
-
-    public void setMinFrequency(FrequencyData value)
-    {
-        if (value == null) return;
-
-        minFrequencyData = value;
-
-        centralSpanFrequenciesUpdate();
-    }
-
-    public void setMaxFrequency(FrequencyData value)
-    {
-        if (value == null) return;
-
-        maxFrequencyData = value;
-
-        centralSpanFrequenciesUpdate();
-    }
-
-    public void setCentralFrequency(FrequencyData value)
-    {
-        if (value == null) return;
-
-        centralFrequencyData = value;
-
-        centralSpanFrequenciesUpdate();
-    }
-
-    public void setSpanFrequency(FrequencyData value)
-    {
-        if (value == null) return;
-
-        spanFrequencyData = value;
-
-        centralSpanFrequenciesUpdate();
-    }
-
-    public void setPoints(ValueData value)
-    {
-        if (value == null) return;
-
-        this.pointsData = value;
+        // TODO: revisar proceso de validación
+        return minFrequencyValueView.validate(valueValidator) &&
+                maxFrequencyValueView.validate(valueValidator) &&
+                centralFrequencyValueView.validate(valueValidator) &&
+                spanFrequencyValueView.validate(valueValidator);
     }
 }

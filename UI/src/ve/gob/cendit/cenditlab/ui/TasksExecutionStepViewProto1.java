@@ -14,8 +14,7 @@ public class TasksExecutionStepViewProto1 extends SplitPane
 {
     private static final String FXML_URL = "fxml/tasks-execution-step-view.fxml";
 
-    private static final ViewLoader viewLoader =
-            new ViewLoader(FXML_URL);
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private HeaderContainerView tasksContainerView;

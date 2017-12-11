@@ -21,25 +21,31 @@ public class BasicFrequencySetupView extends GridPane
 
     private FrequencyListPane frequencyListPane;
 
-    private FrequencySetup frequencySetup;
-
     private Node currentFrequencySetupParent;
+
+    private FrequencySetup frequencySetup;
 
     public BasicFrequencySetupView()
     {
+        this(new FrequencySetup());
+    }
+
+    public BasicFrequencySetupView(FrequencySetup setup)
+    {
         ViewLoader.load(FXML_URL, this, this);
+
+        setFrequencySetup(setup);
 
         initialize();
     }
 
     private void initialize()
     {
-        frequencySetup = new FrequencySetup();
-
         currentFrequencySetupParent = frequencyRangePane;
 
         frequencyModeChoiceBox.getItems()
                 .addAll(frequencySetup.getFrequencyModeOptions().getValues());
+
         frequencyModeChoiceBox
                 .setValue(frequencySetup.getFrequencyModeOptions().getDefault());
 
@@ -48,6 +54,19 @@ public class BasicFrequencySetupView extends GridPane
                 {
                     updateFrequencyMode(newMode);
                 });
+    }
+
+    public void setFrequencySetup(FrequencySetup setup)
+    {
+        if (setup != null)
+        {
+            frequencySetup = setup;
+        }
+    }
+
+    public FrequencySetup getFrequencySetup()
+    {
+        return frequencySetup;
     }
 
     private void updateFrequencyMode(String frequencyMode)
@@ -68,9 +87,13 @@ public class BasicFrequencySetupView extends GridPane
         }
     }
 
-    private void removeCurrentSetupPane()
+    private void changeFrequencySetupPane(Node newPane)
     {
         this.getChildren().remove(currentFrequencySetupParent);
+
+        currentFrequencySetupParent = newPane;
+
+        this.add(newPane,0, 1, 2, 1);
     }
 
     private void loadFixedFrequencyFieldInput()
@@ -78,15 +101,10 @@ public class BasicFrequencySetupView extends GridPane
         if (fixedFrequencyValueView == null)
         {
             fixedFrequencyValueView = new ValueView();
-            fixedFrequencyValueView.setData(frequencySetup.getFixedFrequencyData());
         }
 
-        removeCurrentSetupPane();
-        setCurrentFrequencySetupPane(fixedFrequencyValueView);
-
-        this.add(fixedFrequencyValueView,
-                0, 1, 2, 1);
-
+        fixedFrequencyValueView.setData(frequencySetup.getFixedFrequencyData());
+        changeFrequencySetupPane(fixedFrequencyValueView);
     }
 
     private void loadFrequencyListPane()
@@ -96,24 +114,13 @@ public class BasicFrequencySetupView extends GridPane
             frequencyListPane = new FrequencyListPane();
         }
 
-        removeCurrentSetupPane();
-        setCurrentFrequencySetupPane(frequencyListPane);
 
-        this.add(frequencyListPane,
-                0, 1, 2, 1);
+        changeFrequencySetupPane(frequencyListPane);
     }
 
     private void loadFrequencyRangePane()
     {
-        removeCurrentSetupPane();
-        setCurrentFrequencySetupPane(frequencyRangePane);
-
-        this.add(frequencyRangePane,
-                0, 1, 2, 1);
-    }
-
-    private void setCurrentFrequencySetupPane(Node node)
-    {
-        currentFrequencySetupParent = node;
+        frequencyRangePane.setFrequencySetup(frequencySetup);
+        changeFrequencySetupPane(frequencyRangePane);
     }
 }
