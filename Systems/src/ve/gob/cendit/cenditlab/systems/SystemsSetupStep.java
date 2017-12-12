@@ -1,16 +1,15 @@
 package ve.gob.cendit.cenditlab.systems;
 
-import ve.gob.cendit.cenditlab.app.CenditLabApplication;
-import ve.gob.cendit.cenditlab.control.System;
+import javafx.scene.Node;
 import ve.gob.cendit.cenditlab.control.MeasurementStep;
+import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.ui.SystemsSetupStepView;
-import ve.gob.cendit.cenditlab.ui.SystemsSetupStepViewProto1;
 
 
 public class SystemsSetupStep extends MeasurementStep
 {
     private boolean blocked = false;
-    private SystemsSetupStepViewProto1 systemsSetupView;
+    private SystemsSetupStepView systemsSetupView;
 
     private System[] systemsArray;
 
@@ -19,6 +18,12 @@ public class SystemsSetupStep extends MeasurementStep
         super(name);
 
         systemsArray = systems;
+    }
+
+    @Override
+    public Node getView()
+    {
+        return systemsSetupView;
     }
 
     @Override
@@ -36,13 +41,12 @@ public class SystemsSetupStep extends MeasurementStep
     @Override
     public void initialize()
     {
-        systemsSetupView = new SystemsSetupStepViewProto1();
+        systemsSetupView = new SystemsSetupStepView();
     }
 
     @Override
     public void load()
     {
-        CenditLabApplication.getApp().setCenterContainer(systemsSetupView);
         systemsSetupView.loadSystems(systemsArray);
     }
 

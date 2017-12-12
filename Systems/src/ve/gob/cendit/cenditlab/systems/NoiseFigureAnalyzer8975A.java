@@ -4,12 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.control.*;
 import ve.gob.cendit.cenditlab.control.System;
-import ve.gob.cendit.cenditlab.data.FieldsContainer;
+import ve.gob.cendit.cenditlab.data.DataContainer;
 import ve.gob.cendit.cenditlab.ui.ComponentViewFactory;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
-
-import java.net.URL;
-
 
 public class NoiseFigureAnalyzer8975A extends System
 {
@@ -47,14 +44,9 @@ public class NoiseFigureAnalyzer8975A extends System
         return viewFactory.getView(this, viewType);
     }
 
-    @Override
-    public Node getView(String viewId)
-    {
-        return null;
-    }
 
     @Override
-    public FieldsContainer getSetupFields()
+    public DataContainer getSetupData()
     {
         return null;
     }
@@ -77,7 +69,7 @@ public class NoiseFigureAnalyzer8975A extends System
         }
 
         @Override
-        public FieldsContainer getSetupFields()
+        public DataContainer getSetupData()
         {
             return null;
         }
@@ -86,12 +78,6 @@ public class NoiseFigureAnalyzer8975A extends System
         public Node getView(ViewType viewType)
         {
             return viewFactory.getView(this, viewType);
-        }
-
-        @Override
-        public Node getView(String viewId)
-        {
-            return null;
         }
     }
 
@@ -113,7 +99,7 @@ public class NoiseFigureAnalyzer8975A extends System
         }
 
         @Override
-        public FieldsContainer getSetupFields()
+        public DataContainer getSetupData()
         {
             return null;
         }
@@ -122,12 +108,6 @@ public class NoiseFigureAnalyzer8975A extends System
         public Node getView(ViewType viewType)
         {
             return viewFactory.getView(this, viewType);
-        }
-
-        @Override
-        public Node getView(String viewId)
-        {
-            return null;
         }
     }
 }
