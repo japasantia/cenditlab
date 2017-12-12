@@ -12,5 +12,6 @@
     <orderEntry type="library" exported="" name="Data" level="project" />
     <orderEntry type="library" exported="" name="UI-Base" level="project" />
     <orderEntry type="library" name="UI" level="project" />
+    <orderEntry type="library" name="Systems" level="project" />
   </component>
 </module>

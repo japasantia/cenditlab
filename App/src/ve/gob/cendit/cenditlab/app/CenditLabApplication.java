@@ -1,6 +1,6 @@
 package ve.gob.cendit.cenditlab.app;
 
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ve.gob.cendit.cenditlab.ui.MainViewProto1;
@@ -44,12 +44,12 @@ public class CenditLabApplication
         primaryStage.show();
     }
 
-    public void setCenterContainer(Parent view)
+    public void setCenterContainer(Node view)
     {
         mainView.setCenter(view);
     }
 
-    public void setTopToolbar(Parent toolbar)
+    public void setTopToolbar(Node toolbar)
     {
         mainView.addToolBar(toolbar);
     }

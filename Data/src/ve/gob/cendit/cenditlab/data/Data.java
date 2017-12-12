@@ -1,5 +1,7 @@
 package ve.gob.cendit.cenditlab.data;
 
+import ve.gob.cendit.cenditlab.control.EventEmitter;
+
 public class Data
 {
     private String name;
@@ -30,7 +32,17 @@ public class Data
 
     public void update()
     {
-        updateEventEmitter.call(this, null);
+        updateEventEmitter.call(this, (Object) null);
+    }
+
+    public void setUpdateEnabled(boolean value)
+    {
+        updateEventEmitter.setEnabled(value);
+    }
+
+    public boolean isUpdateEnabled()
+    {
+        return updateEventEmitter.isEnabled();
     }
 
     public void addUpdateListener(IUpdateListener listener)
@@ -43,8 +55,12 @@ public class Data
         updateEventEmitter.removeListener(listener);
     }
 
+
+
     private void onUpdateEventCaller(Object source, IUpdateListener listener, Object... args)
     {
         listener.onUpdate(source);
     }
+
+
 }

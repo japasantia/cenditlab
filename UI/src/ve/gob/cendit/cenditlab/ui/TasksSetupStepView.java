@@ -1,9 +1,9 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Orientation;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
@@ -11,67 +11,54 @@ import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 import java.util.Arrays;
 
-public class TasksSetupStepView extends SectionedView
+public class TasksSetupStepView extends SplitPane
 {
-    private HeaderContainerView masterContainer;
-    private HeaderContainerView detailContainer;
-    private HeaderContainerView setupContainer;
+    private static final String FXML_URL =
+            "fxml/tasks-setup-step-view.fxml";
+
+    private static final ViewLoader viewLoader =
+            new ViewLoader(FXML_URL);
+
+    @FXML
+    private HeaderContainerView tasksContainerView;
+
+    @FXML
+    private HeaderContainerView detailContainerView;
+
+    @FXML
+    private HeaderContainerView setupContainerView;
+
+    @FXML
+    private VBox detailVBox;
+
+    @FXML
+    private VBox setupVBox;
 
     private ComponentListView<Task> tasksListView;
 
-    private SectionedView detailSetupSectionedView;
-
-    private ScrollPane detailScrollView;
-    private ScrollPane setupScrollPane;
-
-    private VBox detailVBox;
-    private VBox setupVBox;
-
     public TasksSetupStepView()
     {
+        viewLoader.load(this, this);
+
         initialize();
     }
 
     public TasksSetupStepView(System... systems)
     {
-        initialize();
+        this();
+
         loadSystems(systems);
     }
 
     private void initialize()
     {
-        masterContainer = new HeaderContainerView();
-        detailContainer = new HeaderContainerView();
-        setupContainer = new HeaderContainerView();
-
-        masterContainer.setCaption("Tasks");
-        detailContainer.setCaption("Info");
-        setupContainer.setCaption("Setup");
-
         tasksListView = new ComponentListView<>();
-        masterContainer.setCenter(tasksListView);
 
-        detailSetupSectionedView = new SectionedView();
+        tasksListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        detailVBox = new VBox();
-        setupVBox = new VBox();
+        tasksContainerView.setCenter(tasksListView);
 
-        detailScrollView = new ScrollPane(detailVBox);
-        setupScrollPane = new ScrollPane(setupVBox);
-
-        detailContainer.setCenter(detailScrollView);
-        setupContainer.setCenter(setupScrollPane);
-
-        detailSetupSectionedView = new SectionedView();
-
-        detailSetupSectionedView.setCenterSectionOrientation(Orientation.VERTICAL);
-        detailSetupSectionedView.createCenterSection("Detail", detailContainer);
-        detailSetupSectionedView.createCenterSection("Setup", setupContainer);
-
-        this.createCenterSection("Master", masterContainer);
-        this.createCenterSection("DetailSetup", detailSetupSectionedView);
-
-        tasksListView.setOnComponentSelectionChanged(this::onTaskSelected);
+        tasksListView.setOnComponentSelectionChanged(this::onTaskSelectionChange);
     }
 
     public void loadSystems(System... systems)
@@ -84,26 +71,7 @@ public class TasksSetupStepView extends SectionedView
     public void addSystems(System... systems)
     {
         Arrays.stream(systems)
-            .forEach(system -> tasksListView.addComponents(system.getTasks()));
-
-        /*
-        for (System system : systems)
-        {
-            HeaderComponentListView<Task> tasksListView = new HeaderComponentListView<>();
-
-            tasksListView.setOnComponentSelectionChanged(this::onTaskSelected);
-
-            tasksListView.setCollapsible(true);
-            VBox.setVgrow(tasksListView, Priority.ALWAYS);
-
-            tasksListView.setIcon(system.getIcon());
-
-            tasksListView.setTitle(system.getName());
-            tasksListView.getItems().addAll(system.getTasks());
-
-            tasksListView.getChildren().add(tasksListView);
-        }
-        */
+                .forEach(system -> tasksListView.addComponents(system.getTasks()));
     }
 
     public void unloadSystems()
@@ -120,9 +88,19 @@ public class TasksSetupStepView extends SectionedView
         tasksListView.getItems().clear();
     }
 
+    public void addDetail(Node node)
+    {
+        detailVBox.getChildren().add(node);
+    }
+
     public void clearDetail()
     {
         detailVBox.getChildren().clear();
+    }
+
+    public void addSetup(Node node)
+    {
+        setupVBox.getChildren().add(node);
     }
 
     public void clearSetup()
@@ -130,8 +108,8 @@ public class TasksSetupStepView extends SectionedView
         setupVBox.getChildren().clear();
     }
 
-    private <T extends Task> void onTaskSelected(ObservableValue<? extends Task> observable,
-                                                 T oldTask, T newTask)
+    private <T extends Task> void onTaskSelectionChange(ObservableValue<? extends Task> observable,
+                                                        T oldTask, T newTask)
     {
         if (newTask == null)
             return;
@@ -141,22 +119,22 @@ public class TasksSetupStepView extends SectionedView
 
         String taskName = newTask.getName();
 
-        Node viewNode = newTask.getView(ViewType.DETAILS);
+        Node node = newTask.getView(ViewType.DETAILS);
 
-        if (viewNode != null)
+        if (node != null)
         {
             String caption = String.format("%s info", taskName);
-            detailContainer.setCaption(caption);
-            detailVBox.getChildren().add(viewNode);
+            detailContainerView.setCaption(caption);
+            addDetail(node);
         }
 
-        viewNode = newTask.getView(ViewType.SETUP);
+        node = newTask.getView(ViewType.SETUP);
 
-        if (viewNode != null)
+        if (node != null)
         {
             String caption = String.format("%s setup", taskName);
-            setupContainer.setCaption(caption);
-            setupVBox.getChildren().add(viewNode);
+            setupContainerView.setCaption(caption);
+            addSetup(node);
         }
     }
 }

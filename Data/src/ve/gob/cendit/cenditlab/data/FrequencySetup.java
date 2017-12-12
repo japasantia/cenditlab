@@ -21,35 +21,47 @@ public class FrequencySetup
     private Options frequencyModeOptions =
             new Options("Frequency Mode", "Sweep", "List", "Fixed");
 
-    private final Options bandwidthOptions =
+    private Options bandwidthOptions =
             new Options("Bandwidth", "100kHz", "200kHz", "400kHz", "1MHz", "2MHz" ,"4MHz");
 
-    private final Options averageOptions =
+    private Options averageOptions =
             new Options("Average", "ON", "OFF");
 
-    private final Options averageMode =
+    private Options averageMode =
             new Options("Average", "Point", "Sweep");
 
-    private final FrequencyData maxFrequencyData =
+    private FrequencyData maxFrequencyData =
             new FrequencyData();
 
-    private final FrequencyData minFrequencyData =
+    private FrequencyData minFrequencyData =
             new FrequencyData();
 
-    private final FrequencyData centralFrequencyData =
+    private FrequencyData centralFrequencyData =
             new FrequencyData();
 
-    private final FrequencyData spanFrequencyData =
+    private FrequencyData spanFrequencyData =
             new FrequencyData();
 
-    private final NumericData averagePointsNumericData =
+    private NumericData averagePointsNumericData =
             new NumericData();
 
-    private final FrequencyData fixedFrequencyData =
+    private FrequencyData fixedFrequencyData =
             new FrequencyData();
 
     private List<FrequencyData> frequencyList;
 
+    private boolean updateEnabled;
+
+    public FrequencySetup()
+    {
+        updateEnabled = true;
+
+        minFrequencyData.addUpdateListener(source -> minMaxFrequenciesUpdate());
+        maxFrequencyData.addUpdateListener(source -> minMaxFrequenciesUpdate());
+
+        centralFrequencyData.addUpdateListener(source -> centralSpanFrequenciesUpdate());
+        spanFrequencyData.addUpdateListener(source -> centralSpanFrequenciesUpdate());
+    }
 
     public String getFrequencyMode()
     {
@@ -101,8 +113,59 @@ public class FrequencySetup
         return averagePointsNumericData;
     }
 
-    public List<FrequencyData> getFrequecyList()
+    public List<FrequencyData> getFrequecyDataList()
     {
         return frequencyList;
+    }
+
+    public void setUpdateEnabled(boolean value)
+    {
+        updateEnabled = value;
+    }
+
+    public boolean isUpdateEnabled()
+    {
+        return updateEnabled;
+    }
+
+    private void minMaxFrequenciesUpdate()
+    {
+        if ( ! isUpdateEnabled() )
+        {
+            return;
+        }
+
+        setUpdateEnabled(false);
+
+        float centralFrequency =
+                (maxFrequencyData.getMagnitude() + minFrequencyData.getMagnitude()) / 2.0f;
+
+        float spanFrequency =
+                (maxFrequencyData.getMagnitude() - minFrequencyData.getMagnitude());
+
+        centralFrequencyData.setMagnitude(centralFrequency);
+        spanFrequencyData.setMagnitude(spanFrequency);
+
+        setUpdateEnabled(true);
+    }
+
+    private void centralSpanFrequenciesUpdate()
+    {
+        if ( ! isUpdateEnabled() )
+        {
+            return;
+        }
+
+        setUpdateEnabled(false);
+
+        float maxFrequency =
+                centralFrequencyData.getMagnitude() + spanFrequencyData.getMagnitude() / 2.0f;
+        float minFrequency =
+                centralFrequencyData.getMagnitude() - spanFrequencyData.getMagnitude() / 2.0f;
+
+        maxFrequencyData.setMagnitude(maxFrequency);
+        minFrequencyData.setMagnitude(minFrequency);
+
+        setUpdateEnabled(true);
     }
 }

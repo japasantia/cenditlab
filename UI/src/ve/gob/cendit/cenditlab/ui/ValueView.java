@@ -6,9 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import ve.gob.cendit.cenditlab.data.*;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class ValueView extends HBox
 {
     private static final String FXML_URL = "fxml/value-view.fxml";
@@ -21,10 +18,9 @@ public class ValueView extends HBox
     @FXML
     private ChoiceBox<Unit> unitsChoiceBox;
 
-    private List<IUpdateListener> listenersList;
-    private boolean updateEnabled;
-
     private ValueData data;
+
+    private boolean updateViewEnabled;
 
     public ValueView()
     {
@@ -35,6 +31,8 @@ public class ValueView extends HBox
     {
         viewLoader.load(FXML_URL, this, this);
 
+        setUpdateViewEnabled(true);
+
         setData(data);
 
         initialize();
@@ -42,110 +40,79 @@ public class ValueView extends HBox
 
     private void initialize()
     {
+        valueTextField.setOnAction(event -> onUpdateValue());
+
+        unitsChoiceBox.setOnAction(event -> onUpdateUnit(unitsChoiceBox.getValue()));
+
         valueTextField.focusedProperty()
                 .addListener((observable, oldValue, newValue) ->
                     {
                         if (!newValue)
                             onUpdateValue();
                     });
+
+        unitsChoiceBox.focusedProperty()
+                .addListener((observable, oldValue, newValue) ->
+                    {
+                        if (!newValue)
+                            onUpdateUnit(unitsChoiceBox.getValue());
+                    });
+
+        /*
         unitsChoiceBox.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) ->
                     {
                         onUpdateUnit(newValue);
                     });
-
-        setUpdateEnabled(true);
+        */
     }
 
     private void onUpdateValue()
     {
-        if (isUpdateEnabled())
+        if (isUpdateViewEnabled())
         {
-            setUpdateEnabled(false);
+            setUpdateViewEnabled(false);
 
             data.setValue(valueTextField.getText());
 
-            updateFieldView();
+            onUpdateFieldView();
 
             // TODO: revisar operacion flags para update
-            setUpdateEnabled(true);
-
-            callUpdateListeners();
+            setUpdateViewEnabled(true);
         }
     }
 
     private void onUpdateUnit(Unit newUnit)
     {
         // TODO: revisar proceso de actualizacion -> unit == null
-        if (isUpdateEnabled() && newUnit != null)
+        if (isUpdateViewEnabled() && newUnit != null)
         {
-            setUpdateEnabled(false);
+            setUpdateViewEnabled(false);
 
             data.setUnit(newUnit);
 
-            updateFieldView();
+            onUpdateFieldView();
 
             // TODO: revisar operacion flags para update
-            setUpdateEnabled(true);
-
-            callUpdateListeners();
+            setUpdateViewEnabled(true);
         }
     }
 
-    private void updateFieldView()
+    private void onUpdateFieldView()
     {
         valueTextField.setText(data.getValue());
         unitsChoiceBox.setValue(data.getUnit());
     }
 
-    public void addUpdateListener(IUpdateListener listener)
+    public void setData(ValueData value)
     {
-        if (listenersList == null)
-        {
-            listenersList = new LinkedList<>();
-        }
-
-        if (listener != null)
-        {
-            listenersList.add(listener);
-        }
-    }
-
-    public void removeUpdateListener(IUpdateListener listener)
-    {
-        if (listenersList != null)
-        {
-            listenersList.remove(listener);
-        }
-    }
-
-    public void setUpdateEnabled(boolean enable)
-    {
-        updateEnabled = enable;
-    }
-
-    public boolean isUpdateEnabled()
-    {
-        return updateEnabled;
-    }
-
-    private void callUpdateListeners()
-    {
-        if (listenersList != null && isUpdateEnabled())
-        {
-            listenersList.stream()
-                    .forEach(listener -> listener.onUpdate(this));
-        }
-    }
-
-    public void setData(ValueData data)
-    {
-        if (data == null)
+        if (value == null)
         {
             throw new IllegalArgumentException("data must not be null");
         }
 
-        this.data = data;
+        data = value;
+        data.addUpdateListener(source -> onUpdateFieldView());
 
         valueTextField.setText(data.getValue());
         setChoiceUnits(data.getValidUnits());
@@ -154,6 +121,16 @@ public class ValueView extends HBox
     public ValueData getData()
     {
         return data;
+    }
+
+    public void setUpdateViewEnabled(boolean value)
+    {
+        updateViewEnabled = value;
+    }
+
+    public boolean isUpdateViewEnabled()
+    {
+        return updateViewEnabled;
     }
 
     @Override

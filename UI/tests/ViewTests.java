@@ -33,11 +33,11 @@ public class ViewTests extends Application
         // enrSetupViewProto1Test();
         // frequencySetupViewTest();
         // setupContainerViewTest();
-        basicFrequencySetupTest();
+        // basicFrequencySetupTest();
         // genericMainViewTest();
         // componentViewTests();
         // graphViewTest();
-        // graphViewTest2();
+        graphViewTest2();
     }
 
     public void setupViewTest()

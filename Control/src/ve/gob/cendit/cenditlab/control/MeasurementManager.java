@@ -1,21 +1,23 @@
 package ve.gob.cendit.cenditlab.control;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class MeasurementManager
 {
     private String name;
     private int currentIndex = -1;
     private MeasurementStep currentStep;
+    private MeasurementStep previousStep;
+
+    private EventEmitter<IStepChangeListener> stepChangeEventEmitter;
 
     private List<MeasurementStep> stepsList;
 
     public MeasurementManager(String name, MeasurementStep... stepsArgs)
     {
         this.name = name;
+
+        stepChangeEventEmitter = new EventEmitter<>("onStepChange", this::onStepChangeCaller);
 
         stepsList = new LinkedList<MeasurementStep>();
         addSteps(stepsArgs);
@@ -128,12 +130,6 @@ public class MeasurementManager
             return true;
         }
 
-        /*
-        boolean ret = step != null &&
-                (currentStep != null &&
-                currentStep.canExitToStep(step) && step.canEnterFromStep(currentStep) ||
-                step.canEnterFromStep(currentStep));
-        */
         return false;
     }
 
@@ -146,7 +142,6 @@ public class MeasurementManager
 
         return false;
     }
-
 
     public boolean nextStep()
     {
@@ -182,58 +177,42 @@ public class MeasurementManager
 
     private void switchToStep(MeasurementStep step)
     {
-        onBeginStepChangeEvent(step);
-
         if (currentStep != null)
         {
             currentStep.executeUnload();
-
-            onUnloadedStepEvent(step);
         }
 
+        previousStep = currentStep;
         currentStep = step;
         currentIndex = stepsList.indexOf(step);
 
         currentStep.executeInitialize();
         currentStep.executeLoad();
 
-        onLoadedStepEvent(step);
-
         currentStep.executeRun();
 
-        onEndStepChangeEvent(step);
-    }
-
-    private void onUnloadedStepEvent(MeasurementStep nextStep)
-    {
-
-    }
-
-    private void onLoadedStepEvent(MeasurementStep nextStep)
-    {
-
-    }
-
-    private void onBeginStepChangeEvent(MeasurementStep nextStep)
-    {
-
-    }
-
-    private void onEndStepChangeEvent(MeasurementStep nextStep)
-    {
-
+        // Emite evento al cambiar de paso
+        stepChangeEventEmitter.call(this, (Object) null);
     }
 
     public void initialize()
     {
         stepsList.stream()
-                .forEach(step -> {
-                    step.initialize();
-                });
+                .forEach(step ->  step.initialize());
     }
 
-    public void changeView(/*View view*/)
+    public void addOnStepChangeListener(IStepChangeListener listener)
     {
-        // TODO: enitir eventos para gestion de cambios de pantalla
+        stepChangeEventEmitter.addListener(listener);
+    }
+
+    public void removeOnStepChangeListener(IStepChangeListener listener)
+    {
+        stepChangeEventEmitter.removeListener(listener);
+    }
+
+    private void onStepChangeCaller(Object source, IStepChangeListener handler, Object... args)
+    {
+        handler.onChangeStep(previousStep, currentStep);
     }
 }

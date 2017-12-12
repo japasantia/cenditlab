@@ -2,10 +2,9 @@ package ve.gob.cendit.cenditlab.ui;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-
-import javafx.geometry.Orientation;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -13,21 +12,36 @@ import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
-public class SystemsSetupStepView extends SectionedView
+public class SystemsSetupStepView extends SplitPane
 {
+    private static final String FXML_URL = "fxml/systems-setup-step-view.fxml";
+
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
+
     private static final Image DEFAULT_ICON =
             new Image(SystemsSetupStepView.class.getResource("/ve/gob/cendit/cenditlab/ui/images/system-icon.png").toExternalForm());
 
-    private HeaderContainerView masterHeaderContainer;
-    private ComponentListView<System> masterListView;
+    @FXML
+    private HeaderContainerView systemsContainerView;
 
-    private SectionedView detailSetupSectionedView;
+    @FXML
+    private HeaderContainerView detailContainerView;
 
+    @FXML
+    private HeaderContainerView setupContainerView;
+
+    @FXML
     private VBox detailVBox;
+
+    @FXML
     private VBox setupVBox;
+
+    private ComponentListView<System> systemsListView;
+
 
     public SystemsSetupStepView()
     {
+        viewLoader.load(this, this);
         initialize();
     }
 
@@ -39,32 +53,20 @@ public class SystemsSetupStepView extends SectionedView
 
     private void initialize()
     {
-        masterHeaderContainer = new HeaderContainerView();
-        masterListView = new ComponentListView<>();
-        masterListView.enableMultipleSelection(true);
+        systemsListView = new ComponentListView<>();
+        systemsListView.enableMultipleSelection(true);
+        systemsListView.setViewType(ViewType.LIST_ICON);
+        systemsListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        masterHeaderContainer.setCenter(masterListView);
-        masterHeaderContainer.setText("Available Systems");
-        masterHeaderContainer.setIcon(DEFAULT_ICON);
+        systemsContainerView.setCenter(systemsListView);
 
-        detailVBox = new VBox();
-        setupVBox = new VBox();
-
-        detailSetupSectionedView = new SectionedView();
-        detailSetupSectionedView.createCenterSection("Detail", detailVBox);
-        detailSetupSectionedView.createCenterSection("Setup", setupVBox);
-        detailSetupSectionedView.setCenterSectionOrientation(Orientation.VERTICAL);
-
-        this.createCenterSection("Master", masterHeaderContainer);
-        this.createCenterSection("SetupDetail", detailSetupSectionedView);
-
-        masterListView.setOnComponentViewClicked(this::onSystemClicked);
-        masterListView.setOnComponentSelectionChanged(this::onSystemSelected);
+        systemsListView.setOnComponentSelectionChanged(this::onSystemSelected);
+        systemsListView.setOnComponentViewClicked(this::onSystemClicked);
     }
 
     public ObservableList<System> getSystems()
     {
-        return masterListView.getItems();
+        return systemsListView.getItems();
     }
 
     public void loadSystems(System... systems)
@@ -86,7 +88,7 @@ public class SystemsSetupStepView extends SectionedView
     }
 
     private <T extends System> void onSystemSelected(ObservableValue<? extends System> observable,
-                                  T oldSystem, T newSystem)
+                                                     T oldSystem, T newSystem)
     {
         if (newSystem == null)
             return;

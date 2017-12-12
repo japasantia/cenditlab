@@ -3,7 +3,7 @@ package ve.gob.cendit.cenditlab.control.tests;
 import javafx.scene.Node;
 import ve.gob.cendit.cenditlab.control.AsyncTask;
 import ve.gob.cendit.cenditlab.control.TaskContext;
-import ve.gob.cendit.cenditlab.data.FieldsContainer;
+import ve.gob.cendit.cenditlab.data.DataContainer;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 import java.util.Random;
@@ -55,13 +55,10 @@ class TestAsyncTask extends AsyncTask
     }
 
     @Override
-    public FieldsContainer getSetupFields() { return null; }
+    public DataContainer getSetupData() { return null; }
 
     @Override
     public Node getView(ViewType viewType) { return null; }
-
-    @Override
-    public Node getView(String viewId) { return null; }
 
     @Override
     public void run(TaskContext context)

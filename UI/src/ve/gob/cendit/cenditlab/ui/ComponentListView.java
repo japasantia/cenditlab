@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
@@ -23,8 +24,6 @@ public class ComponentListView<T extends Component> extends ListView<T>
     private ViewType viewType = ViewType.LIST_ICON;
 
     private EventHandler<MouseEvent> onComponentViewClickedHandler;
-    private Consumer<Node> onComponentViewClicked;
-    private Consumer<T> onComponentSelectionChanged;
 
     private T[] components;
 
@@ -83,16 +82,13 @@ public class ComponentListView<T extends Component> extends ListView<T>
                 .addListener(listener);
     }
 
-    public void setOnComponentViewClicked(Consumer<Node> handler)
+    private void onComponentListItemClicked(MouseEvent event)
     {
-        onComponentViewClicked = handler;
-    }
 
-    public void setOnComponentSelectionChanged(Consumer<T> handler)
-    {
-        this.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((observable, oldComponent, newComponent) -> onComponentSelectionChanged.accept(newComponent));
+        if (onComponentViewClickedHandler != null)
+        {
+            onComponentViewClickedHandler.handle(event);
+        }
     }
 
     private class ComponentListCell extends ListCell<T>
@@ -114,15 +110,8 @@ public class ComponentListView<T extends Component> extends ListView<T>
             {
                 setGraphic(node);
 
-                if (onComponentViewClickedHandler != null)
-                {
-                    node.setOnMouseClicked(event -> onComponentViewClickedHandler.handle(event));
-                }
-
-                if (onComponentViewClicked != null)
-                {
-                    node.setOnMouseClicked(event -> onComponentViewClicked.accept((Node)event.getSource()));
-                }
+                node.setOnMouseClicked(event -> onComponentListItemClicked(event));
+                // node.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> onComponentListItemClicked(event));
             }
         }
     }

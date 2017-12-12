@@ -2,7 +2,6 @@ package ve.gob.cendit.cenditlab.tests.app;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import ve.gob.cendit.cenditlab.app.CenditLabApplication;
 import ve.gob.cendit.cenditlab.control.MeasurementManager;
 import ve.gob.cendit.cenditlab.control.System;
@@ -54,6 +53,9 @@ public class CenditLabApplicationTests extends Application
         
         measurementManager = new MeasurementManager("Measurement session", 
                 systemsSetupStep, tasksSetupStep, tasksExecutionStep);
+
+        measurementManager.addOnStepChangeListener(
+                (prevStep, nextStep) -> app.setCenterContainer(nextStep.getView()));
         
         measurementBarView = new MeasurementBarView(measurementManager);
     }

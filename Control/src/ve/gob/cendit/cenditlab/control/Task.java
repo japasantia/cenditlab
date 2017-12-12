@@ -1,7 +1,7 @@
 package ve.gob.cendit.cenditlab.control;
 
 import javafx.scene.image.Image;
-import ve.gob.cendit.cenditlab.data.FieldsContainer;
+import ve.gob.cendit.cenditlab.data.DataContainer;
 
 public abstract class Task extends Component
 {
@@ -13,7 +13,7 @@ public abstract class Task extends Component
         super(name, description, iconImage);
     }
 
-    public abstract FieldsContainer getSetupFields();
+    public abstract DataContainer getSetupData();
 
     public abstract void run(TaskContext context);
 

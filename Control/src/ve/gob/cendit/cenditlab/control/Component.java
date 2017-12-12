@@ -33,5 +33,4 @@ public abstract class Component
     public Image getIcon() { return iconImage; }
 
     public abstract Node getView(ViewType viewType);
-    public abstract Node getView(String viewId);
 }

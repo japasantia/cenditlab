@@ -1,5 +1,7 @@
 package ve.gob.cendit.cenditlab.control;
 
+import javafx.scene.Node;
+
 public abstract class MeasurementStep
 {
     private static final int BEGIN = 0;
@@ -46,6 +48,8 @@ public abstract class MeasurementStep
 
     public abstract boolean canEnterFromStep(MeasurementStep step);
     public abstract boolean canExitToStep(MeasurementStep step);
+
+    public abstract Node getView();
 
     void setStatus(int value)
     {

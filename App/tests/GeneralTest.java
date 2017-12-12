@@ -38,7 +38,7 @@ public class GeneralTest extends Application
 
     private static void testFrequencySetupIndividualPanes(Stage primaryStage)
     {
-        FieldInput fieldInput = new FieldInput();
+        ValueView ValueView = new ValueView();
 
         FrequencyRangePane frequencyRangePane = new FrequencyRangePane();
 
@@ -47,7 +47,7 @@ public class GeneralTest extends Application
         FrequencyFixedPane frequencyFixedPane = new FrequencyFixedPane();
 
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(fieldInput, frequencyRangePane, frequencyListPane, frequencyFixedPane);
+        vBox.getChildren().addAll(ValueView, frequencyRangePane, frequencyListPane, frequencyFixedPane);
 
         primaryStage.setScene(new Scene(vBox, 600.0, 400.0));
         primaryStage.show();

@@ -9,6 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ve.gob.cendit.cenditlab.data.FrequencyData;
+import ve.gob.cendit.cenditlab.data.FrequencySetup;
 import ve.gob.cendit.cenditlab.ui.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class PaneTests extends Application
         rootStage = primaryStage;
 
         // frequencyListPaneTest(primaryStage);
-        // frequencyRangePaneTest(primaryStage);
+        frequencyRangePaneTest(primaryStage);
         // frequencyFixedTest(primaryStage);
         // enrListPaneTest(primaryStage);
         // noiseSourcePaneTest(primaryStage);
@@ -79,12 +80,15 @@ public class PaneTests extends Application
 
         viewFieldsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(ActionEvent event)
+            {
+                FrequencySetup frequencySetup = frequencyRangePane.getFrequencySetup();
+
                 String data = String.format("Max: %s\nMin: %s\nCenter: %s\nSpan: %s ",
-                    frequencyRangePane.getMaxFrequency().toString(),
-                    frequencyRangePane.getMinFrequency().toString(),
-                    frequencyRangePane.getCentralFrequency().toString(),
-                    frequencyRangePane.getFrequencySpan().toString());
+                    frequencySetup.getMaxFrequencyData().toString(),
+                    frequencySetup.getMinFrequencyData().toString(),
+                    frequencySetup.getCentralFrequencyData().toString(),
+                    frequencySetup.getSpanFrequencyData().toString());
 
                 fieldsTextArea.setText(data);
             }

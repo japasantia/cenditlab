@@ -58,12 +58,6 @@ public class FrequencySetupViewProto1 extends GridPane
 
         frequencySetup = new FrequencySetup();
 
-        minFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
-        maxFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
-
-        centralFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
-        spanFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
-
         transferSetup(SETUP_TO_VIEW);
 
         blockUpdate = false;
@@ -97,14 +91,8 @@ public class FrequencySetupViewProto1 extends GridPane
         centralFrequencyData.setMagnitude(centralFrequency);
         spanFrequencyData.setMagnitude(spanFrequency);
 
-        centralFrequencyValueView.setUpdateEnabled(false);
-        spanFrequencyValueView.setUpdateEnabled(false);
-
         centralFrequencyValueView.setData(centralFrequencyData);
         spanFrequencyValueView.setData(spanFrequencyData);
-
-        centralFrequencyValueView.setUpdateEnabled(true);
-        spanFrequencyValueView.setUpdateEnabled(true);
 
         blockUpdate = false;
     }
@@ -134,14 +122,8 @@ public class FrequencySetupViewProto1 extends GridPane
         maxFrequencyData.setMagnitude(maxFrequency);
         minFrequencyData.setMagnitude(minFrequency);
 
-        minFrequencyValueView.setUpdateEnabled(false);
-        maxFrequencyValueView.setUpdateEnabled(false);
-
         maxFrequencyValueView.setData(maxFrequencyData);
         minFrequencyValueView.setData(minFrequencyData);
-
-        minFrequencyValueView.setUpdateEnabled(true);
-        maxFrequencyValueView.setUpdateEnabled(true);
 
         blockUpdate = false;
     }

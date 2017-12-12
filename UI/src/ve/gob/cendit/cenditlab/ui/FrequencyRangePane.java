@@ -51,12 +51,6 @@ public class FrequencyRangePane extends TitledPane
     {
         setUpdateEnabled(false);
 
-        minFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
-        maxFrequencyValueView.addUpdateListener(source -> minMaxFrequenciesUpdate());
-
-        centralFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
-        spanFrequencyValueView.addUpdateListener(source -> centralSpanFrequenciesUpdate());
-
         minFrequencyValueView.setData(frequencySetup.getMinFrequencyData());
         maxFrequencyValueView.setData(frequencySetup.getMaxFrequencyData());
         centralFrequencyValueView.setData(frequencySetup.getCentralFrequencyData());
@@ -87,75 +81,6 @@ public class FrequencyRangePane extends TitledPane
     public FrequencySetup getFrequencySetup()
     {
         return frequencySetup;
-    }
-
-    private void minMaxFrequenciesUpdate()
-    {
-        if ( ! isUpdateEnabled() )
-        {
-            return;
-        }
-
-        setUpdateEnabled(false);
-
-        FrequencyData maxFrequencyData = frequencySetup.getMaxFrequencyData();
-        FrequencyData minFrequencyData = frequencySetup.getMinFrequencyData();
-        FrequencyData centralFrequencyData = frequencySetup.getCentralFrequencyData();
-        FrequencyData spanFrequencyData = frequencySetup.getSpanFrequencyData();
-
-        float centralFrequency =
-                (maxFrequencyData.getMagnitude() + minFrequencyData.getMagnitude()) / 2.0f;
-
-        float spanFrequency =
-                (maxFrequencyData.getMagnitude() - minFrequencyData.getMagnitude());
-
-        centralFrequencyData.setMagnitude(centralFrequency);
-        spanFrequencyData.setMagnitude(spanFrequency);
-
-        centralFrequencyValueView.setUpdateEnabled(false);
-        spanFrequencyValueView.setUpdateEnabled(false);
-
-        centralFrequencyValueView.setData(centralFrequencyData);
-        spanFrequencyValueView.setData(spanFrequencyData);
-
-        centralFrequencyValueView.setUpdateEnabled(true);
-        spanFrequencyValueView.setUpdateEnabled(true);
-
-        setUpdateEnabled(true);
-    }
-
-    private void centralSpanFrequenciesUpdate()
-    {
-        if ( ! isUpdateEnabled() )
-        {
-            return;
-        }
-
-        setUpdateEnabled(false);
-
-        FrequencyData maxFrequencyData = frequencySetup.getMaxFrequencyData();
-        FrequencyData minFrequencyData = frequencySetup.getMinFrequencyData();
-        FrequencyData centralFrequencyData = frequencySetup.getCentralFrequencyData();
-        FrequencyData spanFrequencyData = frequencySetup.getSpanFrequencyData();
-
-        float maxFrequency =
-                centralFrequencyData.getMagnitude() + spanFrequencyData.getMagnitude() / 2.0f;
-        float minFrequency =
-                centralFrequencyData.getMagnitude() - spanFrequencyData.getMagnitude() / 2.0f;
-
-        maxFrequencyData.setMagnitude(maxFrequency);
-        minFrequencyData.setMagnitude(minFrequency);
-
-        minFrequencyValueView.setUpdateEnabled(false);
-        maxFrequencyValueView.setUpdateEnabled(false);
-
-        maxFrequencyValueView.setData(maxFrequencyData);
-        minFrequencyValueView.setData(minFrequencyData);
-
-        minFrequencyValueView.setUpdateEnabled(true);
-        maxFrequencyValueView.setUpdateEnabled(true);
-
-        setUpdateEnabled(true);
     }
 
     public boolean validate()
