@@ -5,7 +5,6 @@ import ve.gob.cendit.cenditlab.control.MeasurementStep;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.ui.SystemsSetupStepView;
 
-
 public class SystemsSetupStep extends MeasurementStep
 {
     private boolean blocked = false;
