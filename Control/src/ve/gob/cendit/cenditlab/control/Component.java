@@ -6,31 +6,42 @@ import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 public abstract class Component
 {
-    private String name;
-    private String description;
-    private Image iconImage;
+    private ComponentDescriptor componentDescriptor;
 
-    public Component(String name, String description, Image iconImage)
+    public Component(ComponentDescriptor descriptor)
     {
-        if (name == null || description == null)
+        setComponentDescriptor(descriptor);
+    }
+
+    protected void setComponentDescriptor(ComponentDescriptor descriptor)
+    {
+        if (descriptor == null)
         {
-            throw new IllegalArgumentException("name and description must not be null");
+            throw new IllegalArgumentException("descriptor must not be null");
         }
 
-        this.name = name;
-        this.description = description;
-        this.iconImage = iconImage;
+        componentDescriptor = descriptor;
+    }
+
+    public ComponentDescriptor getComponentDescriptor()
+    {
+        return componentDescriptor;
     }
 
     public String getName()
     {
-        return name;
+        return componentDescriptor.getName();
     }
+
     public String getDescription()
     {
-        return description;
+        return componentDescriptor.getDescription();
     }
-    public Image getIcon() { return iconImage; }
+
+    public Image getIcon()
+    {
+        return componentDescriptor.getIcon();
+    }
 
     public abstract Node getView(ViewType viewType);
 }

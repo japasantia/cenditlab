@@ -6,9 +6,9 @@ public abstract class AsyncTask extends Task
 {
     private Thread thread;
 
-    public AsyncTask(String name, String description, Image iconImage)
+    public AsyncTask(ComponentDescriptor descriptor)
     {
-        super(name, description, iconImage);
+        super(descriptor);
     }
 
     public void callRun(TaskContext context, Runnable onFinish)

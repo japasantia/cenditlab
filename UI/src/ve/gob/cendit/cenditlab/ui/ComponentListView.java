@@ -1,73 +1,94 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
-import ve.gob.cendit.cenditlab.control.Component;
-import ve.gob.cendit.cenditlab.ui.base.ViewType;
+import javafx.scene.layout.Pane;
 
-import java.util.function.Consumer;
+import java.util.Arrays;
 
-public class ComponentListView<T extends Component> extends ListView<T>
+public class ComponentListView<T> extends Pane
 {
     private static final String FXML_URL = "fxml/component-list-view.fxml";
 
-    private static final String DEFAULT_TITLE = "";
-
-    private ViewType viewType = ViewType.LIST_ICON;
+    @FXML
+    private ListView<Item<T>> listView;
 
     private EventHandler<MouseEvent> onComponentViewClickedHandler;
 
-    private T[] components;
+    private ViewFactory viewFactory;
 
     public ComponentListView()
     {
         ViewLoader.load(FXML_URL, this, this);
 
-        this.setCellFactory(listView -> new ComponentListCell());
-    }
 
-    public void setViewType(ViewType value)
-    {
-        viewType = value;
+        listView.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(this::onItemSelectionChanged);
     }
 
     public void enableMultipleSelection(boolean value)
     {
-        this.getSelectionModel()
+        listView.getSelectionModel()
                 .setSelectionMode(value ? SelectionMode.MULTIPLE : SelectionMode.SINGLE);
     }
 
-    public void setComponents(T... components)
+    public void setViewFactory(ViewFactory factory)
     {
-        this.getItems().clear();
+        if (factory == null)
+        {
+            throw new IllegalArgumentException("factory must not be null");
+        }
 
-        addComponents(components);
+        viewFactory = factory;
+
+        listView.setCellFactory(listView -> new ComponentListCell());
     }
 
-    public void addComponents(T... components)
+    public ViewFactory getViewFactory()
     {
-        if (components != null)
+        return viewFactory;
+    }
+
+    public void setItems(T... items)
+    {
+        listView.getItems().clear();
+
+        addComponents(items);
+    }
+
+    public void addComponents(T... items)
+    {
+        if (items != null)
         {
-            this.getItems().addAll(components);
+            Arrays.stream(items)
+                    .forEach(item -> listView.getItems().add(new Item(item)));
         }
     }
 
-    public T getSelectedItem()
+    public Item<T> getSelectedItem()
     {
-        return this.getSelectionModel().getSelectedItem();
+        return listView.getSelectionModel().getSelectedItem();
     }
-
-    public ObservableList<T> getSelectedItems()
+    /*
+    public ObservableList<Item<T>> getSelectedItems()
     {
-        return this.getSelectionModel().getSelectedItems();
+        return listView.getSelectionModel()
+                .getSelectedItems();
+    }
+    */
+    public Item<T>[] getSelectedItems()
+    {
+        return (Item<T>[]) listView.getItems().stream().filter(item -> item.isSelected()).toArray();
     }
 
     public void setOnComponentViewClicked(EventHandler<MouseEvent> eventHandler)
@@ -75,44 +96,113 @@ public class ComponentListView<T extends Component> extends ListView<T>
        onComponentViewClickedHandler = eventHandler;
     }
 
-    public void setOnComponentSelectionChanged(ChangeListener<T> listener)
+    public void setOnItemSelectionChanged(ChangeListener<Item<T>> listener)
     {
-        this.getSelectionModel()
-                .selectedItemProperty()
-                .addListener(listener);
+        if (listener != null)
+        {
+            listView.getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener(listener);
+        }
     }
 
-    private void onComponentListItemClicked(MouseEvent event)
+    private void onItemSelectionChanged(ObservableValue<? extends Item<T>> observable,
+                                        Item<T> oldValue, Item<T> newValue)
     {
+        if (newValue != null)
+            newValue.toggleSelected();
+    }
 
+    private void onComponentListItemClicked(MouseEvent event, Item<T> item)
+    {
         if (onComponentViewClickedHandler != null)
         {
             onComponentViewClickedHandler.handle(event);
         }
     }
 
-    private class ComponentListCell extends ListCell<T>
+    private Node getViewForItem(Item<T> item)
+    {
+        if (viewFactory != null)
+        {
+            return viewFactory.getView(item);
+        }
+
+        return null;
+    }
+
+    private class ComponentListCell extends ListCell<Item<T>>
     {
         public ComponentListCell()
         { }
 
         @Override
-        protected void updateItem(T componentItem, boolean empty)
+        protected void updateItem(Item<T> item, boolean empty)
         {
-            super.updateItem(componentItem, empty);
+            super.updateItem(item, empty);
 
-            if (empty || componentItem == null)
+            if (empty || item == null)
                 return;
 
-            Node node = componentItem.getView(viewType);
+            Node node = getViewForItem(item);
+            item.setView(node);
 
             if (node != null)
             {
                 setGraphic(node);
 
-                node.setOnMouseClicked(event -> onComponentListItemClicked(event));
+                // node.setOnMouseClicked(event -> onComponentListItemClicked(event));
                 // node.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> onComponentListItemClicked(event));
             }
         }
     }
+
+    public static class Item<T>
+    {
+        private T item;
+        private Node itemView;
+        private boolean selected;
+
+        public Item(T item)
+        {
+            this.item = item;
+            selected = false;
+        }
+
+        public boolean isSelected()
+        {
+            return selected;
+        }
+
+        public void toggleSelected()
+        {
+            selected = !selected;
+        }
+
+        public void setSelected(boolean value)
+        {
+            selected = value;
+        }
+
+        public T getItem()
+        {
+            return item;
+        }
+
+        public void setView(Node node)
+        {
+            itemView = node;
+        }
+
+        public Node getView()
+        {
+            return itemView;
+        }
+    }
+
+    public interface ViewFactory<T>
+    {
+        Node getView(Item<T> item);
+    }
 }
+

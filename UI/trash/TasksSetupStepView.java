@@ -91,7 +91,7 @@ public class TasksSetupStepView extends SectionedView
         {
             HeaderComponentListView<Task> tasksListView = new HeaderComponentListView<>();
 
-            tasksListView.setOnComponentSelectionChanged(this::onTaskSelected);
+            tasksListView.setOnItemSelectionChanged(this::onTaskSelected);
 
             tasksListView.setCollapsible(true);
             VBox.setVgrow(tasksListView, Priority.ALWAYS);

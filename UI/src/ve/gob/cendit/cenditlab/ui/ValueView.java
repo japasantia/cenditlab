@@ -42,7 +42,7 @@ public class ValueView extends HBox
     {
         valueTextField.setOnAction(event -> onUpdateValue());
 
-        unitsChoiceBox.setOnAction(event -> onUpdateUnit(unitsChoiceBox.getValue()));
+        unitsChoiceBox.setOnMouseClicked(event -> onUpdateUnit(unitsChoiceBox.getValue()));
 
         valueTextField.focusedProperty()
                 .addListener((observable, oldValue, newValue) ->

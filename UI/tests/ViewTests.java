@@ -37,7 +37,7 @@ public class ViewTests extends Application
         // genericMainViewTest();
         // componentViewTests();
         // graphViewTest();
-        graphViewTest2();
+        // graphViewTest2();
     }
 
     public void setupViewTest()

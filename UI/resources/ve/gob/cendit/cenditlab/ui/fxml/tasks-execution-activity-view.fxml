@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import ve.gob.cendit.cenditlab.ui.HeaderContainerView?>
+<?import javafx.scene.layout.VBox?>
+
+<?import ve.gob.cendit.cenditlab.ui.ExecutionToolbar?>
+<?import javafx.scene.control.Button?>
+
+<fx:root type="SplitPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" orientation="VERTICAL" dividerPositions="0.7" maxWidth="Infinity" maxHeight="Infinity">
+<!-- <SplitPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" orientation="VERTICAL" dividerPositions="0.7" maxWidth="Infinity" maxHeight="Infinity" > -->
+   <items>
+
+        <SplitPane dividerPositions="0.3" maxWidth="Infinity" maxHeight="Infinity" >
+
+            <HeaderContainerView fx:id="tasksContainerView" caption="Tasks" maxWidth="Infinity" maxHeight="Infinity">
+                <top>
+                    <ExecutionToolbar fx:id="mainExecutionToolbar" />
+                </top>
+            </HeaderContainerView>
+
+            <HeaderContainerView fx:id="resultsContainerView" caption="Results" maxWidth="Infinity" maxHeight="Infinity">
+                <center>
+                    <VBox fx:id="resultsVBox">
+
+                    </VBox>
+                </center>
+            </HeaderContainerView>
+
+        </SplitPane>
+
+        <HeaderContainerView fx:id="outputContainerView" caption="Output" maxWidth="Infinity" maxHeight="Infinity">
+            <center>
+                <VBox fx:id="outputVBox">
+
+                </VBox>
+            </center>
+        </HeaderContainerView>
+
+   </items>
+
+<!-- </SplitPane> -->
+</fx:root>

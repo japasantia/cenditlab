@@ -8,9 +8,9 @@ public abstract class Task extends Component
     private TaskState state = TaskState.NULL;
     private TaskState requestedState = TaskState.NULL;
 
-    public Task(String name, String description, Image iconImage)
+    public Task(ComponentDescriptor descriptor)
     {
-        super(name, description, iconImage);
+        super(descriptor);
     }
 
     public abstract DataContainer getSetupData();

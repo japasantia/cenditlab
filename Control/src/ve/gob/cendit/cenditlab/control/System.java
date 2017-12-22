@@ -1,15 +1,15 @@
 package ve.gob.cendit.cenditlab.control;
 
-import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.data.DataContainer;
 
 public abstract class System extends Component
 {
-    public System(String name, String description, Image iconImage)
+    public System(ComponentDescriptor descriptor)
     {
-        super(name, description, iconImage);
+        super(descriptor);
     }
 
     public abstract DataContainer getSetupData();
-    public abstract Task[] getTasks();
+
+    public abstract ComponentDescriptor[] getTaskDescriptors();
 }

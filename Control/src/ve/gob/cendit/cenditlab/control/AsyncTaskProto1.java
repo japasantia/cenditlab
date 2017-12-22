@@ -12,7 +12,7 @@ public class AsyncTaskProto1 extends Task
 
     public AsyncTaskProto1(Task task)
     {
-        super(task.getName(), task.getDescription(), task.getIcon());
+        super(task.getComponentDescriptor());
 
         if (task == null)
         {
