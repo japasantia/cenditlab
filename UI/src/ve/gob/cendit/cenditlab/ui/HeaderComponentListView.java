@@ -18,7 +18,7 @@ import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 public class HeaderComponentListView<T extends Component> extends TitledPane
 {
-    private static final String FXML_URL = "fxml/header-component-list-view.fxml";
+    private static final String FXML_URL = "fxml/header-toolbox-list-view.fxml";
 
     private static final String DEFAULT_ICON_URL = "images/task-icon.jpg";
     private static final String DEFAULT_TITLE = "";

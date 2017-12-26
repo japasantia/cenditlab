@@ -36,7 +36,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     private ExecutionToolbar executionToolbar;
 
-    private ComponentListView<Task> tasksListView;
+    private ToolboxListView<Task> tasksListView;
 
     private Task selectedTask;
 
@@ -56,11 +56,10 @@ public class TasksExecutionActivityView extends SplitPane
 
     private void initialize()
     {
-        tasksListView = new ComponentListView<>();
+        tasksListView = new ToolboxListView<>();
 
         tasksListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        tasksListView.setViewType(ViewType.EXECUTION);
-        tasksListView.setOnItemSelectionChanged(this::onTaskSelectionChange);
+        //tasksListView.setOnItemSelectionChanged(this::onTaskSelectionChange);
 
         tasksContainerView.setCenter(tasksListView);
 
@@ -78,7 +77,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void addTasks(Task... tasks)
     {
-        tasksListView.addComponents(tasks);
+        tasksListView.addItems(tasks);
     }
 
     public void unloadTasks()
@@ -92,7 +91,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void clearTasksList()
     {
-        tasksListView.getItems().clear();
+        //tasksListView.getItems().clear();
     }
 
     public void addResult(Node node)

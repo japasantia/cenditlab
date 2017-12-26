@@ -1,11 +1,13 @@
 package ve.gob.cendit.cenditlab.app;
 
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ve.gob.cendit.cenditlab.control.IApplicationController;
 import ve.gob.cendit.cenditlab.ui.MainViewProto1;
 
-public class CenditLabApplication
+public class CenditLabApplication implements IApplicationController
 {
     private static CenditLabApplication app = null;
 
@@ -44,11 +46,13 @@ public class CenditLabApplication
         primaryStage.show();
     }
 
-    public void setCenterContainer(Node view)
+    @Override
+    public void setMainView(Node node)
     {
-        mainView.setCenter(view);
+        mainView.setCenter(node);
     }
 
+    @Override
     public void setTopToolbar(Node toolbar)
     {
         mainView.addToolBar(toolbar);

@@ -3,24 +3,16 @@ package ve.gob.cendit.cenditlab.tests.app;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ve.gob.cendit.cenditlab.app.CenditLabApplication;
-import ve.gob.cendit.cenditlab.control.MeasurementManager;
-import ve.gob.cendit.cenditlab.control.System;
-import ve.gob.cendit.cenditlab.systems.*;
-import ve.gob.cendit.cenditlab.ui.MeasurementBarView;
+import ve.gob.cendit.cenditlab.systems.NoiseFigureMeasurementActivity;
+import ve.gob.cendit.cenditlab.ui.ActivityFlowBarView;
 
 public class CenditLabApplicationTests extends Application
 {
     private CenditLabApplication app;
 
-    NoiseFigureAnalyzer8975A nfa;
-    AttenuatorSwitchDriver11713 asd;
+    private NoiseFigureMeasurementActivity noiseFigureMeasurementActivity;
 
-    MeasurementManager measurementManager;
-    MeasurementBarView measurementBarView;
-
-    SystemsSetupStep systemsSetupStep;
-    TasksSetupStep tasksSetupStep;
-    TasksExecutionStep tasksExecutionStep;
+    private ActivityFlowBarView activityFlowBarView;
 
     public static void main(String[] args)
     {
@@ -42,26 +34,14 @@ public class CenditLabApplicationTests extends Application
 
     private void initializeApp()
     {
-        nfa = new NoiseFigureAnalyzer8975A();
-        asd = new AttenuatorSwitchDriver11713();
+        noiseFigureMeasurementActivity = new NoiseFigureMeasurementActivity(app);
 
-        System[] systemArray = { nfa, asd };
-
-        systemsSetupStep = new SystemsSetupStep("Systems setup", systemArray);
-        tasksSetupStep = new TasksSetupStep("Task setup", systemArray);
-        tasksExecutionStep = new TasksExecutionStep("Task execution", systemArray);
-        
-        measurementManager = new MeasurementManager("Measurement session", 
-                systemsSetupStep, tasksSetupStep, tasksExecutionStep);
-
-        measurementManager.addOnStepChangeListener(
-                (prevStep, nextStep) -> app.setCenterContainer(nextStep.getView()));
-        
-        measurementBarView = new MeasurementBarView(measurementManager);
+        noiseFigureMeasurementActivity.executeInitialize();
+        noiseFigureMeasurementActivity.executeLoad();
     }
 
     private void initializeGui()
     {
-        app.setTopToolbar(measurementBarView);
+        activityFlowBarView = new ActivityFlowBarView(noiseFigureMeasurementActivity.getActivityFlow());
     }
 }

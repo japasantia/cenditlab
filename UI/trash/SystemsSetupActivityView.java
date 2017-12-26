@@ -4,13 +4,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 import ve.gob.cendit.cenditlab.control.System;
-import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 public class SystemsSetupActivityView extends SplitPane
@@ -37,8 +39,8 @@ public class SystemsSetupActivityView extends SplitPane
     @FXML
     private VBox setupVBox;
 
-    private ComponentListView<System> systemsListView;
-
+    @FXML
+    private ListView<System> systemsListView;
 
     public SystemsSetupActivityView()
     {
@@ -54,15 +56,12 @@ public class SystemsSetupActivityView extends SplitPane
 
     private void initialize()
     {
-        systemsListView = new ComponentListView<>();
-        systemsListView.enableMultipleSelection(true);
-        systemsListView.setViewType(ViewType.LIST_ICON);
-        systemsListView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        systemsListView = new ListView<>();
+        systemsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        systemsListView.setCellFactory(listView -> new SystemListCell());
 
-        systemsContainerView.setCenter(systemsListView);
-
-        systemsListView.setOnComponentSelectionChanged(this::onSystemSelected);
-        systemsListView.setOnComponentViewClicked(this::onSystemClicked);
+        systemsListView.getSelectionModel()
+                .selectedItemProperty().addListener(this::onSystemSelectionChanged);
     }
 
     public ObservableList<System> getSystems()
@@ -88,19 +87,29 @@ public class SystemsSetupActivityView extends SplitPane
         detailVBox.getChildren().clear();
     }
 
-    private <T extends System> void onSystemSelected(ObservableValue<? extends System> observable,
-                                                     T oldSystem, T newSystem)
+    public void clearDetail()
+    {
+        detailVBox.getChildren().clear();
+    }
+
+    public void clearSetup()
+    {
+        setupVBox.getChildren().clear();
+    }
+
+    private void onSystemSelectionChanged(ObservableValue<? extends System> observable,
+                                          System oldSystem, System newSystem)
     {
         if (newSystem == null)
             return;
+
+        clearDetail();
+        clearSetup();
 
         ComponentDescriptor[] taskDescriptors = newSystem.getTaskDescriptors();
 
         if (taskDescriptors == null)
             return;
-
-        detailVBox.getChildren().clear();
-        setupVBox.getChildren().clear();
 
         setupVBox.getChildren().add(newSystem.getView(ViewType.DESCRIPTION));
 
@@ -120,5 +129,30 @@ public class SystemsSetupActivityView extends SplitPane
         ComponentIconView componentIconView = (ComponentIconView) mouseEvent.getSource();
 
         componentIconView.toggleSelected();
+    }
+
+    private class SystemListCell extends ListCell<System>
+    {
+        public SystemListCell()
+        { }
+
+        @Override
+        protected void updateItem(System system, boolean empty)
+        {
+            super.updateItem(system, empty);
+
+            if (empty || system == null)
+                return;
+
+            Node node = system.getView(ViewType.LIST_ICON);
+
+            if (node != null)
+            {
+                setGraphic(node);
+
+                node.setOnMouseClicked(event -> onSystemClicked(event));
+                // node.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> onComponentListItemClicked(event));
+            }
+        }
     }
 }

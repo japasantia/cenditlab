@@ -15,6 +15,9 @@ import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SystemsSetupActivityView extends SplitPane
 {
     private static final String FXML_URL = "fxml/systems-setup-activity-view.fxml";
@@ -39,8 +42,8 @@ public class SystemsSetupActivityView extends SplitPane
     @FXML
     private VBox setupVBox;
 
-    private ListView<System> systemsListView;
-
+    @FXML
+    private ToolboxListView<System> systemsToolboxListView;
 
     public SystemsSetupActivityView()
     {
@@ -56,17 +59,26 @@ public class SystemsSetupActivityView extends SplitPane
 
     private void initialize()
     {
-        systemsListView = new ListView<>();
-        systemsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        systemsListView.setCellFactory(listView -> new SystemListCell());
+        systemsToolboxListView.enableMultipleSelection(true);
 
-        systemsListView.getSelectionModel()
-                .selectedItemProperty().addListener(this::onSystemSelectionChanged);
+        systemsToolboxListView.setViewFactory(this::getSystemView);
+
+        systemsToolboxListView.setOnItemClicked(this::onSystemClicked);
     }
 
+    // TODO: completar + modificar
     public ObservableList<System> getSystems()
     {
-        return systemsListView.getItems();
+        return null;
+    }
+
+    public List<System> getSelectedSystems()
+    {
+        List<ToolboxListView<System>.Item> selectedItemsList = systemsToolboxListView.getSelectedItems();
+
+        return selectedItemsList.stream()
+            .map(item -> item.getValue())
+            .collect(Collectors.toList());
     }
 
     public void loadSystems(System... systems)
@@ -77,12 +89,12 @@ public class SystemsSetupActivityView extends SplitPane
 
     public void addSystems(System... systems)
     {
-        getSystems().addAll(systems);
+        systemsToolboxListView.addItems(systems);
     }
 
     public void unloadSystems()
     {
-        getSystems().clear();
+        systemsToolboxListView.clearItems();
 
         detailVBox.getChildren().clear();
     }
@@ -97,33 +109,6 @@ public class SystemsSetupActivityView extends SplitPane
         setupVBox.getChildren().clear();
     }
 
-    private void onSystemSelectionChanged(ObservableValue<? extends System> observable,
-                                          System oldSystem, System newSystem)
-    {
-        if (newSystem == null)
-            return;
-
-        clearDetail();
-        clearSetup();
-
-        ComponentDescriptor[] taskDescriptors = newSystem.getTaskDescriptors();
-
-        if (taskDescriptors == null)
-            return;
-
-        setupVBox.getChildren().add(newSystem.getView(ViewType.DESCRIPTION));
-
-        for (ComponentDescriptor descriptor : taskDescriptors)
-        {
-            Node iconView = new IconView(descriptor.getName(), descriptor.getIcon());
-
-            if (iconView != null)
-            {
-                detailVBox.getChildren().add(iconView);
-            }
-        }
-    }
-
     private void onSystemClicked(MouseEvent mouseEvent)
     {
         ComponentIconView componentIconView = (ComponentIconView) mouseEvent.getSource();
@@ -131,28 +116,25 @@ public class SystemsSetupActivityView extends SplitPane
         componentIconView.toggleSelected();
     }
 
-    private class SystemListCell extends ListCell<System>
+    private Node getSystemView(ToolboxListView<System>.Item item)
     {
-        public SystemListCell()
-        { }
+        Node view = item.getView();
 
-        @Override
-        protected void updateItem(System system, boolean empty)
+        if (view == null)
         {
-            super.updateItem(system, empty);
+            view = new ComponentIconView(item.getValue());
+        }
 
-            if (empty || system == null)
-                return;
+        return view;
+    }
 
-            Node node = system.getView(ViewType.LIST_ICON);
+    private void onSystemClicked(ToolboxListView<System>.Item item)
+    {
+        ComponentIconView iconView = (ComponentIconView) item.getView();
 
-            if (node != null)
-            {
-                setGraphic(node);
-
-                node.setOnMouseClicked(event -> onSystemClicked(event));
-                // node.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> onComponentListItemClicked(event));
-            }
+        if (iconView != null)
+        {
+            iconView.toggleSelected();
         }
     }
 }

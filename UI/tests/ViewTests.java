@@ -38,6 +38,8 @@ public class ViewTests extends Application
         // componentViewTests();
         // graphViewTest();
         // graphViewTest2();
+        // toolboxViewTest();
+        toolboxListViewTest();
     }
 
     public void setupViewTest()
@@ -263,6 +265,81 @@ public class ViewTests extends Application
                 600.0, 400.0);
 
         stage.setOnCloseRequest(event -> timer.cancel());
+    }
+
+    private static void toolboxViewTest()
+    {
+        ToolboxView<String> toolboxView = new ToolboxView<>();
+
+        String[] values = new String[10];
+
+        for (int i = 0; i < 10; i++)
+        {
+            values[i] = "Item " + i;
+        }
+
+        toolboxView.setItemViewFactory(text -> new IconView(text, null));
+        toolboxView.setOnItemClicked(item ->
+            {
+                System.out.printf("%s clicked\n", item.getItem());
+                System.out.println("Selected items\n");
+                toolboxView.getSelectedItems().forEach(i -> System.out.printf("%s ", i.getItem()));
+            });
+
+        toolboxView.setAll(values);
+
+        //toolboxView.setMaxWidth(200.0);
+        showView(new VBox(toolboxView), "CenditLab.Reduced | ToolboxView Test", 600.0, 400.0);
+    }
+
+    private static void toolboxListViewTest()
+    {
+        ToolboxListView<String> toolboxListView = new ToolboxListView();
+
+        String[] values = new String[10];
+
+        for (int i = 0; i < 10; i++)
+        {
+            values[i] = "Item " + i;
+        }
+
+        toolboxListView.setItems(values);
+
+        toolboxListView.setViewFactory(item ->
+            {
+                Node node = item.getView();
+
+                if (node == null)
+                {
+                    node = new ComponentIconView(item.getValue(), "Component Icon");
+                }
+
+                return node;
+            });
+
+        toolboxListView.setOnItemClicked(item ->
+            {
+                System.out.println("Selected items");
+                toolboxListView.getSelectedItems().forEach(it -> System.out.printf("%s ", it.getValue()));
+            });
+
+        toolboxListView.setOnItemSelectionChanged((observable, oldItem, newItem) ->
+            {
+                System.out.println("Selected items");
+                toolboxListView.getSelectedItems().forEach(item -> System.out.printf("%s ", item.getValue()));
+
+                if (newItem != null)
+                {
+                    ComponentIconView iconView = (ComponentIconView) newItem.getView();
+
+                    if (iconView != null)
+                    {
+                        iconView.toggleSelected();
+                    }
+                }
+            });
+
+        showView(toolboxListView, "CenditLab.Reduced | ToolboxListView Test", 600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)

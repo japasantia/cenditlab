@@ -82,7 +82,7 @@ public class TasksSetupActivityView extends SplitPane
         }
         /*
         Arrays.stream(systems)
-                .forEach(system -> tasksListView.addComponents(system.getTasks()));
+                .forEach(system -> tasksListView.addItems(system.getTasks()));
         */
     }
 

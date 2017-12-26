@@ -43,6 +43,15 @@ public class ComponentIconView extends GridPane
         setComponent(component);
     }
 
+    public ComponentIconView(String name, String description)
+    {
+        this();
+
+        setName(name);
+        setDescription(description);
+    }
+
+
     public void setComponent(Component component)
     {
         // TODO: check for null component (exception?)
