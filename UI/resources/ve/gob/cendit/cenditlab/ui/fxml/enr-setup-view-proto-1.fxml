@@ -20,12 +20,12 @@
         <Label alignment="CENTER" text="Modo Spot " GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
         <ChoiceBox fx:id="spotModeChoiceBox" maxWidth="-1.0" value="ENR" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1">
             <!--
-            <items>
+         objectstems>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="ENR"/>
                     <String fx:value="Thot"/>
                 </FXCollections>
-            </items>
+          objectstems>
             -->
         </ChoiceBox>
 
@@ -50,12 +50,12 @@
         <Label text="Fuente de ruido" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
         <ChoiceBox fx:id="noiseSourcePreferenceChoiceBox" value="SNS" GridPane.columnIndex="1" GridPane.rowIndex="7">
             <!--
-            <items>
+         objectstems>
               <FXCollections fx:factory="observableArrayList">
                 <String fx:value="SNS" />
                 <String fx:value="Normal" />
               </FXCollections>
-            </items>
+          objectstems>
             -->
         </ChoiceBox>
 

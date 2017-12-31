@@ -1,17 +1,12 @@
 package ve.gob.cendit.cenditlab.ui;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
@@ -28,13 +23,13 @@ public class SystemsSetupActivityView extends SplitPane
             new Image(SystemsSetupActivityView.class.getResource("/ve/gob/cendit/cenditlab/ui/images/system-icon.png").toExternalForm());
 
     @FXML
-    private HeaderContainerView systemsContainerView;
+    private HeaderFrameView systemsContainerView;
 
     @FXML
-    private HeaderContainerView detailContainerView;
+    private HeaderFrameView detailContainerView;
 
     @FXML
-    private HeaderContainerView setupContainerView;
+    private HeaderFrameView setupContainerView;
 
     @FXML
     private VBox detailVBox;
@@ -66,19 +61,14 @@ public class SystemsSetupActivityView extends SplitPane
         systemsToolboxListView.setOnItemClicked(this::onSystemClicked);
     }
 
-    // TODO: completar + modificar
-    public ObservableList<System> getSystems()
+    public List<System> getSystems()
     {
-        return null;
+        return systemsToolboxListView.getValues();
     }
 
     public List<System> getSelectedSystems()
     {
-        List<ToolboxListView<System>.Item> selectedItemsList = systemsToolboxListView.getSelectedItems();
-
-        return selectedItemsList.stream()
-            .map(item -> item.getValue())
-            .collect(Collectors.toList());
+        return systemsToolboxListView.getSelectedValues();
     }
 
     public void loadSystems(System... systems)
@@ -99,21 +89,32 @@ public class SystemsSetupActivityView extends SplitPane
         detailVBox.getChildren().clear();
     }
 
-    public void clearDetail()
+    public void setSelectedSytems(System system)
+    {
+        setSetupView(system.getView(ViewType.SETUP));
+        setDetailView(system.getView(ViewType.DETAILS));
+    }
+
+    public void setSetupView(Node view)
+    {
+        clearSetupView();
+        setupVBox.getChildren().add(view);
+    }
+
+    public void setDetailView(Node view)
+    {
+        clearDetailView();
+        detailVBox.getChildren().add(view);
+    }
+
+    public void clearDetailView()
     {
         detailVBox.getChildren().clear();
     }
 
-    public void clearSetup()
+    public void clearSetupView()
     {
         setupVBox.getChildren().clear();
-    }
-
-    private void onSystemClicked(MouseEvent mouseEvent)
-    {
-        ComponentIconView componentIconView = (ComponentIconView) mouseEvent.getSource();
-
-        componentIconView.toggleSelected();
     }
 
     private Node getSystemView(ToolboxListView<System>.Item item)
@@ -123,6 +124,7 @@ public class SystemsSetupActivityView extends SplitPane
         if (view == null)
         {
             view = new ComponentIconView(item.getValue());
+            view = new ItemFrameView(view);
         }
 
         return view;
@@ -130,11 +132,21 @@ public class SystemsSetupActivityView extends SplitPane
 
     private void onSystemClicked(ToolboxListView<System>.Item item)
     {
-        ComponentIconView iconView = (ComponentIconView) item.getView();
+        ItemFrameView frameView = (ItemFrameView) item.getView();
 
-        if (iconView != null)
+        if (frameView != null)
         {
-            iconView.toggleSelected();
+            if (item.isSelected())
+            {
+                frameView.showIcon(ItemFrameView.SELECTED_ICON);
+                setSelectedSytems(item.getValue());
+            }
+            else
+            {
+                frameView.hideIcon();
+                clearSetupView();
+                clearDetailView();
+            }
         }
     }
 }

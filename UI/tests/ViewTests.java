@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -6,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -39,7 +41,9 @@ public class ViewTests extends Application
         // graphViewTest();
         // graphViewTest2();
         // toolboxViewTest();
-        toolboxListViewTest();
+        // toolboxListViewTest();
+        // overlayFrameViewTest();
+        itemFrameViewTest();
     }
 
     public void setupViewTest()
@@ -341,6 +345,84 @@ public class ViewTests extends Application
 
         showView(toolboxListView, "CenditLab.Reduced | ToolboxListView Test", 600.0, 400.0);
     }
+
+    private static void overlayFrameViewTest()
+    {
+        OverlayFrameView overlayFrameView = new OverlayFrameView();
+        overlayFrameView.setPrefSize(200.0, 200.0);
+
+        VBox rootVBox = new VBox(overlayFrameView);
+        rootVBox.setFillWidth(false);
+
+        int[] positions =
+            {
+                OverlayFrameView.CENTER_CENTER,
+                OverlayFrameView.CENTER_LEFT,
+                OverlayFrameView.CENTER_RIGHT,
+                OverlayFrameView.TOP_CENTER,
+                OverlayFrameView.TOP_LEFT,
+                OverlayFrameView.TOP_RIGHT,
+                OverlayFrameView.BOTTOM_CENTER,
+                OverlayFrameView.BOTTOM_LEFT,
+                OverlayFrameView.BOTTOM_RIGHT
+            };
+
+        for (int i = 0; i < positions.length ; i++)
+        {
+            ImageButton imageButton = new ImageButton();
+            imageButton.setPrefSize(32.0, 32.0);
+            imageButton.setText(null);
+            imageButton.setOnMouseClicked(event -> overlayFrameView.removeContent((Node)event.getSource()));
+
+            overlayFrameView.addContent(imageButton, positions[i]);
+        }
+
+        showView(rootVBox, "CenditLab.Reduced | OverlayFrameView Test", 600.0, 400.0);
+    }
+
+    private static void itemFrameViewTest()
+    {
+        ComponentIconView iconView =
+                new ComponentIconView("Component", "Description");
+        ItemFrameView itemFrameView = new ItemFrameView(iconView);
+
+        itemFrameView.setOnButtonClicked(
+                new EventHandler<MouseEvent>()
+                {
+                    private boolean buttonFlag = true;
+
+                    @Override
+                    public void handle(MouseEvent event)
+                    {
+                        if (buttonFlag)
+                            itemFrameView.showButton(ItemFrameView.ADD_BUTTON);
+                        else
+                            itemFrameView.showButton(ItemFrameView.REMOVE_BUTTON);
+
+                        buttonFlag = ! buttonFlag;
+                    }
+                });
+
+        itemFrameView.setOnMouseClicked(
+                new EventHandler<MouseEvent>()
+                {
+                    boolean iconFlag = true;
+
+                    @Override
+                    public void handle(MouseEvent event)
+                    {
+                        if (iconFlag)
+                            itemFrameView.showIcon(ItemFrameView.SELECTED_ICON);
+                        else
+                            itemFrameView.hideIcon();
+
+                        iconFlag = ! iconFlag;
+                    }
+                });
+
+        showView(itemFrameView, "CenditLab.Reduced | ItemFrameView Test", 600.0, 400.0);
+    }
+
 
     private static void showView(Parent root, String title, double width, double height)
     {

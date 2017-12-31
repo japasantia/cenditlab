@@ -13,20 +13,20 @@
       <Label text="Modo de frecuencia" GridPane.halignment="RIGHT" />
       <ChoiceBox fx:id="frequencyModeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT">
          <!--
-         <items>
+      objectstems>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="Barrido" />
                <String fx:value="Lista" />
                <String fx:value="Valor" />
             </FXCollections>
-         </items>
+       objectstems>
          -->
       </ChoiceBox>
 
       <Label text="Ancho de banda" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
       <ChoiceBox fx:id="bandwidthChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
          <!--
-         <items>
+      objectstems>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="100 kHz" />
                <String fx:value="200 kHz" />
@@ -35,7 +35,7 @@
                <String fx:value="2 MHz" />
                <String fx:value="4 MHz" />
             </FXCollections>
-         </items>
+       objectstems>
          -->
       </ChoiceBox>
 

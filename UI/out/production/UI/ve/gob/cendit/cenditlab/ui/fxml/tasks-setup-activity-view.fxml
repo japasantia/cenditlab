@@ -2,34 +2,36 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
-<?import ve.gob.cendit.cenditlab.ui.HeaderContainerView?>
+<?import ve.gob.cendit.cenditlab.ui.HeaderFrameView?>
+<?import ve.gob.cendit.cenditlab.ui.ToolboxListView?>
 
+<?import ve.gob.cendit.cenditlab.ui.ContainerView?>
 <fx:root type="SplitPane" dividerPositions="0.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <SplitPane dividerPositions="0.3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"> -->
 
    <items>
 
-       <HeaderContainerView fx:id="tasksContainerView" caption="Available Tasks">
-           <ListView fx:id="taskDescriptorsListView"/>
-       </HeaderContainerView>
+       <HeaderFrameView fx:id="tasksHeaderFrameView" caption="Available Tasks">
+           <ToolboxListView fx:id="taskDescriptorsToolboxListView"/>
+       </HeaderFrameView>
 
       <SplitPane dividerPositions="0.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL">
 
-          <HeaderContainerView fx:id="detailContainerView" caption="Info" collapsible="true" maxWidth="1.7976931348623157E308">
+          <HeaderFrameView fx:id="tasksHeaderFrameView" caption="Info" collapsible="true" maxWidth="1.7976931348623157E308">
               <center>
-                <VBox fx:id="detailVBox" fillWidth="true" maxWidth="Infinity" maxHeight="Infinity">
+                  <ContainerView fx:id="tasksContainerView" maxWidth="Infinity" maxHeight="Infinity" fitToHeight="true" fitToWidth="true">
 
-                </VBox>
+                  </ContainerView>
               </center>
-          </HeaderContainerView>
+          </HeaderFrameView>
 
-          <HeaderContainerView fx:id="setupContainerView" caption="Setup" collapsible="true" maxWidth="1.7976931348623157E308">
+          <HeaderFrameView fx:id="taskSetupHeaderFrameView" caption="Setup" collapsible="true" maxWidth="1.7976931348623157E308">
               <center>
-                  <VBox fx:id="setupVBox" fillWidth="true" maxWidth="Infinity" maxHeight="Infinity">
+                  <VBox fx:id="taskSetupVBox" fillWidth="true" maxWidth="Infinity" maxHeight="Infinity">
 
                   </VBox>
               </center>
-          </HeaderContainerView>
+          </HeaderFrameView>
 
       </SplitPane>
 

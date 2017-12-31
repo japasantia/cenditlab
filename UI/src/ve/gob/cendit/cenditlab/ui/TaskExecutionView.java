@@ -20,9 +20,6 @@ public class TaskExecutionView extends GridPane
     @FXML
     private Label taskNameLabel;
 
-
-
-
     private ExecutionToolbar executionToolbar;
 
     private Task task;

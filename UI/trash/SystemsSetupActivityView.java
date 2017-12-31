@@ -103,8 +103,8 @@ public class SystemsSetupActivityView extends SplitPane
         if (newSystem == null)
             return;
 
-        clearDetail();
-        clearSetup();
+        clearDetailView();
+        clearSetupView();
 
         ComponentDescriptor[] taskDescriptors = newSystem.getTaskDescriptors();
 

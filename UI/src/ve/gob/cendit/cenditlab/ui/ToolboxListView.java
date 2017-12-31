@@ -8,12 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ToolboxListView<T> extends Pane
+public class ToolboxListView<T> extends VBox
 {
     private static final String FXML_URL = "fxml/toolbox-list-view.fxml";
 
@@ -21,6 +22,7 @@ public class ToolboxListView<T> extends Pane
     private ListView<Item> listView;
 
     private ChangeListener<Item> onItemSelectionChangedListener;
+
     private ToolboxListEventListener<Item> onItemClickedListener;
 
     private ViewFactory<Item> viewFactory;
@@ -59,20 +61,45 @@ public class ToolboxListView<T> extends Pane
         return viewFactory;
     }
 
-    public void setItems(T... items)
+    public void setItems(T... objects)
     {
         listView.getItems().clear();
 
-        addItems(items);
+        addItems(objects);
     }
 
-    public void addItems(T... items)
+    public void addItems(T... objects)
     {
-        if (items != null)
+        if (objects != null && objects.length > 0)
         {
-            Arrays.stream(items)
-                    .forEach(item -> listView.getItems().add(new Item(item)));
+            Arrays.stream(objects)
+                .forEach(this::addItem);
         }
+    }
+
+    public void addItem(T object)
+    {
+        if (object != null)
+        {
+            listView.getItems().add(new Item(object));
+        }
+    }
+
+    public void removeItems(T... objects)
+    {
+        if (objects != null && objects.length > 0)
+        {
+            Arrays.stream(objects)
+                .forEach(this::removeItem);
+        }
+    }
+
+    public void removeItem(T object)
+    {
+        List<Item> toRemoveList = listView.getItems()
+            .filtered(item -> item.getValue() == object);
+
+        listView.getItems().remove(toRemoveList);
     }
 
     public void clearItems()
@@ -80,9 +107,39 @@ public class ToolboxListView<T> extends Pane
         listView.getItems().clear();
     }
 
+    public List<T> getValues()
+    {
+        List<T> valuesList = new ArrayList<>();
+
+        listView.getItems()
+            .forEach(item -> valuesList.add(item.getValue()));
+
+        return valuesList;
+    }
+
+    public T getSelected()
+    {
+        return getSelectedItem().getValue();
+    }
+
     public Item getSelectedItem()
     {
         return listView.getSelectionModel().getSelectedItem();
+    }
+
+    public T getSelectedValue()
+    {
+        return getSelectedItem().getValue();
+    }
+
+    public List<T> getSelectedValues()
+    {
+        List<T> selectedList = new ArrayList<>();
+
+        getSelectedItems()
+            .forEach(item -> selectedList.add(item.getValue()));
+
+        return selectedList;
     }
 
     public List<Item> getSelectedItems()
@@ -219,11 +276,6 @@ public class ToolboxListView<T> extends Pane
         public Node getView()
         {
             return viewNode;
-        }
-
-        private void onClicked()
-        {
-            toggleSelected();
         }
     }
 
