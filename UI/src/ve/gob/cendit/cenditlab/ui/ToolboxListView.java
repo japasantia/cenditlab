@@ -3,33 +3,38 @@ package ve.gob.cendit.cenditlab.ui;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ToolboxListView<T> extends VBox
 {
     private static final String FXML_URL = "fxml/toolbox-list-view.fxml";
 
     @FXML
-    private ListView<Item> listView;
+    private ListView<Item<T>> listView;
 
-    private ChangeListener<Item> onItemSelectionChangedListener;
+    private ChangeListener<Item<T>> onItemSelectionChangedListener;
 
-    private ToolboxListEventListener<Item> onItemClickedListener;
+    private ToolboxListEventListener<Item<T>> onItemClickedListener;
 
-    private ViewFactory<Item> viewFactory;
+    private ItemsList<T> itemsList;
 
     public ToolboxListView()
     {
         ViewLoader.load(FXML_URL, this, this);
+
+        initialize();
+    }
+
+    private void initialize()
+    {
+        itemsList = new ItemsList<>();
+
+        itemsList.setOnAddedItemListener(this::onAddedItem);
+        itemsList.setOnRemovedItemListener(this::onRemovedItem);
 
         enableMultipleSelection(true);
 
@@ -38,6 +43,7 @@ public class ToolboxListView<T> extends VBox
         listView.getSelectionModel()
                 .selectedItemProperty()
                 .addListener(this::onItemSelectionChanged);
+
     }
 
     public void enableMultipleSelection(boolean value)
@@ -46,119 +52,37 @@ public class ToolboxListView<T> extends VBox
                 .setSelectionMode(value ? SelectionMode.MULTIPLE : SelectionMode.SINGLE);
     }
 
-    public void setViewFactory(ViewFactory<Item> factory)
+    public void load()
     {
-        if (factory == null)
+        if (listView.getItems().size() == 0)
         {
-            throw new IllegalArgumentException("factory must not be null");
-        }
-
-        viewFactory = factory;
-    }
-
-    public ViewFactory<Item> getViewFactory()
-    {
-        return viewFactory;
-    }
-
-    public void setItems(T... objects)
-    {
-        listView.getItems().clear();
-
-        addItems(objects);
-    }
-
-    public void addItems(T... objects)
-    {
-        if (objects != null && objects.length > 0)
-        {
-            Arrays.stream(objects)
-                .forEach(this::addItem);
+            itemsList.getItems()
+                .forEach(item -> listView.getItems().add(item));
         }
     }
 
-    public void addItem(T object)
-    {
-        if (object != null)
-        {
-            listView.getItems().add(new Item(object));
-        }
-    }
-
-    public void removeItems(T... objects)
-    {
-        if (objects != null && objects.length > 0)
-        {
-            Arrays.stream(objects)
-                .forEach(this::removeItem);
-        }
-    }
-
-    public void removeItem(T object)
-    {
-        List<Item> toRemoveList = listView.getItems()
-            .filtered(item -> item.getValue() == object);
-
-        listView.getItems().remove(toRemoveList);
-    }
-
-    public void clearItems()
+    public void unload()
     {
         listView.getItems().clear();
     }
 
-    public List<T> getValues()
+    public ItemsList<T> getItemsList()
     {
-        List<T> valuesList = new ArrayList<>();
-
-        listView.getItems()
-            .forEach(item -> valuesList.add(item.getValue()));
-
-        return valuesList;
+        return itemsList;
     }
 
-    public T getSelected()
-    {
-        return getSelectedItem().getValue();
-    }
-
-    public Item getSelectedItem()
-    {
-        return listView.getSelectionModel().getSelectedItem();
-    }
-
-    public T getSelectedValue()
-    {
-        return getSelectedItem().getValue();
-    }
-
-    public List<T> getSelectedValues()
-    {
-        List<T> selectedList = new ArrayList<>();
-
-        getSelectedItems()
-            .forEach(item -> selectedList.add(item.getValue()));
-
-        return selectedList;
-    }
-
-    public List<Item> getSelectedItems()
-    {
-        return listView.getItems().filtered(Item::isSelected);
-    }
-
-    public void setOnItemClicked(ToolboxListEventListener<Item> listener)
+    public void setOnItemClicked(ToolboxListEventListener<Item<T>> listener)
     {
        onItemClickedListener = listener;
     }
 
-    public void setOnItemSelectionChanged(ChangeListener<Item> listener)
+    public void setOnItemSelectionChanged(ChangeListener<Item<T>> listener)
     {
         onItemSelectionChangedListener = listener;
     }
 
-    private void onItemSelectionChanged(ObservableValue<? extends Item> observable,
-                                        Item oldValue, Item newValue)
+    private void onItemSelectionChanged(ObservableValue<? extends Item<T>> observable,
+                                        Item<T> oldValue, Item<T> newValue)
     {
         if (onItemSelectionChangedListener != null)
         {
@@ -166,7 +90,20 @@ public class ToolboxListView<T> extends VBox
         }
     }
 
-    private void onItemClicked(Item item)
+
+    private void onAddedItem(Item<T> item)
+    {
+        listView.getItems().add(item);
+        item.setOnItemClickedHandler(this::onItemClicked);
+    }
+
+    private void onRemovedItem(Item<T> item)
+    {
+        listView.getItems().remove(item);
+        item.remove();
+    }
+
+    private void onItemClicked(Item<T> item)
     {
         item.toggleSelected();
 
@@ -176,27 +113,7 @@ public class ToolboxListView<T> extends VBox
         }
     }
 
-    private Node getViewForItem(Item item)
-    {
-        Node view;
-
-        if (viewFactory != null)
-        {
-            view = viewFactory.getView(item);
-        }
-        else if (item != null)
-        {
-            view = item.getView();
-        }
-        else
-        {
-            view = new Label(item.getValue().toString());
-        }
-
-        return view;
-    }
-
-    private class ToolboxListCell extends ListCell<Item>
+    private class ToolboxListCell extends ListCell<Item<T>>
     {
         public ToolboxListCell()
         { }
@@ -209,15 +126,9 @@ public class ToolboxListView<T> extends VBox
             if (empty || item == null)
                 return;
 
-            Node node = getViewForItem(item);
-            item.setView(node);
+            // setOnMouseClicked(event -> onItemClicked(item));
 
-            setOnMouseClicked(event -> onItemClicked(item));
-
-            if (node != null)
-            {
-                setGraphic(node);
-            }
+            setGraphic(item.getView());
         }
 
         public void toggleSelected()
@@ -226,67 +137,9 @@ public class ToolboxListView<T> extends VBox
         }
     }
 
-    public class Item
-    {
-        private T value;
-        private Node viewNode;
-        private boolean selected;
-
-        protected Item(T value)
-        {
-            this(value, null);
-        }
-
-        protected Item(T value, Node view)
-        {
-            this.value = value;
-            setView(view);
-        }
-
-        public boolean isSelected()
-        {
-            return selected;
-        }
-
-        public void setSelected(boolean value)
-        {
-            selected = value;
-        }
-
-        public void toggleSelected()
-        {
-            selected = !selected;
-        }
-
-        public void setValue(T value)
-        {
-            this.value = value;
-        }
-
-        public T getValue()
-        {
-            return value;
-        }
-
-        public void setView(Node node)
-        {
-            viewNode = node;
-        }
-
-        public Node getView()
-        {
-            return viewNode;
-        }
-    }
-
     public interface ToolboxListEventListener<E>
     {
         void handle(E arg);
-    }
-
-    public interface ViewFactory<R>
-    {
-        Node getView(R item);
     }
 }
 

@@ -24,97 +24,42 @@ public class ContainerView<T> extends ScrollPane
 
     private ContainerEventListener<Item> onItemClickedListener;
 
-    private ViewFactory<Item> viewFactory;
+    private ItemsList<T> itemsList;
 
     public ContainerView()
     {
         // viewLoader.load(this, this);
 
         setContainerPane(new FlowPane());
+
+        initialize();
     }
 
-    public void setViewFactory(ViewFactory<Item> factory)
+    private void initialize()
     {
-        viewFactory = factory;
+        itemsList = new ItemsList<>();
+
+        itemsList.setOnAddedItemListener(this::onAddedItem);
+        itemsList.setOnRemovedItemListener(this::onRemovedItem);
     }
 
-    public ViewFactory<Item> getViewFactory()
+    public void load()
     {
-        return viewFactory;
-    }
-
-    public void setItems(T... objects)
-    {
-        containerPane.getChildren().clear();
-
-        addItems(objects);
-    }
-
-    public void addItems(T... objects)
-    {
-        if (objects != null)
+        if (itemsList.getItems().size() == 0)
         {
-            Arrays.stream(objects)
-                    .forEach(this::addItem);
+            itemsList.getItems()
+                .forEach(item -> containerPane.getChildren().add(item.getView()));
         }
     }
 
-    public void addItem(T object)
+    public void unload()
     {
-        Item item = new Item(object);
-
-        containerPane.getChildren().add(item.getView());
+        itemsList.getItems().clear();
     }
 
-    public void removeItems(T... objects)
+    public ItemsList<T> getItemsList()
     {
-        if (objects != null && objects.length > 0)
-        {
-            Arrays.stream(objects)
-                    .forEach(this::removeItem);
-        }
-    }
-
-    public void removeItem(T object)
-    {
-        Optional<Node> result = containerPane.getChildren().stream()
-                .filter(node -> ( (Item)node.getUserData() ).getValue() == object)
-                .findFirst();
-
-        if (result.isPresent())
-        {
-            ((Item)result.get().getUserData()).remove();
-        }
-    }
-
-    public void clearItems()
-    {
-        containerPane.getChildren().clear();
-    }
-
-    public List<T> getItems()
-    {
-        return containerPane.getChildren()
-            .stream()
-            .map( node -> ( (Item)node.getUserData() ).getValue() )
-            .collect(Collectors.toList());
-    }
-
-    public List<T> getSelectedItems()
-    {
-        List<T> selectedItemsList = new ArrayList<>();
-
-        containerPane.getChildren()
-            .stream()
-            .forEach(node -> {
-                Item item = (Item) node.getUserData();
-                if (item.isSelected())
-                {
-                    selectedItemsList.add(item.getValue());
-                }
-            });
-
-        return selectedItemsList;
+        return itemsList;
     }
 
     public void setOnItemClickedListener(ContainerEventListener<Item> listener)
@@ -122,28 +67,12 @@ public class ContainerView<T> extends ScrollPane
         onItemClickedListener = listener;
     }
 
-    private void onItemClicked(Item item)
+    private void onItemClicked(Item<T> item)
     {
         if (onItemClickedListener != null)
         {
             onItemClickedListener.handle(item);
         }
-    }
-
-    protected Node getViewForItem(Item item)
-    {
-        Node viewNode;
-
-        if (viewFactory != null)
-        {
-            viewNode = viewFactory.getView(item);
-        }
-        else
-        {
-            viewNode = new Label(item.getValue().toString());
-        }
-
-        return viewNode;
     }
 
     public Pane getContainerPane()
@@ -167,80 +96,27 @@ public class ContainerView<T> extends ScrollPane
         }
     }
 
-    public class Item
+    private void onAddedItem(Item<T> item)
     {
-        private T value;
-        private Node viewNode;
-        private boolean selected;
+        ItemView itemView = item.getView();
 
-        private EventHandler<MouseEvent> onItemClickedHandler =
-                event -> onItemClicked(this);
-
-        protected Item(T value)
+        if (itemView != null)
         {
-            setValue(value);
+            containerPane.getChildren().add(itemView);
 
-            viewNode = getViewForItem(this);
-
-            viewNode.setUserData(this);
-
-            viewNode.addEventFilter(MouseEvent.MOUSE_CLICKED,
-                    onItemClickedHandler);
+            item.setOnItemClickedHandler(this::onItemClicked);
         }
+    }
 
-        public boolean isSelected()
-        {
-            return selected;
-        }
+    private void onRemovedItem(Item<T> item)
+    {
+        containerPane.getChildren().remove(item.getView());
 
-        public void setSelected(boolean value)
-        {
-            selected = value;
-        }
-
-        public void toggleSelected()
-        {
-            selected = !selected;
-        }
-
-        public void setValue(T value)
-        {
-            this.value = value;
-        }
-
-        public T getValue()
-        {
-            return value;
-        }
-
-        public void setView(Node node)
-        {
-            viewNode = node;
-        }
-
-        public Node getView()
-        {
-            return viewNode;
-        }
-
-        protected void remove()
-        {
-            viewNode.removeEventFilter(MouseEvent.MOUSE_CLICKED,
-                    onItemClickedHandler);
-
-            getContainerPane().getChildren().remove(viewNode);
-
-            viewNode.setUserData(null);
-        }
+        item.remove();
     }
 
     public interface ContainerEventListener<E>
     {
         void handle(E arg);
-    }
-
-    public interface ViewFactory<R>
-    {
-        Node getView(R item);
     }
 }

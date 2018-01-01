@@ -19,17 +19,6 @@ public class TasksSetupActivityView extends SplitPane
 
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
-    /*
-    @FXML
-    private HeaderFrameView tasksHeaderFrameView;
-
-    @FXML
-    private HeaderFrameView selectedTasksHeaderFrameView;
-
-    @FXML
-    private HeaderFrameView taskSetupHeaderFrameView;
-    */
-
     @FXML
     private ContainerView<Task> tasksContainerView;
 
@@ -57,13 +46,13 @@ public class TasksSetupActivityView extends SplitPane
     {
         taskDescriptorsToolboxListView.enableMultipleSelection(true);
 
-        taskDescriptorsToolboxListView.setViewFactory(this::getTaskDescriptorView);
-
         taskDescriptorsToolboxListView.setOnItemClicked(this::onTaskDescriptorClicked);
 
-        tasksContainerView.setViewFactory(this::getTaskView);
-
         tasksContainerView.setOnItemClickedListener(this::onTaskClicked);
+
+        taskDescriptorsToolboxListView.getItemsList().setItemViewFactory(this::getTaskDescriptorView);
+
+        tasksContainerView.getItemsList().setItemViewFactory(this::getTaskView);
     }
 
     public void loadSystems(System... systems)
@@ -76,7 +65,7 @@ public class TasksSetupActivityView extends SplitPane
     public void addSystems(System... systems)
     {
         Arrays.stream(systems)
-            .forEach(system -> taskDescriptorsToolboxListView.addItems(system.getTaskDescriptors()));
+            .forEach(system -> taskDescriptorsToolboxListView.getItemsList().addAll(system.getTaskDescriptors()));
     }
 
     public void unloadSystems()
@@ -90,42 +79,42 @@ public class TasksSetupActivityView extends SplitPane
 
     public void clearTaskDescrptorsList()
     {
-        taskDescriptorsToolboxListView.clearItems();
+        taskDescriptorsToolboxListView.getItemsList().clear();
     }
 
     public void addTasks(Task... tasks)
     {
-        tasksContainerView.addItems(tasks);
+        tasksContainerView.getItemsList().addAll(tasks);
     }
 
     public void addTask(Task task)
     {
-       tasksContainerView.addItem(task);
+       tasksContainerView.getItemsList().add(task);
     }
 
     public void removeTasks(Task... tasks)
     {
-        tasksContainerView.removeItems(tasks);
+        tasksContainerView.getItemsList().removeAll(tasks);
     }
 
     public void removeTask(Task task)
     {
-        tasksContainerView.removeItem(task);
+        tasksContainerView.getItemsList().remove(task);
     }
 
     public void clearTasks()
     {
-        tasksContainerView.clearItems();
+        tasksContainerView.getItemsList().clear();
     }
 
     public List<ComponentDescriptor> getSelectedTaskDescriptors()
     {
-        return taskDescriptorsToolboxListView.getSelectedValues();
+        return taskDescriptorsToolboxListView.getItemsList().getAllSelected();
     }
 
     public List<Task> getTasks()
     {
-        return tasksContainerView.getItems();
+        return tasksContainerView.getItemsList().getAll();
     }
 
     public void setTaskSetupView(Node node)
@@ -139,45 +128,46 @@ public class TasksSetupActivityView extends SplitPane
         taskSetupVBox.getChildren().clear();
     }
 
-    private Node getTaskDescriptorView(ToolboxListView<ComponentDescriptor>.Item item)
+    private ItemView getTaskDescriptorView(Item<ComponentDescriptor> item)
     {
-        ItemFrameView frameView = (ItemFrameView) item.getView();
+        ItemView itemView = (ItemView)item.getView();
         ComponentDescriptor descriptor = item.getValue();
 
-        if (frameView == null && descriptor != null)
+        if (itemView == null && descriptor != null)
         {
-            frameView =
-                new ItemFrameView(new ComponentIconView(descriptor.getName(), descriptor.getDescription()));
-            frameView.showButton(ItemFrameView.ADD_BUTTON);
+            itemView =
+                new ItemView(new ComponentIconView(descriptor.getName(), descriptor.getDescription()));
+            itemView.showButton(ItemView.ADD_BUTTON);
 
-            frameView.setOnButtonClicked(event -> onTaskDescriptorClicked(item));
+            itemView.setOnButtonClicked(event -> onTaskDescriptorClicked(item));
         }
 
-        return frameView;
+        return itemView;
     }
 
-    private Node getTaskView(ContainerView<Task>.Item item)
+    private ItemView getTaskView(Item<Task> item)
     {
-        ItemFrameView frameView = (ItemFrameView) item.getView();
+        ItemView itemView = (ItemView) item.getView();
 
-        if (frameView == null)
+        if (itemView == null)
         {
-            frameView =
-                new ItemFrameView(item.getValue().getView(ViewType.DESCRIPTION));
-            frameView.showButton(ItemFrameView.REMOVE_BUTTON);
+            itemView =
+                new ItemView(item.getValue().getView(ViewType.DESCRIPTION));
 
-            frameView.setOnButtonClicked(event -> tasksContainerView.removeItem(item.getValue()));
+            itemView.showButton(ItemView.REMOVE_BUTTON);
+
+            itemView.setOnButtonClicked(event -> tasksContainerView.getItemsList().remove(item.getValue()));
         }
 
-        return frameView;
+        return itemView;
     }
 
-    private void onTaskClicked(ContainerView<Task>.Item item)
+    private void onTaskClicked(Item<Task> item)
     {
         setTaskSetupView(item.getValue().getView(ViewType.SETUP));
     }
 
-    private void onTaskDescriptorClicked(ToolboxListView<ComponentDescriptor>.Item item)
+    private void onTaskDescriptorClicked(Item<ComponentDescriptor> item)
     {
         ComponentDescriptor descriptor = item.getValue();
 

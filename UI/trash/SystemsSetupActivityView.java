@@ -71,7 +71,7 @@ public class SystemsSetupActivityView extends SplitPane
 
     public void loadSystems(System... systems)
     {
-        unloadSystems();
+        unload();
         addSystems(systems);
     }
 

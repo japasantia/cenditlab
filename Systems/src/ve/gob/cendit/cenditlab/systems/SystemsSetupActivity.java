@@ -42,12 +42,13 @@ public class SystemsSetupActivity extends Activity
     public void initialize()
     {
         systemsSetupView = new SystemsSetupActivityView();
+        systemsSetupView.setSystems(systemsArray);
     }
 
     @Override
     public void load()
     {
-        systemsSetupView.loadSystems(systemsArray);
+        systemsSetupView.load();
         getApplicationController().setMainView(systemsSetupView);
     }
 
@@ -60,7 +61,7 @@ public class SystemsSetupActivity extends Activity
     @Override
     public void unload()
     {
-        systemsSetupView.unloadSystems();
+        systemsSetupView.unload();
     }
 
     public void setBlocked(boolean value)

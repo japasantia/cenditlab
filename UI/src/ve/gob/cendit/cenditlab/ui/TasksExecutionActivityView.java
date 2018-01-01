@@ -62,7 +62,7 @@ public class TasksExecutionActivityView extends SplitPane
 
         tasksToolboxListView.setOnItemClicked(this::onTaskClicked);
 
-        tasksToolboxListView.setViewFactory(this::getTaskView);
+        tasksToolboxListView.getItemsList().setItemViewFactory(this::getTaskView);
     }
 
     public void loadTasks(Task... tasks)
@@ -74,7 +74,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void addTasks(Task... tasks)
     {
-        tasksToolboxListView.addItems(tasks);
+        tasksToolboxListView.getItemsList().addAll(tasks);
     }
 
     public void unloadTasks()
@@ -88,7 +88,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void clearTasksList()
     {
-        tasksToolboxListView.clearItems();
+        tasksToolboxListView.getItemsList().clear();
     }
 
     public void addResult(Node node)
@@ -134,7 +134,7 @@ public class TasksExecutionActivityView extends SplitPane
         }
     }
 
-    private void onTaskClicked(ToolboxListView<Task>.Item item)
+    private void onTaskClicked(Item<Task> item)
     {
         try
         {
@@ -182,15 +182,15 @@ public class TasksExecutionActivityView extends SplitPane
         */
     }
 
-    private Node getTaskView(ToolboxListView<Task>.Item item)
+    private ItemView getTaskView(Item<Task> item)
     {
-        Node view = item.getView();
+        ItemView itemView = item.getView();
 
-        if (view == null)
+        if (itemView == null)
         {
-            view = item.getValue().getView(ViewType.EXECUTION);
+            itemView = new ItemView(item.getValue().getView(ViewType.EXECUTION));
         }
 
-        return view;
+        return itemView;
     }
 }

@@ -1,17 +1,14 @@
 package ve.gob.cendit.cenditlab.ui;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SystemsSetupActivityView extends SplitPane
 {
@@ -22,6 +19,7 @@ public class SystemsSetupActivityView extends SplitPane
     private static final Image DEFAULT_ICON =
             new Image(SystemsSetupActivityView.class.getResource("/ve/gob/cendit/cenditlab/ui/images/system-icon.png").toExternalForm());
 
+    /*
     @FXML
     private HeaderFrameView systemsContainerView;
 
@@ -30,6 +28,7 @@ public class SystemsSetupActivityView extends SplitPane
 
     @FXML
     private HeaderFrameView setupContainerView;
+    */
 
     @FXML
     private VBox detailVBox;
@@ -49,42 +48,47 @@ public class SystemsSetupActivityView extends SplitPane
     public SystemsSetupActivityView(System... systems)
     {
         initialize();
-        loadSystems(systems);
+        setSystems(systems);
     }
 
     private void initialize()
     {
         systemsToolboxListView.enableMultipleSelection(true);
 
-        systemsToolboxListView.setViewFactory(this::getSystemView);
+        systemsToolboxListView.getItemsList().setItemViewFactory(this::getSystemView);
 
         systemsToolboxListView.setOnItemClicked(this::onSystemClicked);
     }
 
     public List<System> getSystems()
     {
-        return systemsToolboxListView.getValues();
+        return systemsToolboxListView.getItemsList().getAll();
     }
 
     public List<System> getSelectedSystems()
     {
-        return systemsToolboxListView.getSelectedValues();
+        return systemsToolboxListView.getItemsList().getAllSelected();
     }
 
-    public void loadSystems(System... systems)
+    public void setSystems(System... systems)
     {
-        unloadSystems();
+        unload();
         addSystems(systems);
     }
 
     public void addSystems(System... systems)
     {
-        systemsToolboxListView.addItems(systems);
+        systemsToolboxListView.getItemsList().addAll(systems);
     }
 
-    public void unloadSystems()
+    public void load()
     {
-        systemsToolboxListView.clearItems();
+        systemsToolboxListView.load();
+    }
+
+    public void unload()
+    {
+        systemsToolboxListView.unload();
 
         detailVBox.getChildren().clear();
     }
@@ -117,33 +121,38 @@ public class SystemsSetupActivityView extends SplitPane
         setupVBox.getChildren().clear();
     }
 
-    private Node getSystemView(ToolboxListView<System>.Item item)
+    public void clear()
     {
-        Node view = item.getView();
-
-        if (view == null)
-        {
-            view = new ComponentIconView(item.getValue());
-            view = new ItemFrameView(view);
-        }
-
-        return view;
+        clearDetailView();
+        clearSetupView();
     }
 
-    private void onSystemClicked(ToolboxListView<System>.Item item)
+    private ItemView getSystemView(Item<System> item)
     {
-        ItemFrameView frameView = (ItemFrameView) item.getView();
+        ItemView itemView = item.getView();
 
-        if (frameView != null)
+        if (itemView == null)
+        {
+            itemView = new ItemView(new ComponentIconView(item.getValue()));
+        }
+
+        return itemView;
+    }
+
+    private void onSystemClicked(Item<System> item)
+    {
+        ItemView itemView = (ItemView) item.getView();
+
+        if (itemView != null)
         {
             if (item.isSelected())
             {
-                frameView.showIcon(ItemFrameView.SELECTED_ICON);
+                itemView.showIcon(ItemView.SELECTED_ICON);
                 setSelectedSytems(item.getValue());
             }
             else
             {
-                frameView.hideIcon();
+                itemView.hideIcon();
                 clearSetupView();
                 clearDetailView();
             }

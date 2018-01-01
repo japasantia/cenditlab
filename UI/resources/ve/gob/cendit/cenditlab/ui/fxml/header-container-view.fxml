@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Button?>
+<fx:root collapsible="false" maxHeight="Infinity" maxWidth="Infinity" text="Header Title" type="TitledPane" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Header Title" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"> -->
+   <font>
+      <Font name="System Bold" size="14.0" />
+   </font>
+
+    <graphic>
+        <ImageView fx:id="iconImageView" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/multimeter.png" />
+            </image>
+        </ImageView>
+    </graphic>
+
+   <content>
+
+        <VBox fx:id="rootVBox" >
+        <!-- <VBox fx:id="rootVBox" fillWidth="true" maxHeight="Infinity" maxWidth="Infinity"> -->
+
+             <children>
+
+                <ScrollPane fx:id="centerPane" fitToWidth="true" fitToHeight="false" hbarPolicy="AS_NEEDED" maxWidth="Infinity" VBox.vgrow="ALWAYS">
+
+                </ScrollPane>
+
+                 <Pane fx:id="topPane">
+                 <!-- <Pane fx:id="topPane" maxWidth="Infinity" VBox.vgrow="SOMETIMES"> -->
+                 </Pane>
+
+             </children>
+
+        </VBox>
+
+   </content>
+
+<!-- </TitledPane> -->
+</fx:root>

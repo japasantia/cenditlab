@@ -41,9 +41,10 @@ public class ViewTests extends Application
         // graphViewTest();
         // graphViewTest2();
         // toolboxViewTest();
-        // toolboxListViewTest();
+        // containerViewTest();
+        toolboxListViewTest();
         // overlayFrameViewTest();
-        itemFrameViewTest();
+        // itemFrameViewTest();
     }
 
     public void setupViewTest()
@@ -307,43 +308,41 @@ public class ViewTests extends Application
             values[i] = "Item " + i;
         }
 
-        toolboxListView.setItems(values);
+        toolboxListView.getItemsList()
+            .setItemViewFactory(item -> new ItemView(new ComponentIconView(item.getValue(), "Item")));
 
-        toolboxListView.setViewFactory(item ->
-            {
-                Node node = item.getView();
+        toolboxListView.getItemsList().setAll(values);
 
-                if (node == null)
-                {
-                    node = new ComponentIconView(item.getValue(), "Component Icon");
-                }
+        toolboxListView.setOnItemClicked(item -> {
+            System.out.printf("%s clicked\n", item.toString());
 
-                return node;
-            });
-
-        toolboxListView.setOnItemClicked(item ->
-            {
-                System.out.println("Selected items");
-                toolboxListView.getSelectedItems().forEach(it -> System.out.printf("%s ", it.getValue()));
-            });
-
-        toolboxListView.setOnItemSelectionChanged((observable, oldItem, newItem) ->
-            {
-                System.out.println("Selected items");
-                toolboxListView.getSelectedItems().forEach(item -> System.out.printf("%s ", item.getValue()));
-
-                if (newItem != null)
-                {
-                    ComponentIconView iconView = (ComponentIconView) newItem.getView();
-
-                    if (iconView != null)
-                    {
-                        iconView.toggleSelected();
-                    }
-                }
-            });
+            if (item.isSelected())
+                item.getView().showIcon(ItemView.SELECTED_ICON);
+            else
+                item.getView().hideIcon();
+        });
 
         showView(toolboxListView, "CenditLab.Reduced | ToolboxListView Test", 600.0, 400.0);
+    }
+
+    private static void containerViewTest()
+    {
+        ContainerView<String> containerView = new ContainerView<>();
+
+        String[] values = new String[10];
+
+        for (int i = 0; i < 10; i++)
+        {
+            values[i] = "Item " + i;
+        }
+
+        containerView.getItemsList().setItemViewFactory(item -> new ItemView(new ComponentIconView(item.getValue(), "Container Item")));
+
+        containerView.setOnItemClickedListener(item -> item.getView().showIcon(ItemView.SELECTED_ICON));
+
+        containerView.getItemsList().setAll(values);
+
+        showView(containerView, "CenditLab.Reduced | ContainerView Test", 600.0, 400.0);
     }
 
     private static void overlayFrameViewTest()
@@ -384,9 +383,9 @@ public class ViewTests extends Application
     {
         ComponentIconView iconView =
                 new ComponentIconView("Component", "Description");
-        ItemFrameView itemFrameView = new ItemFrameView(iconView);
+        ItemView itemView = new ItemView(iconView);
 
-        itemFrameView.setOnButtonClicked(
+        itemView.setOnButtonClicked(
                 new EventHandler<MouseEvent>()
                 {
                     private boolean buttonFlag = true;
@@ -395,15 +394,15 @@ public class ViewTests extends Application
                     public void handle(MouseEvent event)
                     {
                         if (buttonFlag)
-                            itemFrameView.showButton(ItemFrameView.ADD_BUTTON);
+                            itemView.showButton(ItemView.ADD_BUTTON);
                         else
-                            itemFrameView.showButton(ItemFrameView.REMOVE_BUTTON);
+                            itemView.showButton(ItemView.REMOVE_BUTTON);
 
                         buttonFlag = ! buttonFlag;
                     }
                 });
 
-        itemFrameView.setOnMouseClicked(
+        itemView.setOnMouseClicked(
                 new EventHandler<MouseEvent>()
                 {
                     boolean iconFlag = true;
@@ -412,15 +411,15 @@ public class ViewTests extends Application
                     public void handle(MouseEvent event)
                     {
                         if (iconFlag)
-                            itemFrameView.showIcon(ItemFrameView.SELECTED_ICON);
+                            itemView.showIcon(ItemView.SELECTED_ICON);
                         else
-                            itemFrameView.hideIcon();
+                            itemView.hideIcon();
 
                         iconFlag = ! iconFlag;
                     }
                 });
 
-        showView(itemFrameView, "CenditLab.Reduced | ItemFrameView Test", 600.0, 400.0);
+        showView(itemView, "CenditLab.Reduced | ItemView Test", 600.0, 400.0);
     }
 
 
