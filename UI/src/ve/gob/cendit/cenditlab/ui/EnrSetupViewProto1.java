@@ -1,17 +1,13 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.GridPane;
-import ve.gob.cendit.cenditlab.data.EnrData;
-import ve.gob.cendit.cenditlab.data.EnrData;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.data.EnrSetup;
 import ve.gob.cendit.cenditlab.data.TemperatureData;
 
-public class EnrSetupViewProto1 extends GridPane
+public class EnrSetupViewProto1 extends HBox
 {
     private static final String FXML_URL = "fxml/enr-setup-view-proto-1.fxml";
 
@@ -21,16 +17,10 @@ public class EnrSetupViewProto1 extends GridPane
     private static final int VIEW_TO_SETUP = 1;
 
     @FXML
-    ChoiceBox<String> enrModeChoiceBox;
+    OptionsView enrModeOptionsView;
 
     @FXML
-    ChoiceBox<String> spotModeChoiceBox;
-
-    @FXML
-    ChoiceBox<String> noiseSourcePreferenceChoiceBox;
-
-    @FXML
-    ValueView spotEnrValueView;
+    OptionsView noiseSourcePreferenceOptionsView;
 
     @FXML
     ValueView userTcoldValueView;
@@ -47,8 +37,15 @@ public class EnrSetupViewProto1 extends GridPane
     @FXML
     ToggleView userTcoldToggleView;
 
-    private BooleanProperty enableEnrTableModeProperty;
-    private BooleanProperty enableCommonEnrTableProperty;
+    @FXML
+    private VBox enrDataVBox;
+
+    @FXML
+    private EnrSpotSetupView enrSpotSetupView;
+
+    private EnrTableSetupView enrCommonTableSetupView;
+
+    private EnrTableSetupView enrMeasurementTableSetupView;
 
     private EnrSetup enrSetup;
 
@@ -57,7 +54,6 @@ public class EnrSetupViewProto1 extends GridPane
         viewLoader.load(this, this);
 
         initialize();
-        attachListeners();
         makeBindings();
     }
 
@@ -65,103 +61,23 @@ public class EnrSetupViewProto1 extends GridPane
     {
         enrSetup = new EnrSetup();
 
-        enableEnrTableModeProperty = new SimpleBooleanProperty();
-        enableCommonEnrTableProperty = new SimpleBooleanProperty();
+        enrCommonTableSetupView = new EnrTableSetupView();
+        enrMeasurementTableSetupView = new EnrTableSetupView();
 
-        spotEnrValueView.setChoiceUnits(EnrData.FIELD_UNITS);
-
-        userTcoldValueView.setChoiceUnits(TemperatureData.FIELD_UNITS);
-
-        transferSetup(SETUP_TO_VIEW);
+        setSetup(enrSetup);
     }
-
-    private void attachListeners()
-    {}
 
     private void makeBindings()
     {
-        BooleanBinding binding;
+        userTcoldValueView.disableProperty().bind(userTcoldToggleView.selectedProperty());
 
-        binding = enrModeChoiceBox.getSelectionModel()
-                .selectedIndexProperty().isEqualTo(0);
-        spotEnrValueView.disableProperty().bind(binding);
-        enableEnrTableModeProperty.bind(binding);
-
-        binding = commonEnrTableToggleView.textProperty()
-                .isEqualTo("ON");
-        enableCommonEnrTableProperty.bind(binding);
-
-        binding = userTcoldToggleView.textProperty()
-                .isEqualTo("OFF");
-
-        userTcoldValueView.disableProperty().bind(binding);
+        enrModeOptionsView.valueProperty()
+            .addListener((observable, oldValue, newValue) -> changeSetupView(newValue));
     }
 
-    private void transferSetup(int direction)
-    {
-        if (direction == VIEW_TO_SETUP)
-        {
-            // Cargar datos de la vista en setup
-            enrSetup.getEnrModeOptions()
-                    .setSelected(enrModeChoiceBox.getValue());
-            enrSetup.getSpotModeOptions()
-                    .setSelected(spotModeChoiceBox.getValue());
-
-            EnrData spotEnrData =
-                    (EnrData) spotEnrValueView.getData();
-            enrSetup.getEnrData().setValue(spotEnrData.getValue());
-            enrSetup.getEnrData().setUnit(spotEnrData.getUnit());
-
-            enrSetup.getAutoLoadEnrOptions()
-                    .setSelected(autoLoadEnrToggleView.getText());
-            enrSetup.getCommonEnrTableOptions()
-                    .setSelected(commonEnrTableToggleView.getText());
-
-            enrSetup.getUserTcoldOptions()
-                    .setSelected(userTcoldToggleView.getText());
-
-            TemperatureData temperatureData = enrSetup.getUserTcoldField();
-            enrSetup.getUserTcoldField().setValue(temperatureData.getValue());
-            enrSetup.getUserTcoldField().setUnit(temperatureData.getUnit());
-
-            enrSetup.getSnsTcoldOptions()
-                    .setSelected(snsTcoldToggleView.getText());
-            enrSetup.getNoiseSourcePreferenceOptions()
-                    .setSelected(noiseSourcePreferenceChoiceBox.getValue());
-        }
-        else if (direction == SETUP_TO_VIEW)
-        {
-            // Presentar datos en vista
-
-            enrModeChoiceBox.getItems()
-                    .setAll(enrSetup.getEnrModeOptions().getValues());
-            spotModeChoiceBox.getItems()
-                    .setAll(enrSetup.getSpotModeOptions().getValues());
-
-            spotEnrValueView.setData(enrSetup.getEnrData());
-
-            autoLoadEnrToggleView
-                    .setTextOn(enrSetup.getAutoLoadEnrOptions().getSelected());
-            commonEnrTableToggleView
-                    .setTextOn(enrSetup.getCommonEnrTableOptions().getSelected());
-            userTcoldToggleView
-                    .setTextOn(enrSetup.getUserTcoldOptions().getSelected());
-            snsTcoldToggleView
-                    .setTextOn(enrSetup.getSnsTcoldOptions().getSelected());
-
-            userTcoldValueView.setData(enrSetup.getUserTcoldField());
-
-            noiseSourcePreferenceChoiceBox.getItems()
-                    .setAll(enrSetup.getNoiseSourcePreferenceOptions().getValues());
-            noiseSourcePreferenceChoiceBox
-                    .setValue(enrSetup.getNoiseSourcePreferenceOptions().getDefault());
-        }
-    }
 
     public EnrSetup getSetup()
     {
-        transferSetup(VIEW_TO_SETUP);
-
         return enrSetup;
     }
 
@@ -169,16 +85,55 @@ public class EnrSetupViewProto1 extends GridPane
     {
         enrSetup = setup;
 
-        transferSetup(SETUP_TO_VIEW);
+        autoLoadEnrToggleView.setOptions(enrSetup.getAutoLoadEnrOptions());
+
+        commonEnrTableToggleView.setOptions(enrSetup.getCommonEnrTableOptions());
+
+        snsTcoldToggleView.setOptions(enrSetup.getSnsTcoldOptions());
+
+        userTcoldToggleView.setOptions(enrSetup.getUserTcoldOptions());
+
+        userTcoldValueView.setData(enrSetup.getUserTcoldData());
+
+        enrModeOptionsView.setOptions(enrSetup.getEnrModeOptions());
+
+        enrSpotSetupView.setSpotModeOptions(enrSetup.getSpotModeOptions());
+
+        userTcoldValueView.setData(enrSetup.getUserTcoldData());
+
+        noiseSourcePreferenceOptionsView.setOptions(enrSetup.getNoiseSourcePreferenceOptions());
     }
 
-    public BooleanProperty enableEnrTableModeProperty()
+    private void changeSetupView(String setupView)
     {
-        return enableEnrTableModeProperty;
-    }
+        switch (setupView)
+        {
+            case "Tabla":
 
-    public BooleanProperty enableCommonEnrTableProperty()
-    {
-        return enableCommonEnrTableProperty;
+                enrDataVBox.getChildren().remove(enrSpotSetupView);
+
+                enrDataVBox.getChildren().add(enrCommonTableSetupView);
+
+                if (commonEnrTableToggleView.isSelected())
+                {
+                    enrCommonTableSetupView.setText("Enr common table");
+                }
+                else
+                {
+                    enrMeasurementTableSetupView.setText("Enr measurement table");
+                    enrDataVBox.getChildren().add(enrMeasurementTableSetupView);
+                }
+
+                break;
+
+            case "Spot":
+
+                enrDataVBox.getChildren().remove(enrCommonTableSetupView);
+                enrDataVBox.getChildren().remove(enrMeasurementTableSetupView);
+
+                enrDataVBox.getChildren().add(enrSpotSetupView);
+
+                break;
+        }
     }
 }

@@ -18,31 +18,11 @@ public class HeaderFrameView extends TitledPane
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
-    private VBox rootVBox;
-
-    // TODO: determionar el mejor contenedor para area top
-    @FXML
-    private Pane topPane;
-
-    @FXML
-    private ScrollPane centerPane;
-
-    @FXML
     private ImageView iconImageView;
 
     public HeaderFrameView()
     {
         viewLoader.load(this, this);
-    }
-
-    public void setCaption(String value)
-    {
-        this.setText(value);
-    }
-
-    public String getCaption()
-    {
-        return this.getText();
     }
 
     public void setIcon(Image iconImage)
@@ -61,47 +41,5 @@ public class HeaderFrameView extends TitledPane
     public Image getIcon()
     {
         return iconImageView.getImage();
-    }
-
-    public void setTop(Node node)
-    {
-        topPane.getChildren().add(node);
-    }
-
-    public Node getTop()
-    {
-        return topPane.getChildren().get(0);
-    }
-
-
-    public void clearTop()
-    {
-        topPane.getChildren().clear();
-    }
-
-    public void setCenter(Node node)
-    {
-        clearCenter();
-        centerPane.setContent(node);
-    }
-
-    public Node getCenter()
-    {
-        return centerPane.getContent();
-    }
-
-    public void clearCenter()
-    {
-        centerPane.setContent(null);
-    }
-
-    public void setTopVisible(boolean value)
-    {
-        topPane.setVisible(value);
-    }
-
-    public void setCenterVisible(boolean value)
-    {
-        centerPane.setVisible(value);
     }
 }

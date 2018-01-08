@@ -26,7 +26,7 @@ public class EnrSetup
     private EnrData enrData =
             new EnrData();
 
-    private TemperatureData userTcoldField =
+    private TemperatureData userTcoldData =
             new TemperatureData();
 
     public Options getEnrModeOptions()
@@ -69,9 +69,9 @@ public class EnrSetup
         return enrData;
     }
 
-    public TemperatureData getUserTcoldField()
+    public TemperatureData getUserTcoldData()
     {
-        return userTcoldField;
+        return userTcoldData;
     }
 
     @Override
@@ -86,6 +86,6 @@ public class EnrSetup
                 getNoiseSourcePreferenceOptions(),
                 getAutoLoadEnrOptions(),
                 getEnrData(),
-                getUserTcoldField());
+                getUserTcoldData());
     }
 }

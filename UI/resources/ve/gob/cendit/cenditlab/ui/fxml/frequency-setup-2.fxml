@@ -34,9 +34,9 @@
         </GridPane>
       </content>
     </TitledPane>
-    <TitledPane fx:id="frequencyRangePane" animated="false" text="Rangos de frecuencia">
+    <TitledPane fx:id="frequencyRangeSetupView" animated="false" text="Rangos de frecuencia">
       <content>
-        <GridPane id="frequencyRangePane" prefWidth="-1.0">
+        <GridPane id="frequencyRangeSetupView" prefWidth="-1.0">
           <children>
             <Label text="Minima" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Label text="Maxima" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -63,12 +63,12 @@
         </GridPane>
       </content>
     </TitledPane>
-    <TitledPane fx:id="frequencyListPane" animated="false" text="Lista de frecuencias">
+    <TitledPane fx:id="frequencyListSetupView" animated="false" text="Lista de frecuencias">
       <content>
         <ListView editable="true" maxHeight="1.7976931348623157E308" maxWidth="-1.0" prefHeight="200.0" prefWidth="-1.0" />
       </content>
     </TitledPane>
-    <TitledPane fx:id="frequencyFixedPane" animated="false" text="Frecuencia fija">
+    <TitledPane fx:id="frequencyFixedSetupView" animated="false" text="Frecuencia fija">
       <content>
         <GridPane>
           <children>

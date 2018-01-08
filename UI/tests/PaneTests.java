@@ -16,7 +16,7 @@ import java.util.List;
 
 public class PaneTests extends Application
 {
-    private FrequencyListPane frequencyListPane;
+    private FrequencyListSetupView frequencyListSetupView;
 
     private Stage rootStage;
 
@@ -41,25 +41,25 @@ public class PaneTests extends Application
 
     private void frequencyListPaneTest(Stage primaryStage)
     {
-        frequencyListPane = new FrequencyListPane();
+        frequencyListSetupView = new FrequencyListSetupView();
 
         Button testButton = new Button("Start Test");
         VBox containerVBox = new VBox();
 
         testButton.setOnAction(event -> frequencyListPaneTest());
 
-        containerVBox.getChildren().addAll(frequencyListPane, testButton);
+        containerVBox.getChildren().addAll(frequencyListSetupView, testButton);
 
         primaryStage.setScene(new Scene(containerVBox, 600, 800));
-        primaryStage.setTitle("CenditLab.Reduced | Test FrequencyListPane");
+        primaryStage.setTitle("CenditLab.Reduced | Test FrequencyListSetupView");
         primaryStage.show();
     }
 
     private void frequencyListPaneTest()
     {
-        boolean isValid = frequencyListPane.validate();
+        boolean isValid = frequencyListSetupView.validate();
 
-        List<String> frequenciesList = frequencyListPane.getFrequencies();
+        List<String> frequenciesList = frequencyListSetupView.getFrequencies();
 
         System.out.printf("Frequencies list valid: %s\n", isValid);
 
@@ -71,18 +71,18 @@ public class PaneTests extends Application
 
     private void frequencyRangePaneTest(Stage primaryStage)
     {
-        FrequencyRangePane frequencyRangePane = new FrequencyRangePane();
+        FrequencyRangeSetupView frequencyRangeSetupView = new FrequencyRangeSetupView();
         Button viewFieldsButton = new Button("View Fields");
         TextArea fieldsTextArea = new TextArea();
 
         VBox containerVBox = new VBox();
-        containerVBox.getChildren().addAll(frequencyRangePane, viewFieldsButton, fieldsTextArea);
+        containerVBox.getChildren().addAll(frequencyRangeSetupView, viewFieldsButton, fieldsTextArea);
 
         viewFieldsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event)
             {
-                FrequencySetup frequencySetup = frequencyRangePane.getFrequencySetup();
+                FrequencySetup frequencySetup = frequencyRangeSetupView.getFrequencySetup();
 
                 String data = String.format("Max: %s\nMin: %s\nCenter: %s\nSpan: %s ",
                     frequencySetup.getMaxFrequencyData().toString(),
@@ -95,41 +95,41 @@ public class PaneTests extends Application
         });
 
         primaryStage.setScene(new Scene(containerVBox));
-        primaryStage.setTitle("CenditLab.Reduced | Test FrequencyRangePane");
+        primaryStage.setTitle("CenditLab.Reduced | Test FrequencyRangeSetupView");
         primaryStage.show();
     }
 
     private void frequencyFixedTest(Stage primaryStage)
     {
-        FrequencyFixedPane frequencyFixedPane = new FrequencyFixedPane();
+        FrequencyFixedSetupView frequencyFixedSetupView = new FrequencyFixedSetupView();
         Label frequencyLabel = new Label();
         VBox containerVBox = new VBox();
 
         FrequencyData frequencyDat = new FrequencyData();
-        frequencyFixedPane.setFixedFrequency(frequencyDat);
+        frequencyFixedSetupView.setFixedFrequency(frequencyDat);
 
-        frequencyFixedPane.getFixedFrequency()
+        frequencyFixedSetupView.getFixedFrequency()
                 .addUpdateListener(source -> {
                     String data = String.format("Field: %s\nControl: %s",
                             frequencyDat.toString(),
-                            frequencyFixedPane.getFixedFrequency().toString());
+                            frequencyFixedSetupView.getFixedFrequency().toString());
 
                     frequencyLabel.setText(data);
                 });
 
-        containerVBox.getChildren().addAll(frequencyFixedPane, frequencyLabel);
+        containerVBox.getChildren().addAll(frequencyFixedSetupView, frequencyLabel);
 
         primaryStage.setScene(new Scene(containerVBox, 600.0, 400.0));
-        primaryStage.setTitle("CenditLab.Reduced | Test FrequencyFixedPane");
+        primaryStage.setTitle("CenditLab.Reduced | Test FrequencyFixedSetupView");
         primaryStage.show();
     }
 
     private void enrListPaneTest(Stage primaryStage)
     {
         VBox containerVBox = new VBox();
-        EnrTablePane enrTablePane = new EnrTablePane();
+        EnrTableSetupView enrTableSetupView = new EnrTableSetupView();
 
-        containerVBox.getChildren().addAll(enrTablePane);
+        containerVBox.getChildren().addAll(enrTableSetupView);
 
         primaryStage.setScene(new Scene(containerVBox, 600.0, 400.0));
         primaryStage.setTitle("CenditLab.Reduced | Test EnrTablePaneTest");

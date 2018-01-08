@@ -49,6 +49,8 @@ public class SetupView extends TabPane
 
     private void makeBindings()
     {
+        //FIXME: revisar esto, se ha modificad ENRSetupView!
+        /*
         BooleanProperty enableTableMode =
                 enrSetupView.enableEnrTableModeProperty();
         BooleanProperty enableCommonTable =
@@ -58,6 +60,7 @@ public class SetupView extends TabPane
                 .bind(enableTableMode.not());
         measurementEnrTab.disableProperty()
                 .bind(enableTableMode.not().or(enableCommonTable));
+        */
     }
 
     private void updateCommonTable(boolean commonTable)

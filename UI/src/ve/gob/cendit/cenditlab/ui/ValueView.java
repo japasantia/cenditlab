@@ -16,11 +16,16 @@ public class ValueView extends HBox
     private TextField valueTextField;
 
     @FXML
-    private ChoiceBox<Unit> unitsChoiceBox;
+    private ChoiceBox<Unit> unitChoiceBox;
+
+    @FXML
+    private ChoiceBox<Multiplier> multiplierChoiceBox;
 
     private ValueData data;
 
     private boolean updateViewEnabled;
+
+    private IUpdateListener dataUpdateListener = source -> updateValueView();
 
     public ValueView()
     {
@@ -40,68 +45,25 @@ public class ValueView extends HBox
 
     private void initialize()
     {
-        valueTextField.setOnAction(event -> onUpdateValue());
+        valueTextField.setOnAction(event -> updateValue());
 
-        unitsChoiceBox.setOnMouseClicked(event -> onUpdateUnit(unitsChoiceBox.getValue()));
+        // unitChoiceBox.setOnMouseClicked(event -> updateUnit(unitChoiceBox.getValue()));
 
         valueTextField.focusedProperty()
                 .addListener((observable, oldValue, newValue) ->
                     {
                         if (!newValue)
-                            onUpdateValue();
+                            updateValue();
                     });
 
-        unitsChoiceBox.focusedProperty()
-                .addListener((observable, oldValue, newValue) ->
-                    {
-                        if (!newValue)
-                            onUpdateUnit(unitsChoiceBox.getValue());
-                    });
+        unitChoiceBox.valueProperty()
+                .addListener((observable, oldValue, newValue) -> updateUnit(newValue));
 
-        /*
-        unitsChoiceBox.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) ->
-                    {
-                        onUpdateUnit(newValue);
-                    });
-        */
-    }
+        multiplierChoiceBox.getItems().setAll(Multiplier.values());
 
-    private void onUpdateValue()
-    {
-        if (isUpdateViewEnabled())
-        {
-            setUpdateViewEnabled(false);
+        multiplierChoiceBox.valueProperty()
+                .addListener((observable, oldValue, newValue) -> updateMultiplier(newValue));
 
-            data.setValue(valueTextField.getText());
-
-            onUpdateFieldView();
-
-            // TODO: revisar operacion flags para update
-            setUpdateViewEnabled(true);
-        }
-    }
-
-    private void onUpdateUnit(Unit newUnit)
-    {
-        // TODO: revisar proceso de actualizacion -> unit == null
-        if (isUpdateViewEnabled() && newUnit != null)
-        {
-            setUpdateViewEnabled(false);
-
-            data.setUnit(newUnit);
-
-            onUpdateFieldView();
-
-            // TODO: revisar operacion flags para update
-            setUpdateViewEnabled(true);
-        }
-    }
-
-    private void onUpdateFieldView()
-    {
-        valueTextField.setText(data.getValue());
-        unitsChoiceBox.setValue(data.getUnit());
     }
 
     public void setData(ValueData value)
@@ -111,16 +73,117 @@ public class ValueView extends HBox
             throw new IllegalArgumentException("data must not be null");
         }
 
-        data = value;
-        data.addUpdateListener(source -> onUpdateFieldView());
+        if (data != null)
+        {
+            data.removeListener(dataUpdateListener);
+        }
 
-        valueTextField.setText(data.getValue());
-        setChoiceUnits(data.getValidUnits());
+        data = value;
+        data.addUpdateListener(dataUpdateListener);
+
+        updateValueView();
     }
 
     public ValueData getData()
     {
         return data;
+    }
+
+    private void updateValue()
+    {
+        if (isUpdateViewEnabled())
+        {
+            data.setValue(valueTextField.getText());
+
+            // updateValueView();
+        }
+    }
+
+    private void updateUnit(Unit newUnit)
+    {
+        if (isUpdateViewEnabled() && newUnit != null)
+        {
+            data.setUnit(newUnit);
+
+            // updateValueView();
+        }
+    }
+
+    private void updateMultiplier(Multiplier newMultiplier)
+    {
+        if (isUpdateViewEnabled() && newMultiplier != null)
+        {
+            data.setMultiplier(newMultiplier);
+        }
+    }
+
+    private void updateValueView()
+    {
+        setUpdateViewEnabled(false);
+
+        loadValue(data);
+        loadMultiplier(data);
+        loadValidUnits(data);
+        loadUnit(data);
+
+        setUpdateViewEnabled(true);
+    }
+
+    private void loadValue(ValueData valueData)
+    {
+        if (valueData != null)
+        {
+            valueTextField.setText(valueData.getValue());
+        }
+        else
+        {
+            valueTextField.clear();
+        }
+    }
+
+    private void loadMultiplier(ValueData valueData)
+    {
+        Multiplier multiplier = valueData.getMultiplier();
+
+        if (multiplier != null)
+        {
+            multiplierChoiceBox.setVisible(true);
+            multiplierChoiceBox.setValue(multiplier);
+        }
+        else
+        {
+            multiplierChoiceBox.setVisible(false);
+        }
+    }
+
+    private void loadUnit(ValueData valueData)
+    {
+        Unit unit = valueData.getUnit();
+
+        if (unit != null)
+        {
+            unitChoiceBox.setVisible(true);
+            unitChoiceBox.setValue(unit);
+        }
+        else
+        {
+            unitChoiceBox.setVisible(false);
+        }
+    }
+
+    private void loadValidUnits(ValueData valueData)
+    {
+        Unit[] units = valueData.getValidUnits();
+
+        if (units != null)
+        {
+            unitChoiceBox.getItems().setAll(units);
+        }
+    }
+
+    public Unit getUnit()
+    {
+        return unitChoiceBox.getValue();
     }
 
     public void setUpdateViewEnabled(boolean value)
@@ -137,38 +200,6 @@ public class ValueView extends HBox
     public String toString()
     {
         return data.toString();
-    }
-
-    public void setChoiceUnits(DataUnits units)
-    {
-        if (units != null && units != DataUnits.EMPTY_UNITS)
-        {
-            if (unitsChoiceBox.getItems().size() > 0)
-                unitsChoiceBox.getItems().clear();
-
-            unitsChoiceBox.getItems().addAll(units.getUnits());
-            unitsChoiceBox.setVisible(true);
-            unitsChoiceBox.setValue(units.get(0));
-        }
-        else
-        {
-            unitsChoiceBox.setVisible(false);
-        }
-    }
-
-    public DataUnits getChoiceUnits()
-    {
-        return data.getValidUnits();
-    }
-
-    public Unit getUnit()
-    {
-        return unitsChoiceBox.getValue();
-    }
-
-    public void setUnit(Unit unit)
-    {
-        unitsChoiceBox.setValue(unit);
     }
 
     public boolean validate(IValueValidator validator)

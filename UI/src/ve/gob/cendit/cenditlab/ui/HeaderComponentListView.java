@@ -29,7 +29,7 @@ public class HeaderComponentListView<T extends Component> extends TitledPane
     @FXML
     private ListView<T> containerListView;
 
-    private ViewType viewType = ViewType.LIST_ICON;
+    private ViewType viewType = ViewType.ICON;
 
     private EventHandler<MouseEvent> onItemClickedHandler;
     private Node selectedNodeView;

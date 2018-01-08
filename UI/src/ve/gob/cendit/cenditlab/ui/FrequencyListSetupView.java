@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrequencyListPane extends TitledPane
+public class FrequencyListSetupView extends TitledPane
 {
-    private static final String FXML_URL = "fxml/frequency-list-pane.fxml";
+    private static final String FXML_URL = "fxml/frequency-list-setup-view.fxml";
 
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
@@ -34,13 +34,12 @@ public class FrequencyListPane extends TitledPane
     private static final IValueValidator valueValidator =
             value -> FrequencyData.isValid(value);
 
-    public FrequencyListPane()
+    public FrequencyListSetupView()
     {
         viewLoader.load(this, this);
 
         valueViewsList = frequencyListView.getItems();
         ValueView valueView = new ValueView(new FrequencyData());
-        valueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
         valueViewsList.add(valueView);
     }
 
@@ -48,7 +47,6 @@ public class FrequencyListPane extends TitledPane
     private void addButtonClicked(MouseEvent event)
     {
         ValueView valueView = new ValueView(new FrequencyData());
-        valueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
 
         valueViewsList.add(valueView);
     }

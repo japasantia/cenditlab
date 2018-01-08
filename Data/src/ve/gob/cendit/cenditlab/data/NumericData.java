@@ -1,44 +1,31 @@
 package ve.gob.cendit.cenditlab.data;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NumericData extends ValueData
 {
-    protected static final Unit DEFAULT_UNIT =
-            new Unit("", 1.0f);
+    public static final String DEFAULT_VALUE = "0.0";
 
-    protected static final String DEFAULT_VALUE = "0.0";
-
-    private static final String NUMERIC_FIELD_REGEX =
-            "^\\s*(?<scalar>[+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)(\\s*(?<unit>\\w+)?)\\s*$";
+    private static final String NUMERIC_DATA_REGEX =
+            "([+-]?\\d+(\\.\\d*)?([eE][+-]?\\d+)?)\\s*(p|n|u|m|k|MEG|G|T)?\\s*(Hz|dB|K|C|°C|F)?";
 
     private static final String SCALAR_PART_REGEX =
-            "(?<scalar>[+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)";
+            "(?<scalar>[+-]?\\d+(\\.\\d*)?([eE][+-]?\\d+)?)";
 
-    private static final String UNIT_PART_REGEX =
-            "([+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)\\s*(?<unit>\\w+)?";
-
-    private static final Pattern numericFieldPattern =
-            Pattern.compile(NUMERIC_FIELD_REGEX);
+    private static final Pattern numericDataPattern =
+            Pattern.compile(NUMERIC_DATA_REGEX);
 
     private static final Pattern numericScalarPattern =
             Pattern.compile(SCALAR_PART_REGEX);
 
-    private static final Pattern numericUnitRegex =
-            Pattern.compile(UNIT_PART_REGEX);
-
     private float magnitude;
+    private boolean normalizeEnabled = false;
 
     public NumericData()
     {
-        super(DEFAULT_VALUE,  DEFAULT_UNIT);
-    }
-
-    public NumericData(String scalar, Unit unit)
-    {
-        float mag = Float.parseFloat(scalar);
-        setMagnitude(magnitude * unit.getMultiplier());
+        super(DEFAULT_VALUE, Multiplier.UNIT, Unit.NONE);
     }
 
     public NumericData(String value)
@@ -46,15 +33,30 @@ public class NumericData extends ValueData
         setValue(value);
     }
 
+    public NumericData(String scalar, Unit unit)
+    {
+        this(scalar, null, unit);
+    }
+
+    public NumericData(String scalar, Multiplier multiplier, Unit unit)
+    {
+        float value = Float.parseFloat(scalar);
+
+        update(String.valueOf(value), unit, multiplier);
+    }
+
     public void setMagnitude(float magnitude)
     {
         this.magnitude = magnitude;
 
-        Unit unit = getValidUnits().getUnitForMagnitude(magnitude);
-        float mag = NumericData.normalizeMagnitude(magnitude);
+        Multiplier multiplier = Multiplier.getMagnitudeMultiplier(magnitude);
 
-        super.setValue(String.valueOf(mag));
-        super.setUnit(unit);
+        if (multiplier != null)
+        {
+            magnitude = magnitude / multiplier.getMultiplier();
+        }
+
+        update(String.valueOf(magnitude), getUnit(), multiplier);
     }
 
     public float getMagnitude()
@@ -65,33 +67,79 @@ public class NumericData extends ValueData
     @Override
     public void setValue(String value)
     {
-        // TODO: check for null value
         String scalarPart = NumericData.extractScalar(value);
 
-        if (scalarPart == null)
-        {
-            throw new IllegalArgumentException("Bad format numeric data");
-        }
+        Objects.requireNonNull(scalarPart, "Bad format for numeric data");
 
-        String unitPart = NumericData.extractUnit(value);
+        Multiplier multiplier = Multiplier.extractMultiplier(value);
 
-        Unit unit = getValidUnits().get(unitPart);
+        Unit unit = Unit.extractUnit(value);
 
         float scalar = Float.parseFloat(scalarPart);
 
-        setMagnitude(scalar * unit.getMultiplier());
+        if (multiplier != null)
+        {
+            magnitude = scalar * multiplier.getMultiplier();
+        }
+
+        update(String.valueOf(scalar), unit, multiplier);
+    }
+
+    private void update(String value, Unit unit, Multiplier multiplier)
+    {
+        setUpdateEnabled(false);
+
+        super.setValue(value);
+
+        if (unit != null)
+        {
+            super.setUnit(unit);
+        }
+
+        if (multiplier != null)
+        {
+            super.setMultiplier(multiplier);
+        }
+
+        setUpdateEnabled(true);
+
+        update();
     }
 
     @Override
-    public void setUnit(Unit unit)
+    public void setUnit(Unit value)
     {
-        // TODO: check for unit null
+        super.setUnit(value);
+    }
 
-        float value = Float.parseFloat(getValue());
-        float multiplier = unit.getMultiplier();
-        this.magnitude = value * multiplier;
+    @Override
+    public void setMultiplier(Multiplier value)
+    {
+        super.setMultiplier(value);
+    }
 
-        super.setUnit(unit);
+    public boolean isNormalizeEnabled()
+    {
+        return normalizeEnabled;
+    }
+
+    public void setNormalizeEnabled(boolean value)
+    {
+        normalizeEnabled = value;
+    }
+
+    public void normalize()
+    {
+        float magnitude = getMagnitude();
+        Multiplier multiplier = getMultiplier();
+        multiplier = multiplier != null ? multiplier : Multiplier.UNIT;
+
+        magnitude = magnitude * multiplier.getMultiplier();
+        multiplier = Multiplier.getMagnitudeMultiplier(magnitude);
+
+        magnitude = magnitude / multiplier.getMultiplier();
+
+        update(String.valueOf(magnitude), getUnit(), multiplier);
     }
 
     @Override
@@ -104,7 +152,7 @@ public class NumericData extends ValueData
 
     public static boolean isValid(String value)
     {
-        return value.matches(NUMERIC_FIELD_REGEX);
+        return value.matches(NUMERIC_DATA_REGEX);
     }
 
     public static boolean hasScalar(String value)
@@ -112,94 +160,20 @@ public class NumericData extends ValueData
         return value != null && value.matches(SCALAR_PART_REGEX);
     }
 
-    public static boolean hasUnit(String value)
+    public static boolean hasUnit(String data)
     {
-        return value != null && value.matches(UNIT_PART_REGEX);
+        return Unit.hasUnit(data);
     }
-
-    // TODO: revisar eliminacion
-    /*
-    public static float parseFloat(String value)
-    {
-        float magnitude = 0.0f;
-
-        if (hasScalar(value))
-        {
-            String scalar = NumericField.extractScalar(value);
-            magnitude = Float.parseFloat(scalar);
-        }
-
-        if (hasUnit(value))
-        {
-            String unitName = NumericField.extractUnit(value);
-            Unit unit = dataUnits.get(unitName);
-            multiplier =  unit.getMultiplier();
-        }
-
-        return magnitude * multiplier;
-
-
-        return magnitude;
-    }
-    */
-
-    /*
-    public static NumericField parse(String value, DataUnits fieldUnits)
-    {
-        Matcher matcher = numericFieldPattern.matcher(value);
-
-        if (matcher.find())
-        {
-            String scalar = matcher.group("scalar");
-            String unitName = matcher.group("unit");
-            Unit unit = fieldUnits.get(unitName);
-
-            return new NumericField(scalar, unit);
-        }
-
-        throw new IllegalArgumentException("Invalid frequency value format");
-    }
-    */
 
     public static String extractScalar(String field)
     {
-        return extractPart(field, "scalar", numericScalarPattern);
-    }
-
-    public static String extractUnit(String field)
-    {
-        return extractPart(field, "unit", numericUnitRegex);
-    }
-
-    private static String extractPart(String field, String partName, Pattern pattern)
-    {
-        Matcher matcher = pattern.matcher(field);
+        Matcher matcher = numericScalarPattern.matcher(field);
 
         if (matcher.find())
         {
-            return matcher.group(partName);
+            return matcher.group("scalar");
         }
 
         return null;
-    }
-
-    private static float normalizeMagnitude(float magnitude)
-    {
-        float abs = Math.abs(magnitude);
-
-        if (abs >= 1.0e9f)
-        {
-            return magnitude / 1.0e9f;
-        }
-        else if (abs >= 1.0e6)
-        {
-            return magnitude / 1.0e6f;
-        }
-        else if (abs >= 1.0e3)
-        {
-            return magnitude / 1.0e3f;
-        }
-
-        return magnitude;
     }
 }

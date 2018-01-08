@@ -26,10 +26,10 @@ public class EnrSetupView extends TitledPane
     private Accordion enrTablesAccordion;
 
     @FXML
-    private EnrTablePane enrCommonTablePane;
+    private EnrTableSetupView enrCommonTablePane;
 
     @FXML
-    private EnrTablePane enrExtraTablePane;
+    private EnrTableSetupView enrExtraTablePane;
 
 
     public EnrSetupView()
@@ -79,7 +79,7 @@ public class EnrSetupView extends TitledPane
                     });
 
         /*
-        enrCommonTablePane = new EnrTablePane();
+        enrCommonTablePane = new EnrTableSetupView();
         enrTablesAccordion.getPanes().add(enrCommonTablePane);
 
         configureCommonEnrTable();
@@ -97,7 +97,7 @@ public class EnrSetupView extends TitledPane
     {
         if (enrExtraTablePane == null)
         {
-            enrExtraTablePane = new EnrTablePane();
+            enrExtraTablePane = new EnrTableSetupView();
         }
 
         enrCommonTablePane.setText("Tabla ENR calibracion");

@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import ve.gob.cendit.cenditlab.ui.EnrSetupViewProto1?>
-<?import ve.gob.cendit.cenditlab.ui.EnrTablePane?>
+<?import ve.gob.cendit.cenditlab.ui.EnrTableSetupView?>
 <?import ve.gob.cendit.cenditlab.ui.FrequencySetupViewProto1?>
 
 <fx:root type="TabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-1" minWidth="-1" prefHeight="-1" prefWidth="-1" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
@@ -21,12 +21,12 @@
     </Tab>
     <Tab fx:id="commonEnrTab" text="ENR Comun">
       <content>
-          <EnrTablePane fx:id="commonEnrTablePane" />
+          <EnrTableSetupView fx:id="commonEnrTablePane" />
       </content>
     </Tab>
     <Tab fx:id="measurementEnrTab" text="ENR Medición">
       <content>
-        <EnrTablePane fx:id="measurementEnrTablePane" />
+        <EnrTableSetupView fx:id="measurementEnrTablePane" />
       </content>
     </Tab>
   </tabs>

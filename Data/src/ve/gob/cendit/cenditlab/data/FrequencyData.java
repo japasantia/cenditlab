@@ -6,19 +6,9 @@ public class FrequencyData extends NumericData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
-    public static final Unit HZ =
-            new Unit("Hz", 1.0f);
-    public static final Unit KHZ =
-            new Unit("kHz", 1000.0f);
-    public static final Unit MHZ =
-            new Unit("MHz", 1.0e6f);
-    public static final Unit GHZ =
-            new Unit("GHz", 1.0e9f);
+    public static final Unit DEFAULT_UNIT = Unit.HZ;
 
-    public static final Unit DEFAULT_UNIT = HZ;
-
-    public static final DataUnits FIELD_UNITS =
-            new DataUnits(HZ, KHZ, MHZ, GHZ);
+    public static final Unit[] VALID_UNITS = { Unit.HZ };
 
     private static final String FREQUENCY_FIELD_REGEX =
         "^\\s*(?<scalar>[+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)(\\s*(?<unit>Hz|kHz|MHz|GHz))?\\s*$";
@@ -45,7 +35,7 @@ public class FrequencyData extends NumericData
 
     public FrequencyData(String scalar, Unit unit)
     {
-        setValidUnits(FIELD_UNITS);
+        setValidUnits(VALID_UNITS);
 
         setValue(scalar);
         setUnit(unit);
@@ -53,7 +43,7 @@ public class FrequencyData extends NumericData
 
     public FrequencyData(String field)
     {
-        setValidUnits(FIELD_UNITS);
+        setValidUnits(VALID_UNITS);
 
         setValue(field);
     }

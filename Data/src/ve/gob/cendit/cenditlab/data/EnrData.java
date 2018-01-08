@@ -6,15 +6,9 @@ public class EnrData extends NumericData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
-    public static final Unit DB =
-            new Unit("dB", 1.0f);
-    public static final Unit PER_UNIT =
-            new Unit("Unit", 1.0f);
+    public static final Unit DEFAULT_UNIT = Unit.DB;
 
-    public static final Unit DEFAULT_UNIT = DB;
-
-    public static final DataUnits FIELD_UNITS =
-            new DataUnits(DB, PER_UNIT);
+    public static final Unit VALID_UNITS[] = { Unit.DB, Unit.KELVIN, Unit.CELSIUS, Unit.FARENHEIT, Unit.NONE};
 
     private static final String ENR_FIELD_REGEX =
             "^\\s*(?<scalar>[+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)(\\s*(?<unit>dB|DB|db|K|C|F))?\\s*$";
@@ -43,13 +37,13 @@ public class EnrData extends NumericData
     {
         super(scalar, unit);
 
-        setValidUnits(FIELD_UNITS);
+        setValidUnits(VALID_UNITS);
     }
 
     public EnrData(String value)
     {
         super(value);
 
-        setValidUnits(FIELD_UNITS);
+        setValidUnits(VALID_UNITS);
     }
 }

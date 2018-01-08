@@ -44,11 +44,7 @@ public class TasksExecutionActivity extends Activity
     public void initialize()
     {
        tasksExecutionView = new TasksExecutionActivityView();
-    }
 
-    @Override
-    public void load()
-    {
         for (System system : systemsArray)
         {
             ComponentDescriptor[] taskDescriptors = system.getTaskDescriptors();
@@ -58,6 +54,12 @@ public class TasksExecutionActivity extends Activity
                 tasksExecutionView.addTasks((Task) taskDescriptor.create(null));
             }
         }
+    }
+
+    @Override
+    public void load()
+    {
+        tasksExecutionView.load();
 
         getApplicationController().setMainView(tasksExecutionView);
     }
@@ -71,7 +73,7 @@ public class TasksExecutionActivity extends Activity
     @Override
     public void unload()
     {
-        tasksExecutionView.unloadTasks();
+        tasksExecutionView.unload();
     }
 
     public void setBlocked(boolean value)

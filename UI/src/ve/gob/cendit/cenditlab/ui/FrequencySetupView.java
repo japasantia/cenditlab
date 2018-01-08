@@ -32,11 +32,11 @@ public class FrequencySetupView extends VBox
     @FXML
     private RadioButton sweepRadioButton;
 
-    private FrequencyRangePane frequencyRangePane;
+    private FrequencyRangeSetupView frequencyRangeSetupView;
 
-    private FrequencyListPane frequencyListPane;
+    private FrequencyListSetupView frequencyListSetupView;
 
-    private FrequencyFixedPane frequencyFixedPane;
+    private FrequencyFixedSetupView frequencyFixedSetupView;
 
 
     public FrequencySetupView() throws IOException
@@ -60,22 +60,22 @@ public class FrequencySetupView extends VBox
     private void initialize()
     {
         sweepRadioButton.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> setFrequencyPane(newValue, frequencyRangePane));
+                (observable, oldValue, newValue) -> setFrequencyPane(newValue, frequencyRangeSetupView));
 
         listRadioButton.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> setFrequencyPane(newValue, frequencyListPane));
+                (observable, oldValue, newValue) -> setFrequencyPane(newValue, frequencyListSetupView));
 
         fixedRadioButton.selectedProperty().addListener(
-                (observable, oldValue, newValue) -> setFrequencyPane(newValue, frequencyFixedPane));
+                (observable, oldValue, newValue) -> setFrequencyPane(newValue, frequencyFixedSetupView));
     }
 
     private void initializePanes()
     {
-        frequencyRangePane = new FrequencyRangePane();
+        frequencyRangeSetupView = new FrequencyRangeSetupView();
 
-        frequencyFixedPane = new FrequencyFixedPane();
+        frequencyFixedSetupView = new FrequencyFixedSetupView();
 
-        frequencyListPane = new FrequencyListPane();
+        frequencyListSetupView = new FrequencyListSetupView();
     }
 
     private void setFrequencyPane(boolean enabled, Node pane)

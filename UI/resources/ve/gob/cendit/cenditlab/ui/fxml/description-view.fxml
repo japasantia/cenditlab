@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="nameLabel" text="Component Name">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <HBox>
+         <children>
+            <ImageView fx:id="iconImageView" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/system-icon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="descriptionLabel" text="Component description">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+   </padding>
+</VBox>

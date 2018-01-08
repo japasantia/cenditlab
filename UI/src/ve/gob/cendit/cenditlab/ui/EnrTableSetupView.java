@@ -14,9 +14,9 @@ import ve.gob.cendit.cenditlab.data.FrequencyData;
 
 import java.io.IOException;
 
-public class EnrTablePane extends TitledPane
+public class EnrTableSetupView extends TitledPane
 {
-    private static final String FXML_URL = "fxml/enr-table-pane.fxml";
+    private static final String FXML_URL = "fxml/enr-table-setup-view.fxml";
 
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
@@ -31,7 +31,7 @@ public class EnrTablePane extends TitledPane
 
     private ObservableList<HBox> enrEntriesList;
 
-    public EnrTablePane()
+    public EnrTableSetupView()
     {
         viewLoader.load(this, this);
 
@@ -70,9 +70,6 @@ public class EnrTablePane extends TitledPane
 
         frequencyValueView.setData(frequencyField);
         enrValueView.setData(enrField);
-
-        frequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
-        enrValueView.setChoiceUnits(EnrData.FIELD_UNITS);
 
         entryHBox.getChildren().addAll(frequencyValueView, enrValueView);
 

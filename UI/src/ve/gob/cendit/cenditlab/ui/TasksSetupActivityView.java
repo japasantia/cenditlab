@@ -39,7 +39,7 @@ public class TasksSetupActivityView extends SplitPane
     {
         this();
 
-        loadSystems(systems);
+        setSystems(systems);
     }
 
     private void initialize()
@@ -55,9 +55,9 @@ public class TasksSetupActivityView extends SplitPane
         tasksContainerView.getItemsList().setItemViewFactory(this::getTaskView);
     }
 
-    public void loadSystems(System... systems)
+    public void setSystems(System... systems)
     {
-        unloadSystems();
+        clear();
 
         addSystems(systems);
     }
@@ -66,20 +66,6 @@ public class TasksSetupActivityView extends SplitPane
     {
         Arrays.stream(systems)
             .forEach(system -> taskDescriptorsToolboxListView.getItemsList().addAll(system.getTaskDescriptors()));
-    }
-
-    public void unloadSystems()
-    {
-        clearTaskDescrptorsList();
-
-        clearTaskSetupView();
-
-        clearTasks();
-    }
-
-    public void clearTaskDescrptorsList()
-    {
-        taskDescriptorsToolboxListView.getItemsList().clear();
     }
 
     public void addTasks(Task... tasks)
@@ -102,11 +88,6 @@ public class TasksSetupActivityView extends SplitPane
         tasksContainerView.getItemsList().remove(task);
     }
 
-    public void clearTasks()
-    {
-        tasksContainerView.getItemsList().clear();
-    }
-
     public List<ComponentDescriptor> getSelectedTaskDescriptors()
     {
         return taskDescriptorsToolboxListView.getItemsList().getAllSelected();
@@ -123,9 +104,42 @@ public class TasksSetupActivityView extends SplitPane
         taskSetupVBox.getChildren().add(node);
     }
 
-    public void clearTaskSetupView()
+    public void clear()
+    {
+        clearTaskDescriptors();
+        clearTaskContainer();
+        clearTaskSetup();
+    }
+
+    public void clearTaskDescriptors()
+    {
+        taskDescriptorsToolboxListView.unload();
+        taskDescriptorsToolboxListView.getItemsList().clear();
+    }
+
+    public void clearTaskContainer()
+    {
+        tasksContainerView.unload();
+        tasksContainerView.getItemsList().clear();
+    }
+
+    public void clearTaskSetup()
     {
         taskSetupVBox.getChildren().clear();
+    }
+
+    public void load()
+    {
+        tasksContainerView.load();
+        taskDescriptorsToolboxListView.load();
+    }
+
+    public void unload()
+    {
+        taskDescriptorsToolboxListView.unload();
+        tasksContainerView.unload();
+
+        clearTaskSetup();
     }
 
     private ItemView getTaskDescriptorView(Item<ComponentDescriptor> item)

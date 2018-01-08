@@ -94,7 +94,7 @@ public class ComponentViewFactory
         {
             switch (viewType)
             {
-                case LIST_ICON:
+                case ICON:
                     viewNode = new ComponentIconView(component);
                     break;
 
@@ -114,7 +114,7 @@ public class ComponentViewFactory
         {
             switch (viewType)
             {
-                case LIST_ICON:
+                case ICON:
                     viewNode = new ComponentIconView(component);
                     break;
 

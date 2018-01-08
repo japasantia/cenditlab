@@ -6,31 +6,41 @@
 <?import ve.gob.cendit.cenditlab.ui.ToolboxListView?>
 
 <?import ve.gob.cendit.cenditlab.ui.ContainerView?>
-<fx:root type="SplitPane" dividerPositions="0.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<fx:root type="SplitPane" dividerPositions="0.3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <SplitPane dividerPositions="0.3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"> -->
 
    <items>
 
-       <HeaderFrameView fx:id="tasksHeaderFrameView" caption="Available Tasks">
-           <ToolboxListView fx:id="taskDescriptorsToolboxListView"/>
+       <HeaderFrameView text="Available Tasks">
+           <icon>
+               <Image url="@../images/multimeter.png" />
+           </icon>
+           <content>
+               <ToolboxListView fx:id="taskDescriptorsToolboxListView" maxHeight="Infinity" maxWidth="Infinity" />
+           </content>
        </HeaderFrameView>
 
-      <SplitPane dividerPositions="0.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL">
+      <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL">
 
-          <HeaderFrameView fx:id="tasksHeaderFrameView" caption="Info" collapsible="true" maxWidth="1.7976931348623157E308">
-              <center>
-                  <ContainerView fx:id="tasksContainerView" maxWidth="Infinity" maxHeight="Infinity" fitToHeight="true" fitToWidth="true">
-
-                  </ContainerView>
-              </center>
+          <HeaderFrameView fx:id="tasksHeaderFrameView" text="Info" collapsible="true" maxWidth="1.7976931348623157E308">
+              <icon>
+                  <Image url="@../images/multimeter.png" />
+              </icon>
+              <content>
+                  <ContainerView fx:id="tasksContainerView" maxWidth="Infinity" maxHeight="Infinity" fitToHeight="true" fitToWidth="true"/>
+              </content>
           </HeaderFrameView>
 
-          <HeaderFrameView fx:id="taskSetupHeaderFrameView" caption="Setup" collapsible="true" maxWidth="1.7976931348623157E308">
-              <center>
-                  <VBox fx:id="taskSetupVBox" fillWidth="true" maxWidth="Infinity" maxHeight="Infinity">
-
-                  </VBox>
-              </center>
+          <HeaderFrameView fx:id="taskSetupHeaderFrameView" text="Setup" collapsible="true" maxWidth="1.7976931348623157E308">
+              <icon>
+                  <Image url="@../images/multimeter.png" />
+              </icon>
+              <content>
+                  <VBox fx:id="taskSetupVBox" fillWidth="true" maxWidth="Infinity" maxHeight="Infinity"/>
+              </content>
           </HeaderFrameView>
 
       </SplitPane>

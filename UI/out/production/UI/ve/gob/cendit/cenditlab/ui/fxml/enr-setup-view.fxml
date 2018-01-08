@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import ve.gob.cendit.cenditlab.ui.EnrTablePane?>
+<?import ve.gob.cendit.cenditlab.ui.EnrTableSetupView?>
 <?import ve.gob.cendit.cenditlab.ui.ValueView?>
 
 <fx:root animated="false" text="Configuración ENR" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
@@ -34,8 +34,8 @@
         <!-- Enr tables entry pane -->
         <Accordion fx:id="enrTablesAccordion" GridPane.columnSpan="3" GridPane.rowIndex="4">
            <panes>
-             <EnrTablePane fx:id="enrCommonTablePane" text="Tabla ENR" />
-             <EnrTablePane fx:id="enrExtraTablePane" disable="true" text="Tabla ENR medicion" visible="false" />
+             <EnrTableSetupView fx:id="enrCommonTablePane" text="Tabla ENR" />
+             <EnrTableSetupView fx:id="enrExtraTablePane" disable="true" text="Tabla ENR medicion" visible="false" />
            </panes>
         </Accordion>
             <Label text="ENR Spot" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />

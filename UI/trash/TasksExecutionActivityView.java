@@ -82,9 +82,9 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void unloadTasks()
     {
-        clearTasksList();
+        clearTaskList();
 
-        clearResult();
+        clearResults();
 
         clearOutput();
     }

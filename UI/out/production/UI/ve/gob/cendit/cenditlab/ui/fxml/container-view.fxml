@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.ScrollPane?>
 
-<fx:root type="ScrollPane"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="ScrollPane"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" fitToHeight="true" pannable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pannable="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
 
 

@@ -2,7 +2,7 @@ package ve.gob.cendit.cenditlab.ui.base;
 
 public enum ViewType
 {
-    LIST_ICON,
+    ICON,
     DESCRIPTION,
     DETAILS,
     SETUP,

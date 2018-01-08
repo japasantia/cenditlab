@@ -3,11 +3,10 @@ package ve.gob.cendit.cenditlab.ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import ve.gob.cendit.cenditlab.data.*;
-import ve.gob.cendit.cenditlab.data.ValueData;
 
-public class FrequencyRangePane extends TitledPane
+public class FrequencyRangeSetupView extends TitledPane
 {
-    private static final String FXML_URL = "fxml/frequency-range-pane.fxml";
+    private static final String FXML_URL = "fxml/frequency-range-setup-view.fxml";
 
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
@@ -33,12 +32,12 @@ public class FrequencyRangePane extends TitledPane
 
     private Boolean updateEnabled;
 
-    public FrequencyRangePane()
+    public FrequencyRangeSetupView()
     {
         this(new FrequencySetup());
     }
 
-    public FrequencyRangePane(FrequencySetup setup)
+    public FrequencyRangeSetupView(FrequencySetup setup)
     {
         viewLoader.load(this, this);
 

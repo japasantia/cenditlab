@@ -15,11 +15,11 @@ public class BasicFrequencySetupView extends GridPane
     private ChoiceBox<String> frequencyModeChoiceBox;
 
     @FXML
-    private FrequencyRangePane frequencyRangePane;
+    private FrequencyRangeSetupView frequencyRangeSetupView;
 
     private ValueView fixedFrequencyValueView;
 
-    private FrequencyListPane frequencyListPane;
+    private FrequencyListSetupView frequencyListSetupView;
 
     private Node currentFrequencySetupParent;
 
@@ -41,7 +41,7 @@ public class BasicFrequencySetupView extends GridPane
 
     private void initialize()
     {
-        currentFrequencySetupParent = frequencyRangePane;
+        currentFrequencySetupParent = frequencyRangeSetupView;
 
         frequencyModeChoiceBox.getItems()
                 .addAll(frequencySetup.getFrequencyModeOptions().getValues());
@@ -109,18 +109,18 @@ public class BasicFrequencySetupView extends GridPane
 
     private void loadFrequencyListPane()
     {
-        if (frequencyListPane == null)
+        if (frequencyListSetupView == null)
         {
-            frequencyListPane = new FrequencyListPane();
+            frequencyListSetupView = new FrequencyListSetupView();
         }
 
 
-        changeFrequencySetupPane(frequencyListPane);
+        changeFrequencySetupPane(frequencyListSetupView);
     }
 
     private void loadFrequencyRangePane()
     {
-        frequencyRangePane.setFrequencySetup(frequencySetup);
-        changeFrequencySetupPane(frequencyRangePane);
+        frequencyRangeSetupView.setFrequencySetup(frequencySetup);
+        changeFrequencySetupPane(frequencyRangeSetupView);
     }
 }

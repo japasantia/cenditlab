@@ -1,14 +1,15 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.GridPane;
-import ve.gob.cendit.cenditlab.data.FrequencyData;
+import javafx.scene.Node;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.data.FrequencySetup;
-import ve.gob.cendit.cenditlab.data.NumericData;
+
+import java.util.Objects;
 
 
-public class FrequencySetupViewProto1 extends GridPane
+public class FrequencySetupViewProto1 extends HBox
 {
     private static final int SETUP_TO_VIEW = 0;
     private static final int VIEW_TO_SETUP = 1;
@@ -18,30 +19,27 @@ public class FrequencySetupViewProto1 extends GridPane
     private ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
-    private ChoiceBox<String> frequencyModeChoiceBox;
+    private OptionsView frequencyModeOptionsView;
 
     @FXML
-    private ChoiceBox<String> bandwidthChoiceBox;
+    private OptionsView bandwidthOptionsView;
 
     @FXML
-    private ValueView minFrequencyValueView;
+    private ValueView averagePointsValueView;
 
     @FXML
-    private ValueView maxFrequencyValueView;
+    private VBox frequencyDataVBox;
 
     @FXML
-    private ValueView centralFrequencyValueView;
+    private FrequencyRangeSetupView frequencyRangeSetupView;
 
-    @FXML
-    private ValueView spanFrequencyValueView;
+    private FrequencyFixedSetupView frequencyFixedSetupView;
 
-    @FXML
-    private ValueView valueFrequencyValueView;
+    private FrequencyListSetupView frequencyListSetupView;
 
-    @FXML
-    private ValueView pointsValueView;
+    private Node currentFrequencySetupNode;
 
-    private Boolean blockUpdate;
+    private boolean blockUpdate;
 
     private FrequencySetup frequencySetup;
 
@@ -54,13 +52,19 @@ public class FrequencySetupViewProto1 extends GridPane
 
     private void initialize()
     {
-        blockUpdate = true;
+        setFrequencySetup(new FrequencySetup());
 
-        frequencySetup = new FrequencySetup();
+        currentFrequencySetupNode = frequencyRangeSetupView;
 
-        transferSetup(SETUP_TO_VIEW);
+        frequencyModeOptionsView.valueProperty()
+            .addListener((observable, oldValue, newValue) -> changeSetupView(newValue));
+    }
 
-        blockUpdate = false;
+    public void setFrequencySetup(FrequencySetup frequencySetup)
+    {
+        this.frequencySetup = frequencySetup;
+
+        loadSetup();
     }
 
     public FrequencySetup getFrequencySetup()
@@ -68,128 +72,65 @@ public class FrequencySetupViewProto1 extends GridPane
         return frequencySetup;
     }
 
-    private void minMaxFrequenciesUpdate()
+    public void setUpdateBlocked(boolean value)
     {
-        if (blockUpdate)
-        {
-            return;
-        }
-
         blockUpdate = true;
-
-        FrequencyData maxFrequencyData = getFrequencySetup().getMaxFrequencyData();
-        FrequencyData minFrequencyData = getFrequencySetup().getMinFrequencyData();
-        FrequencyData centralFrequencyData = getFrequencySetup().getCentralFrequencyData();
-        FrequencyData spanFrequencyData = getFrequencySetup().getSpanFrequencyData();
-
-        float maxFrequency = maxFrequencyData.getMagnitude();
-        float minFrequency = minFrequencyData.getMagnitude();
-
-        float centralFrequency = (maxFrequency + minFrequency) / 2.0f;
-        float spanFrequency = (maxFrequency - minFrequency);
-
-        centralFrequencyData.setMagnitude(centralFrequency);
-        spanFrequencyData.setMagnitude(spanFrequency);
-
-        centralFrequencyValueView.setData(centralFrequencyData);
-        spanFrequencyValueView.setData(spanFrequencyData);
-
-        blockUpdate = false;
     }
 
-    private void centralSpanFrequenciesUpdate()
+    public boolean isUpdateBlocked()
     {
-        if (blockUpdate)
-        {
-            return;
-        }
-
-        blockUpdate = true;
-
-        FrequencyData maxFrequencyData = getFrequencySetup().getMaxFrequencyData();
-        FrequencyData minFrequencyData = getFrequencySetup().getMinFrequencyData();
-        FrequencyData centralFrequencyData = getFrequencySetup().getCentralFrequencyData();
-        FrequencyData spanFrequencyData = getFrequencySetup().getSpanFrequencyData();
-
-        float centralFrequency = centralFrequencyData.getMagnitude();
-        float spanFrequency = spanFrequencyData.getMagnitude();
-
-        float maxFrequency =
-                centralFrequency + spanFrequency / 2.0f;
-        float minFrequency =
-                centralFrequency - spanFrequency / 2.0f;
-
-        maxFrequencyData.setMagnitude(maxFrequency);
-        minFrequencyData.setMagnitude(minFrequency);
-
-        maxFrequencyValueView.setData(maxFrequencyData);
-        minFrequencyValueView.setData(minFrequencyData);
-
-        blockUpdate = false;
+        return blockUpdate;
     }
 
-    private void transferSetup(int direction)
+    private void loadSetup()
     {
-        if (direction == SETUP_TO_VIEW)
+        setUpdateBlocked(true);
+
+        frequencyModeOptionsView.setOptions(frequencySetup.getFrequencyModeOptions());
+
+        bandwidthOptionsView.setOptions(frequencySetup.getBandwidthOptions());
+
+        averagePointsValueView.setData(frequencySetup.getAveragePointsNumericData());
+
+        setUpdateBlocked(false);
+    }
+
+    private void changeSetupView(String setupView)
+    {
+        if (Objects.isNull(setupView))
+            return;
+
+        switch (setupView)
         {
-            minFrequencyValueView.setData(frequencySetup.getMinFrequencyData());
-            maxFrequencyValueView.setData(frequencySetup.getCentralFrequencyData());
-            centralFrequencyValueView.setData(frequencySetup.getCentralFrequencyData());
-            spanFrequencyValueView.setData(frequencySetup.getSpanFrequencyData());
+            case "Sweep":
+                setCurrentFrequencySetupNode(frequencyRangeSetupView);
+                break;
 
-            valueFrequencyValueView.setData(frequencySetup.getFixedFrequencyData());
+            case "List":
 
-            pointsValueView.setData(frequencySetup.getAveragePointsNumericData());
+                if (frequencyListSetupView == null)
+                {
+                    frequencyListSetupView = new FrequencyListSetupView();
+                }
+                setCurrentFrequencySetupNode(frequencyListSetupView);
+                break;
 
-            minFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
-            maxFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
-            centralFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
-            spanFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
-            valueFrequencyValueView.setChoiceUnits(FrequencyData.FIELD_UNITS);
+            case "Fixed":
 
-            frequencyModeChoiceBox.getItems()
-                    .addAll(frequencySetup.getFrequencyModeOptions().getValues());
-            frequencyModeChoiceBox.setValue(
-                    frequencySetup.getFrequencyModeOptions().getSelected());
-
-            bandwidthChoiceBox.getItems()
-                    .addAll(frequencySetup.getBandwidthOptions().getValues());
-            bandwidthChoiceBox.setValue(
-                    frequencySetup.getBandwidthOptions().getSelected());
+                if (frequencyFixedSetupView == null)
+                {
+                    frequencyFixedSetupView = new FrequencyFixedSetupView();
+                    frequencyFixedSetupView.setFixedFrequency(frequencySetup.getFixedFrequencyData());
+                }
+                setCurrentFrequencySetupNode(frequencyFixedSetupView);
+                break;
         }
-        else if (direction == VIEW_TO_SETUP)
-        {
-            FrequencyData frequencyData;
+    }
 
-            frequencyData = (FrequencyData) minFrequencyValueView.getData();
-            frequencySetup.getMinFrequencyData().setValue(frequencyData.getValue());
-            frequencySetup.getMinFrequencyData().setUnit(frequencyData.getUnit());
-
-            frequencyData = (FrequencyData) maxFrequencyValueView.getData();
-            frequencySetup.getMaxFrequencyData().setValue(frequencyData.getValue());
-            frequencySetup.getMaxFrequencyData().setUnit(frequencyData.getUnit());
-
-            frequencyData = (FrequencyData) centralFrequencyValueView.getData();
-            frequencySetup.getCentralFrequencyData().setValue(frequencyData.getValue());
-            frequencySetup.getCentralFrequencyData().setUnit(frequencyData.getUnit());
-
-            frequencyData = (FrequencyData) spanFrequencyValueView.getData();
-            frequencySetup.getSpanFrequencyData().setValue(frequencyData.getValue());
-            frequencySetup.getSpanFrequencyData().setUnit(frequencyData.getUnit());
-
-            frequencyData = (FrequencyData) valueFrequencyValueView.getData();
-            frequencySetup.getFixedFrequencyData().setValue(frequencyData.getValue());
-            frequencySetup.getFixedFrequencyData().setUnit(frequencyData.getUnit());
-
-            NumericData averagePointsField = (NumericData) pointsValueView.getData();
-            frequencySetup.getAveragePointsNumericData().setValue(averagePointsField.getValue());
-            frequencySetup.getAveragePointsNumericData().setUnit(averagePointsField.getUnit());
-
-            frequencySetup.getBandwidthOptions().setSelected(
-                    bandwidthChoiceBox.getSelectionModel().getSelectedItem());
-
-            frequencySetup.getBandwidthOptions().setSelected(
-                    bandwidthChoiceBox.getSelectionModel().getSelectedItem());
-        }
+    private void setCurrentFrequencySetupNode(Node node)
+    {
+        frequencyDataVBox.getChildren().remove(currentFrequencySetupNode);
+        currentFrequencySetupNode = node;
+        frequencyDataVBox.getChildren().add(currentFrequencySetupNode);
     }
 }

@@ -33,7 +33,7 @@ public class ViewTests extends Application
 
         // setupViewTest();
         // enrSetupViewProto1Test();
-        // frequencySetupViewTest();
+        frequencySetupViewTest();
         // setupContainerViewTest();
         // basicFrequencySetupTest();
         // genericMainViewTest();
@@ -42,7 +42,7 @@ public class ViewTests extends Application
         // graphViewTest2();
         // toolboxViewTest();
         // containerViewTest();
-        toolboxListViewTest();
+        // toolboxListViewTest();
         // overlayFrameViewTest();
         // itemFrameViewTest();
     }
@@ -73,34 +73,10 @@ public class ViewTests extends Application
 
     private void enrSetupViewProto1Test()
     {
-        VBox root = new VBox();
+
         EnrSetupViewProto1 enrSetupView = new EnrSetupViewProto1();
-        TextArea textArea = new TextArea();
-        Button button = new Button("Show EnrSetup");
 
-        enrSetupView.enableCommonEnrTableProperty()
-                .addListener((observable, oldValue, newValue) ->
-                {
-                    textArea.appendText(String.format("Common ENR table %s\n",
-                            (newValue ? "enabled" : "disabled")));
-                });
-
-        enrSetupView.enableEnrTableModeProperty()
-                .addListener((observable, oldValue, newValue) ->
-                {
-                    textArea.appendText(String.format("ENR table mode %s\n",
-                            (newValue ? "enabled" : "disabled")));
-                });
-
-        button.setOnAction(event ->
-            {
-                textArea.appendText(enrSetupView.getSetup().toString());
-                textArea.appendText("\n");
-            });
-
-        root.getChildren().addAll(enrSetupView, textArea, button);
-
-        showView(root, "CenditLab.Reduced | Test EnrSetupView Test",
+        showView(enrSetupView, "CenditLab.Reduced | Test EnrSetupView Test",
                 600, 400);
     }
 
@@ -116,7 +92,7 @@ public class ViewTests extends Application
         Options options = new Options("Opciones",
                 "Opcion 1", "Opcion 2", "Opcion 3");
 
-        FrequencyListPane frequencyListPane = new FrequencyListPane();
+        FrequencyListSetupView frequencyListSetupView = new FrequencyListSetupView();
 
         setupContainerView.addValueData("Field", data);
         setupContainerView.addValueData("Numeric field", numericData);
@@ -125,16 +101,16 @@ public class ViewTests extends Application
 
         setupContainerView.addOptions("Options", options);
         setupContainerView.addFrequencyListPane(
-                "Frequency list", frequencyListPane);
+                "Frequency list", frequencyListSetupView);
 
         setupContainerView.addBasicFrequencySetupView(
                 "Basic frequency setup", new BasicFrequencySetupView());
 
         setupContainerView.addEnrSetupView("Enr Setup", new EnrSetupViewProto1());
 
-        setupContainerView.addSetup("Frequency Range Pane", new FrequencyRangePane());
+        setupContainerView.addSetup("Frequency Range Pane", new FrequencyRangeSetupView());
 
-        setupContainerView.addSetup("Frequency List Pane",  new FrequencyListPane());
+        setupContainerView.addSetup("Frequency List Pane",  new FrequencyListSetupView());
 
         setupContainerView.addSetup("Connection Setup", new ConnectionSetupView());
 
@@ -155,12 +131,12 @@ public class ViewTests extends Application
         SectionedView mainView = new SectionedView();
 
         BasicFrequencySetupView basicFrequencySetupView = new BasicFrequencySetupView();
-        FrequencyListPane frequencyListPane = new FrequencyListPane();
+        FrequencyListSetupView frequencyListSetupView = new FrequencyListSetupView();
         SetupView setupView = new SetupView();
 
         mainView.createCenterSection("Master", setupView);
         mainView.createCenterSection("Detail", basicFrequencySetupView);
-        mainView.createCenterSection("Status", frequencyListPane);
+        mainView.createCenterSection("Status", frequencyListSetupView);
 
         Node node = mainView.getCenterSection("Master");
 

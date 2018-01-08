@@ -74,6 +74,7 @@ public class Options
     @Override
     public String toString()
     {
-        return String.format("%s: %s", getName(), getSelected());
+        return getSelected();
+        // return String.format("%s: %s", getSelected());
     }
 }

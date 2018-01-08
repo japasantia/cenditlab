@@ -67,14 +67,14 @@ public class SetupContainerView extends ScrollPane
         setupGridPane.add(new Label(caption), 0, nextRow, 2, 1);
     }
 
-    public void addFrequencyListPane(String title, FrequencyListPane pane)
+    public void addFrequencyListPane(String title, FrequencyListSetupView pane)
     {
         int nextRow = nextExtendedRow();
 
         setupGridPane.add(pane, 0, nextRow,2, 1);
     }
 
-    public void addFrequencyRangePane(String title, FrequencyRangePane pane)
+    public void addFrequencyRangePane(String title, FrequencyRangeSetupView pane)
     {
         insertExtendedRow(pane, 2, 1);
     }
@@ -114,13 +114,13 @@ public class SetupContainerView extends ScrollPane
         {
             addOptions(title, (Options) setupObject);
         }
-        else if (setupObject instanceof FrequencyListPane)
+        else if (setupObject instanceof FrequencyListSetupView)
         {
-            addFrequencyListPane(title, (FrequencyListPane) setupObject);
+            addFrequencyListPane(title, (FrequencyListSetupView) setupObject);
         }
-        else if (setupObject instanceof FrequencyRangePane)
+        else if (setupObject instanceof FrequencyRangeSetupView)
         {
-            addFrequencyRangePane(title, (FrequencyRangePane) setupObject);
+            addFrequencyRangePane(title, (FrequencyRangeSetupView) setupObject);
         }
         else if (setupObject instanceof BasicFrequencySetupView)
         {

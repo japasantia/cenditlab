@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?scenebuilder-classpath-element .?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
 
-<fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="HBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
 <!-- <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
    <children>
-      <TextField fx:id="valueTextField" minWidth="100.0" promptText="Introduzca valor" HBox.hgrow="SOMETIMES">
-         <HBox.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-         </HBox.margin>
-      </TextField>
-      <ChoiceBox fx:id="unitsChoiceBox" HBox.hgrow="SOMETIMES" visible="false">
-         <HBox.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-         </HBox.margin>
-      </ChoiceBox>
+        <TextField fx:id="valueTextField" minWidth="100.0" promptText="Introduzca valor" HBox.hgrow="SOMETIMES">
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            </HBox.margin>
+        </TextField>
+
+        <ChoiceBox fx:id="multiplierChoiceBox" visible="false" HBox.hgrow="SOMETIMES">
+            <HBox.margin>
+                <Insets bottom="2.0" left="2.0" right="0.0" top="2.0" />
+            </HBox.margin>
+        </ChoiceBox>
+
+        <ChoiceBox fx:id="unitChoiceBox" visible="false" HBox.hgrow="SOMETIMES">
+            <HBox.margin>
+                <Insets bottom="2.0" left="0.0" right="2.0" top="2.0" />
+            </HBox.margin>
+        </ChoiceBox>
    </children>
 <!-- </HBox> -->
 </fx:root>

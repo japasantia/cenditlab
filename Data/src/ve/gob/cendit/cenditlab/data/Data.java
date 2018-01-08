@@ -55,12 +55,8 @@ public class Data
         updateEventEmitter.removeListener(listener);
     }
 
-
-
     private void onUpdateEventCaller(Object source, IUpdateListener listener, Object... args)
     {
         listener.onUpdate(source);
     }
-
-
 }

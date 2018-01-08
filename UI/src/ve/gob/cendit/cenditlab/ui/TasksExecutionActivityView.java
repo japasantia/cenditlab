@@ -16,15 +16,6 @@ public class TasksExecutionActivityView extends SplitPane
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
-    private HeaderFrameView tasksContainerView;
-
-    @FXML
-    private HeaderFrameView resultsContainerView;
-
-    @FXML
-    private HeaderFrameView outputContainerView;
-
-    @FXML
     private VBox resultsVBox;
 
     @FXML
@@ -51,7 +42,7 @@ public class TasksExecutionActivityView extends SplitPane
     {
         this();
 
-        loadTasks(tasks);
+        setTasks(tasks);
     }
 
     private void initialize()
@@ -65,9 +56,9 @@ public class TasksExecutionActivityView extends SplitPane
         tasksToolboxListView.getItemsList().setItemViewFactory(this::getTaskView);
     }
 
-    public void loadTasks(Task... tasks)
+    public void setTasks(Task... tasks)
     {
-        unloadTasks();
+        clear();
 
         addTasks(tasks);
     }
@@ -77,26 +68,17 @@ public class TasksExecutionActivityView extends SplitPane
         tasksToolboxListView.getItemsList().addAll(tasks);
     }
 
-    public void unloadTasks()
-    {
-        clearTasksList();
-
-        clearResult();
-
-        clearOutput();
-    }
-
-    public void clearTasksList()
-    {
-        tasksToolboxListView.getItemsList().clear();
-    }
-
     public void addResult(Node node)
     {
         resultsVBox.getChildren().add(node);
     }
 
-    public void clearResult()
+    public void clearTaskList()
+    {
+        tasksToolboxListView.getItemsList().clear();
+    }
+
+    public void clearResults()
     {
         resultsVBox.getChildren().clear();
     }
@@ -109,6 +91,29 @@ public class TasksExecutionActivityView extends SplitPane
     public void clearOutput()
     {
         outputVBox.getChildren().clear();
+    }
+
+    public void clear()
+    {
+       clearTaskList();
+
+       clearResults();
+
+       clearOutput();
+    }
+
+    public void load()
+    {
+        tasksToolboxListView.load();
+    }
+
+    public void unload()
+    {
+        tasksToolboxListView.unload();
+
+        clearResults();
+
+        clearOutput();
     }
 
     private void onStartTaskButtonClicked(ActionEvent event)
@@ -153,33 +158,6 @@ public class TasksExecutionActivityView extends SplitPane
         {
             System.err.println(ex.getMessage());
         }
-        /*
-        Node view = null;
-
-        if (selectedTask != null)
-        {
-            view = selectedTask.getView(ViewType.EXECUTION);
-
-            if (view != null && view instanceof TaskExecutionView)
-            {
-                TaskExecutionView taskExecutionView = (TaskExecutionView) view;
-                taskExecutionView.removeExecutionToolbar();
-            }
-        }
-
-        selectedTask = item.getValue();
-
-        if (selectedTask != null)
-        {
-            view  = selectedTask.getView(ViewType.EXECUTION);
-
-            if (view != null && view instanceof TaskExecutionView)
-            {
-                TaskExecutionView taskExecutionView = (TaskExecutionView) view;
-                taskExecutionView.setExecutionToolbar(executionToolbar);
-            }
-        }
-        */
     }
 
     private ItemView getTaskView(Item<Task> item)

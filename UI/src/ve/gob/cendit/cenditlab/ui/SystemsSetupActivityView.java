@@ -19,17 +19,6 @@ public class SystemsSetupActivityView extends SplitPane
     private static final Image DEFAULT_ICON =
             new Image(SystemsSetupActivityView.class.getResource("/ve/gob/cendit/cenditlab/ui/images/system-icon.png").toExternalForm());
 
-    /*
-    @FXML
-    private HeaderFrameView systemsContainerView;
-
-    @FXML
-    private HeaderFrameView detailContainerView;
-
-    @FXML
-    private HeaderFrameView setupContainerView;
-    */
-
     @FXML
     private VBox detailVBox;
 
@@ -72,7 +61,7 @@ public class SystemsSetupActivityView extends SplitPane
 
     public void setSystems(System... systems)
     {
-        unload();
+        clear();
         addSystems(systems);
     }
 
@@ -91,6 +80,7 @@ public class SystemsSetupActivityView extends SplitPane
         systemsToolboxListView.unload();
 
         detailVBox.getChildren().clear();
+        setupVBox.getChildren().clear();
     }
 
     public void setSelectedSytems(System system)
@@ -111,6 +101,11 @@ public class SystemsSetupActivityView extends SplitPane
         detailVBox.getChildren().add(view);
     }
 
+    public void clearListView()
+    {
+        systemsToolboxListView.unload();
+    }
+
     public void clearDetailView()
     {
         detailVBox.getChildren().clear();
@@ -123,6 +118,7 @@ public class SystemsSetupActivityView extends SplitPane
 
     public void clear()
     {
+        clearListView();
         clearDetailView();
         clearSetupView();
     }
@@ -133,7 +129,7 @@ public class SystemsSetupActivityView extends SplitPane
 
         if (itemView == null)
         {
-            itemView = new ItemView(new ComponentIconView(item.getValue()));
+            itemView = new ItemView(item.getValue().getView(ViewType.ICON));
         }
 
         return itemView;

@@ -5,17 +5,10 @@ public class TemperatureData extends NumericData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
-    public static final Unit KELVIN =
-            new Unit("K", 1.0f);
-    public static final Unit CELSIUS =
-            new Unit("C", 1.0f);
-    public static final Unit FARENHEIT =
-            new Unit("F", 1.0f);
+    public static final Unit DEFAULT_UNIT = Unit.KELVIN;
 
-    public static final Unit DEFAULT_UNIT = KELVIN;
-
-    public static final DataUnits FIELD_UNITS =
-            new DataUnits(KELVIN, CELSIUS, FARENHEIT);
+    public static final Unit[] VALID_UNITS =
+            { Unit.CELSIUS, Unit.KELVIN, Unit.FARENHEIT, Unit.NONE};
 
     public TemperatureData()
     {
@@ -26,13 +19,13 @@ public class TemperatureData extends NumericData
     {
         super(scalar, unit);
 
-        setValidUnits(FIELD_UNITS);
+        setValidUnits(VALID_UNITS);
     }
 
-    public TemperatureData(String field)
+    public TemperatureData(String value)
     {
-        super(field);
+        super(value);
 
-        setValidUnits(FIELD_UNITS);
+        setValidUnits(VALID_UNITS);
     }
 }

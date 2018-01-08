@@ -5,14 +5,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 
-<?import ve.gob.cendit.cenditlab.ui.FrequencyRangePane?>
+<?import ve.gob.cendit.cenditlab.ui.FrequencyRangeSetupView?>
 
 <fx:root type="GridPane" hgap="5.0" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
 <!-- <GridPane hgap="5.0" vgap="5.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2"> -->
   <children>
     <Label text="Modo de frecuencia" GridPane.columnIndex="0" GridPane.rowIndex="0" />
     <ChoiceBox id="frequencyModeChoiceBox" fx:id="frequencyModeChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-    <FrequencyRangePane fx:id="frequencyRangePane" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2"></FrequencyRangePane>
+    <FrequencyRangeSetupView fx:id="frequencyRangeSetupView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2"></FrequencyRangeSetupView>
   </children>
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />

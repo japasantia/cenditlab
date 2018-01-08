@@ -1,19 +1,32 @@
 package ve.gob.cendit.cenditlab.data;
 
-public class Unit
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public enum Unit
 {
-    private float multiplier;
+    HZ("Hz"),
+    DB("dB"),
+    KELVIN("K"),
+    CELSIUS("C"),
+    FARENHEIT("F"),
+    NONE("");
+
     private String name;
 
-    public static final Unit EMPTY_UNIT =
-            new Unit("", 1.0f);
+    private static final String UNIT_PART_REGEX =
+            "([+-]?\\d+(.\\d*)?([eE][+-]?\\d+)?)\\s*(p|n|u|m|k|MEG|G|T)?\\s*(?<unit>Hz|dB|K|C|°C|F)?";
 
-    public Unit(String name, float multiplier)
+    private static final Pattern pattern = Pattern.compile(UNIT_PART_REGEX);
+
+    private Unit(String name)
     {
-        if (name == null) throw new IllegalArgumentException("name must not be null");
+        Objects.requireNonNull(name,"name must not be null");
 
         this.name = name;
-        this.multiplier = multiplier;
     }
 
     public String getName()
@@ -21,19 +34,39 @@ public class Unit
         return name;
     }
 
-    public float getMultiplier()
-    {
-        return multiplier;
-    }
-
-    public Unit getUnitForMagnitude(float magnitude)
-    {
-        return Unit.EMPTY_UNIT;
-    }
-
     @Override
     public String toString()
     {
         return name;
+    }
+
+    public static Unit getUnitFromName(String name)
+    {
+        return Arrays.stream(Unit.values())
+            .filter(u -> u.getName().equalsIgnoreCase(name))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public static boolean hasUnit(String data)
+    {
+        return data != null && data.matches(UNIT_PART_REGEX);
+    }
+
+    public static Unit extractUnit(String data)
+    {
+        return getUnitFromName(extractUnitName(data));
+    }
+
+    public static String extractUnitName(String data)
+    {
+        Matcher matcher = pattern.matcher(data);
+
+        if (matcher.find())
+        {
+            return matcher.group("unit");
+        }
+
+        return null;
     }
 }
