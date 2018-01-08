@@ -1,4 +1,6 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.gpib;
+
+import ve.gob.cendit.cenditlab.io.ConnectionException;
 
 /**
  * Created by jarias on 31/08/17.

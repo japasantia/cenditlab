@@ -1,7 +1,7 @@
-package ve.gob.cendit.cenditlab.io;
-
+package ve.gob.cendit.cenditlab.io.serial;
 
 import jssc.SerialPort;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 
 public class SerialConnection implements ISerialConnection
 {

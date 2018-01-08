@@ -2,14 +2,11 @@ package ve.gob.cendit.cenditlab.io.tests;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import ve.gob.cendit.cenditlab.io.IVxi11;
-import ve.gob.cendit.cenditlab.io.LinuxVxi11Library;
+import ve.gob.cendit.cenditlab.io.vxi11.IVxi11;
+import ve.gob.cendit.cenditlab.io.vxi11.LinuxVxi11Library;
 
 import java.util.Arrays;
 
-/**
- * Created by jarias on 6/23/17.
- */
 public class LinuxVxi11LibraryTest
 {
     public static void main(String[] args)

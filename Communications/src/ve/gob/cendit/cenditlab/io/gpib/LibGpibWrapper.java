@@ -1,16 +1,15 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.gpib;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
-/**
- * Created by jarias on 06/06/17.
- */
-public class LibGpibWrapper {
+public class LibGpibWrapper
+{
 
-    public static ILinuxGpib ILinuxGpib = null;
+    public static ve.gob.cendit.cenditlab.io.gpib.ILinuxGpib ILinuxGpib = null;
 
-    public static ILinuxGpib get() {
+    public static ILinuxGpib get()
+    {
 
         if (ILinuxGpib != null)
             return ILinuxGpib;
@@ -24,7 +23,8 @@ public class LibGpibWrapper {
     public static final int ALL_SAD = -1;
 }
 
-class Address4882 {
+class Address4882
+{
 
     private short primaryAddress;
     private short secondaryAddress;

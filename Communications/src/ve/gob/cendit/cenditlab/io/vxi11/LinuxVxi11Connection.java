@@ -1,15 +1,15 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.vxi11;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import ve.gob.cendit.cenditlab.io.IConnection;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddressFields;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-/**
- * Created by jarias on 29/06/17.
- */
 public class LinuxVxi11Connection implements IConnection
 {
     private static final IVxi11 library;

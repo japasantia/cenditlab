@@ -1,16 +1,14 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.gpib;
 
 
-import com.sun.jna.Platform;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ve.gob.cendit.cenditlab.io.*;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddressFields;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-/**
- * Created by root on 16/06/17.
- */
 public class LinuxGpibConnection implements IGpibConnection
 {
     private static int ERR = 0x8000;

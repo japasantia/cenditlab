@@ -6,7 +6,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-import ve.gob.cendit.cenditlab.io.VisaAddress;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -1,10 +1,7 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.gpib;
 
 import com.sun.jna.Native;
 
-/**
- * Created by jarias on 15/06/17.
- */
 public class LinuxGpibLibrary
 {
     private static ILinuxGpib library;

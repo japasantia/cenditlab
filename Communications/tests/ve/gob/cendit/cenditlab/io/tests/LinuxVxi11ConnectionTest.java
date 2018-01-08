@@ -1,14 +1,9 @@
 package ve.gob.cendit.cenditlab.io.tests;
 
-import oracle.jrockit.jfr.StringConstantPool;
 import ve.gob.cendit.cenditlab.io.ConnectionFactory;
 import ve.gob.cendit.cenditlab.io.IConnection;
-import ve.gob.cendit.cenditlab.io.LinuxVxi11Connection;
-import ve.gob.cendit.cenditlab.io.VisaAddress;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 
-/**
- * Created by jarias on 06/09/17.
- */
 public class LinuxVxi11ConnectionTest
 {
     public static void main(String[] args)

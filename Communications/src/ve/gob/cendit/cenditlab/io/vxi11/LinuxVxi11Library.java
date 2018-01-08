@@ -1,4 +1,4 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.vxi11;
 
 import com.sun.jna.Native;
 

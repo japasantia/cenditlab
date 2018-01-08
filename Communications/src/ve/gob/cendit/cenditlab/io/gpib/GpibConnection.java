@@ -1,15 +1,15 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.gpib;
 
 
 import com.sun.jna.Platform;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddressFields;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-/**
- * Created by root on 16/06/17.
- */
+
 public class GpibConnection implements IGpibConnection
 {
     private VisaAddress visaAddress;
@@ -28,7 +28,6 @@ public class GpibConnection implements IGpibConnection
         }
         else if (Platform.isLinux())
         {
-            ILinuxGpib library =  LinuxGpibLoader.getLibrary();
             return new GpibConnection(va);
         }
         else
@@ -44,13 +43,12 @@ public class GpibConnection implements IGpibConnection
 
     private GpibConnection(VisaAddress address)
     {
-        library = LinuxGpibLoader.getLibrary();
+        library = LinuxGpibLibrary.getLibrary();
         visaAddress = address;
     }
 
     @Override
     public void open()
-            throws Exception
     {
         int board = visaAddress.getBoard();
         int primaryAddress = visaAddress.getPrimaryAddress();
@@ -66,7 +64,7 @@ public class GpibConnection implements IGpibConnection
 
         if (deviceDescriptor < 0)
         {
-            throw new Exception("Unable to open connection");
+            throw new RuntimeException("Unable to open connection");
         }
     }
 
@@ -79,8 +77,7 @@ public class GpibConnection implements IGpibConnection
     @Override
     public int write(byte[] buffer)
     {
-        return library.ibwrt(deviceDescriptor,
-                buffer, buffer.length);
+        return library.ibwrt(deviceDescriptor, buffer, buffer.length);
     }
 
     @Override
@@ -90,9 +87,21 @@ public class GpibConnection implements IGpibConnection
     }
 
     @Override
+    public int write(byte[] buffer, int offset, int length)
+    {
+        return 0;
+    }
+
+    @Override
     public int read(byte[] buffer)
     {
         return library.ibrd(deviceDescriptor, buffer, buffer.length);
+    }
+
+    @Override
+    public int read(byte[] buffer, int offset, int length)
+    {
+        return 0;
     }
 
     @Override

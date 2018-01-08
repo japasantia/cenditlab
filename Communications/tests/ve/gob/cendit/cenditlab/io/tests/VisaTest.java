@@ -2,8 +2,8 @@ package ve.gob.cendit.cenditlab.io.tests;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import ve.gob.cendit.cenditlab.io.IVisa;
-import ve.gob.cendit.cenditlab.io.VisaLibrary;
+import ve.gob.cendit.cenditlab.io.visa.IVisa;
+import ve.gob.cendit.cenditlab.io.visa.VisaLibrary;
 
 /**
  * Created by jarias on 07/07/17.

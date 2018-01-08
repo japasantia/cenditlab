@@ -1,7 +1,8 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.vxi11;
 
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 
 /**
  * <p>Interfaz que contiene la definicion de las funciones contenidas

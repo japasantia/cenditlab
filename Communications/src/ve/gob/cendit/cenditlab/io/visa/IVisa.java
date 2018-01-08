@@ -1,4 +1,4 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.visa;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;

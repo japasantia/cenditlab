@@ -2,8 +2,8 @@ package ve.gob.cendit.cenditlab.io.tests;
 
 import ve.gob.cendit.cenditlab.io.ConnectionFactory;
 import ve.gob.cendit.cenditlab.io.IConnection;
-import ve.gob.cendit.cenditlab.io.LinuxGpibConnection;
-import ve.gob.cendit.cenditlab.io.VisaAddress;
+import ve.gob.cendit.cenditlab.io.gpib.LinuxGpibConnection;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 
 /**
  * Created by jarias on 21/06/17.

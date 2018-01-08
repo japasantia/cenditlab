@@ -2,10 +2,10 @@ package ve.gob.cendit.cenditlab.io;
 
 import com.sun.jna.Platform;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ve.gob.cendit.cenditlab.io.gpib.LinuxGpibConnection;
+import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
+import ve.gob.cendit.cenditlab.io.vxi11.LinuxVxi11Connection;
 
-/**
- * Created by jarias on 31/08/17.
- */
 public class ConnectionFactory
 {
     public static IConnection CreateConnection(VisaAddress visaAddress)

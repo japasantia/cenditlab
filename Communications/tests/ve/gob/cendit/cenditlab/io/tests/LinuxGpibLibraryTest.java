@@ -2,8 +2,8 @@ package ve.gob.cendit.cenditlab.io.tests;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import ve.gob.cendit.cenditlab.io.ILinuxGpib;
-import ve.gob.cendit.cenditlab.io.LinuxGpibLibrary;
+import ve.gob.cendit.cenditlab.io.gpib.ILinuxGpib;
+import ve.gob.cendit.cenditlab.io.gpib.LinuxGpibLibrary;
 
 import java.util.Arrays;
 

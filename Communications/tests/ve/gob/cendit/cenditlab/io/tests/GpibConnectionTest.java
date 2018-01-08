@@ -1,11 +1,8 @@
-package ve.gob.cendit.cenditlab.cal.tests;
+package ve.gob.cendit.cenditlab.io.tests;
 
-import ve.gob.cendit.cenditlab.io.GpibConnection;
-import ve.gob.cendit.cenditlab.io.IGpibConnection;
+import ve.gob.cendit.cenditlab.io.gpib.GpibConnection;
+import ve.gob.cendit.cenditlab.io.gpib.IGpibConnection;
 
-/**
- * Created by jarias on 21/06/17.
- */
 public class GpibConnectionTest
 {
     public static void main(String[] args)

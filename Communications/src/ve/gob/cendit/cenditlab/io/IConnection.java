@@ -1,8 +1,5 @@
 package ve.gob.cendit.cenditlab.io;
 
-/**
- * Created by jarias on 29/06/17.
- */
 public interface IConnection
 {
     void open();

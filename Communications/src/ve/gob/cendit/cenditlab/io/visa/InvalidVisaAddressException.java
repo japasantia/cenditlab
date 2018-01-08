@@ -1,4 +1,4 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.visa;
 
 /**
  * Created by jarias on 20/06/17.
