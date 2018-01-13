@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -33,7 +32,7 @@ public class ViewTests extends Application
 
         // setupViewTest();
         // enrSetupViewProto1Test();
-        frequencySetupViewTest();
+        // frequencySetupViewTest();
         // setupContainerViewTest();
         // basicFrequencySetupTest();
         // genericMainViewTest();
@@ -42,8 +41,8 @@ public class ViewTests extends Application
         // graphViewTest2();
         // toolboxViewTest();
         // containerViewTest();
-        // toolboxListViewTest();
-        // overlayFrameViewTest();
+        // itemsListViewTest();
+        overlayViewTest();
         // itemFrameViewTest();
     }
 
@@ -164,11 +163,10 @@ public class ViewTests extends Application
 
         for (int i = 0; i < 10; i++)
         {
-            ComponentIconView componentIconView = new ComponentIconView();
-            componentIconView.setName(String.format("Component %d", i));
-            componentIconView.setDescription(String.format("This is the component %d", i));
-            componentIconView.setSelected(i % 2 == 0);
-            containerVBox.getChildren().addAll(componentIconView);
+            IconView iconView = new IconView();
+            iconView.setName(String.format("Component %d", i));
+            iconView.setDescription(String.format("This is the component %d", i));
+            containerVBox.getChildren().addAll(iconView);
         }
 
 
@@ -259,7 +257,7 @@ public class ViewTests extends Application
             values[i] = "Item " + i;
         }
 
-        toolboxView.setItemViewFactory(text -> new IconView(text, null));
+        toolboxView.setItemViewFactory(text -> new IconView(text, null, null));
         toolboxView.setOnItemClicked(item ->
             {
                 System.out.printf("%s clicked\n", item.getItem());
@@ -273,9 +271,9 @@ public class ViewTests extends Application
         showView(new VBox(toolboxView), "CenditLab.Reduced | ToolboxView Test", 600.0, 400.0);
     }
 
-    private static void toolboxListViewTest()
+    private static void itemsListViewTest()
     {
-        ToolboxListView<String> toolboxListView = new ToolboxListView();
+        ItemsListView<String> itemsListView = new ItemsListView();
 
         String[] values = new String[10];
 
@@ -284,21 +282,23 @@ public class ViewTests extends Application
             values[i] = "Item " + i;
         }
 
-        toolboxListView.getItemsList()
-            .setItemViewFactory(item -> new ItemView(new ComponentIconView(item.getValue(), "Item")));
+        itemsListView.getItemsList()
+            .setViewFactory(item -> new ItemView(new IconView(item.getValue(), null, null)));
 
-        toolboxListView.getItemsList().setAll(values);
+        itemsListView.getItemsList().setAll(values);
 
-        toolboxListView.setOnItemClicked(item -> {
+        itemsListView.setOnItemClicked(item -> {
             System.out.printf("%s clicked\n", item.toString());
 
+            /*
             if (item.isSelected())
                 item.getView().showIcon(ItemView.SELECTED_ICON);
             else
                 item.getView().hideIcon();
+            */
         });
 
-        showView(toolboxListView, "CenditLab.Reduced | ToolboxListView Test", 600.0, 400.0);
+        showView(itemsListView, "CenditLab.Reduced | ItemsListView Test", 600.0, 400.0);
     }
 
     private static void containerViewTest()
@@ -312,92 +312,34 @@ public class ViewTests extends Application
             values[i] = "Item " + i;
         }
 
-        containerView.getItemsList().setItemViewFactory(item -> new ItemView(new ComponentIconView(item.getValue(), "Container Item")));
+        containerView.getItemsList().setViewFactory(item -> new ItemView(new IconView(item.getValue(), "Container Item", null)));
 
-        containerView.setOnItemClickedListener(item -> item.getView().showIcon(ItemView.SELECTED_ICON));
+        // containerView.setOnItemClickedListener(item -> item.getView().showIcon(ItemView.SELECTED_ICON));
 
         containerView.getItemsList().setAll(values);
 
         showView(containerView, "CenditLab.Reduced | ContainerView Test", 600.0, 400.0);
     }
 
-    private static void overlayFrameViewTest()
+    private static void overlayViewTest()
     {
-        OverlayFrameView overlayFrameView = new OverlayFrameView();
-        overlayFrameView.setPrefSize(200.0, 200.0);
+        OverlayView overlayView = new OverlayView();
+        overlayView.setMaxSize(200.0, 200.0);
 
-        VBox rootVBox = new VBox(overlayFrameView);
-        rootVBox.setFillWidth(false);
+        OverlayView.Position[] positions = OverlayView.Position.values();
 
-        int[] positions =
-            {
-                OverlayFrameView.CENTER_CENTER,
-                OverlayFrameView.CENTER_LEFT,
-                OverlayFrameView.CENTER_RIGHT,
-                OverlayFrameView.TOP_CENTER,
-                OverlayFrameView.TOP_LEFT,
-                OverlayFrameView.TOP_RIGHT,
-                OverlayFrameView.BOTTOM_CENTER,
-                OverlayFrameView.BOTTOM_LEFT,
-                OverlayFrameView.BOTTOM_RIGHT
-            };
-
-        for (int i = 0; i < positions.length ; i++)
+        for (int i = 0; i < positions.length; i++)
         {
-            ImageButton imageButton = new ImageButton();
-            imageButton.setPrefSize(32.0, 32.0);
-            imageButton.setText(null);
-            imageButton.setOnMouseClicked(event -> overlayFrameView.removeContent((Node)event.getSource()));
-
-            overlayFrameView.addContent(imageButton, positions[i]);
+            for (int j = 0; j < positions.length; j++)
+            {
+                ImageButton imageButton = new ImageButton();
+                imageButton.setImage(Resources.ADD_ICON);
+                overlayView.add(imageButton, positions[i], positions[j], 0.0, 0.0);
+            }
         }
 
-        showView(rootVBox, "CenditLab.Reduced | OverlayFrameView Test", 600.0, 400.0);
+        showView(overlayView, "CenditLab.Reduced | OverlayView Test", 600.0, 400.0);
     }
-
-    private static void itemFrameViewTest()
-    {
-        ComponentIconView iconView =
-                new ComponentIconView("Component", "Description");
-        ItemView itemView = new ItemView(iconView);
-
-        itemView.setOnButtonClicked(
-                new EventHandler<MouseEvent>()
-                {
-                    private boolean buttonFlag = true;
-
-                    @Override
-                    public void handle(MouseEvent event)
-                    {
-                        if (buttonFlag)
-                            itemView.showButton(ItemView.ADD_BUTTON);
-                        else
-                            itemView.showButton(ItemView.REMOVE_BUTTON);
-
-                        buttonFlag = ! buttonFlag;
-                    }
-                });
-
-        itemView.setOnMouseClicked(
-                new EventHandler<MouseEvent>()
-                {
-                    boolean iconFlag = true;
-
-                    @Override
-                    public void handle(MouseEvent event)
-                    {
-                        if (iconFlag)
-                            itemView.showIcon(ItemView.SELECTED_ICON);
-                        else
-                            itemView.hideIcon();
-
-                        iconFlag = ! iconFlag;
-                    }
-                });
-
-        showView(itemView, "CenditLab.Reduced | ItemView Test", 600.0, 400.0);
-    }
-
 
     private static void showView(Parent root, String title, double width, double height)
     {

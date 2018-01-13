@@ -1,31 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import ve.gob.cendit.cenditlab.ui.ImageButton?>
+<?import ve.gob.cendit.cenditlab.ui.OverlayView?>
 
-<fx:root fx:id="containerStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  type="StackPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-<!-- <StackPane fx:id="containerStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
-   <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="100.0" >
-         <children>
-            <ImageButton fx:id="actionImageButton" mnemonicParsing="false" prefHeight="16" prefWidth="16" text="" visible="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <image>
-                  <Image url="@../images/add-icon.png" />
-               </image>
-            </ImageButton>
-            <ImageView fx:id="iconImageView" fitHeight="32.0" fitWidth="32.0" layoutX="71.0" layoutY="-43.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <image>
-                  <Image url="@../images/checkmark-icon.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </children>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </padding>
-<!-- </StackPane> -->
+
+<fx:root type="OverlayView" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+
 </fx:root>

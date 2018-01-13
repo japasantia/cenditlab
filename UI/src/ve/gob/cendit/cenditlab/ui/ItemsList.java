@@ -11,10 +11,10 @@ public class ItemsList<T>
 {
     private List<Item<T>> list;
 
-    private ItemListEventHandler<Item<T>> onAddedItemHandler;
-    private ItemListEventHandler<Item<T>> onRemovedItemHandler;
+    private EventHandler<Item<T>> onAddedItemHandler;
+    private EventHandler<Item<T>> onRemovedItemHandler;
 
-    private ItemViewFactory<T> itemViewFactory;
+    private ViewFactory<T> viewFactory;
 
     public ItemsList()
     {
@@ -77,8 +77,7 @@ public class ItemsList<T>
     {
         List<T> valuesList = new ArrayList<>();
 
-        getItems()
-                .forEach(item -> valuesList.add(item.getValue()));
+        getItems().forEach(item -> valuesList.add(item.getValue()));
 
         return valuesList;
     }
@@ -144,32 +143,32 @@ public class ItemsList<T>
         list.clear();
     }
 
-    public void setOnAddedItemListener(ItemListEventHandler<Item<T>> handler)
+    public void setOnAddedItemListener(EventHandler<Item<T>> handler)
     {
         onAddedItemHandler = handler;
     }
 
-    public void setOnRemovedItemListener(ItemListEventHandler<Item<T>> handler)
+    public void setOnRemovedItemListener(EventHandler<Item<T>> handler)
     {
         onRemovedItemHandler = handler;
     }
 
-    public void setItemViewFactory(ItemViewFactory<T> factory)
+    public void setViewFactory(ViewFactory<T> factory)
     {
-        itemViewFactory = factory;
+        viewFactory = factory;
     }
 
-    protected ItemView getViewForItem(Item item)
+    protected Node getViewForItem(Item item)
     {
-        ItemView itemView;
+        Node itemView;
 
-        if (itemViewFactory != null)
+        if (viewFactory != null)
         {
-            itemView = itemViewFactory.getView(item);
+            itemView = viewFactory.getView(item);
         }
         else
         {
-            itemView = new ItemView(new Label(item.getValue().toString()));
+            itemView = new Label(item.getValue().toString());
         }
 
         return itemView;
@@ -191,13 +190,13 @@ public class ItemsList<T>
         }
     }
 
-    public interface ItemListEventHandler<R>
+    public interface EventHandler<R>
     {
         void handle(R item);
     }
 
-    public interface ItemViewFactory<T>
+    public interface ViewFactory<T>
     {
-        ItemView getView(Item<T> item);
+        Node getView(Item<T> item);
     }
 }

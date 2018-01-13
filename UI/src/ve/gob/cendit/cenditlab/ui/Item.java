@@ -6,10 +6,10 @@ import javafx.scene.input.MouseEvent;
 public class Item<T>
 {
     private T value;
-    private ItemView itemView;
+    private Node itemView;
     private boolean selected;
 
-    private ItemEventHandler onItemClickedHandler;
+    private EventHandler onItemClickedHandler;
 
     protected Item(T value)
     {
@@ -47,12 +47,12 @@ public class Item<T>
         return value;
     }
 
-    public void setView(ItemView itemView)
+    public void setView(Node view)
     {
-        this.itemView = itemView;
+        this.itemView = view;
     }
 
-    public ItemView getView()
+    public Node getView()
     {
         return itemView;
     }
@@ -62,7 +62,7 @@ public class Item<T>
         getView().removeEventHandler(MouseEvent.MOUSE_CLICKED, this::onMouseClicked);
     }
 
-    public void setOnItemClickedHandler(ItemEventHandler<T> handler)
+    public void setOnItemClickedHandler(EventHandler<T> handler)
     {
         if (handler != null)
         {
@@ -77,7 +77,7 @@ public class Item<T>
         onItemClickedHandler.handle(this);
     }
 
-    public interface ItemEventHandler<T>
+    public interface EventHandler<T>
     {
         void handle(Item<T> item);
     }

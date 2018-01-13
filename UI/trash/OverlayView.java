@@ -1,12 +1,13 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
-public class OverlayFrameView extends StackPane
+public class OverlayView extends StackPane
 {
-    private static final ViewLoader viewLoader = new ViewLoader("fxml/overlay-frame-view.fxml");
+    private static final ViewLoader viewLoader = new ViewLoader("fxml/overlay-view.fxml");
 
     private static final int HORZ_POS_MASK = 0x0F;
     private static final int VERT_POS_MASK = 0xF0;
@@ -29,18 +30,20 @@ public class OverlayFrameView extends StackPane
     public static final int BOTTOM_LEFT = BOTTOM | LEFT;
     public static final int BOTTOM_RIGHT = BOTTOM | RIGHT;
 
-    public OverlayFrameView()
+    @FXML
+    private AnchorPane anchorPane;
+
+    public OverlayView()
     {
         viewLoader.load(this, this);
     }
 
-    public OverlayFrameView(Node content)
+    public OverlayView(Node content)
     {
         this();
 
         addContent(content, CENTER_CENTER);
     }
-
     public void addContent(Node node, int position)
     {
         addContent(node, position, 0.0, 0.0);

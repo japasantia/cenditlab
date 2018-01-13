@@ -98,7 +98,7 @@ public class ContainerView<T> extends ScrollPane
 
     private void onAddedItem(Item<T> item)
     {
-        ItemView itemView = item.getView();
+        Node itemView = item.getView();
 
         if (itemView != null)
         {

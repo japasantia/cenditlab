@@ -8,90 +8,43 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
-
-public class ItemView extends StackPane
+public class ItemView extends OverlayView
 {
     private static final ViewLoader viewLoader = new ViewLoader("fxml/item-view.fxml");
 
-    public static final int ADD_BUTTON = 0;
-    public static final int REMOVE_BUTTON = 1;
-    public static final int SELECTED_ICON = 2;
-
-    private static final Image addIconImage = new Image(ItemView.class.getResource("images/add-icon.png").toExternalForm());
-    private static final Image deleteIconImage = new Image(ItemView.class.getResource("images/delete-icon.png").toExternalForm());
-
-    @FXML
-    private ImageButton actionImageButton;
-
-    @FXML
     private ImageView iconImageView;
-
-    private Node contentNode;
 
     public ItemView()
     {
         viewLoader.load(this, this);
+        initialize();
     }
 
     public ItemView(Node content)
     {
-        this();
+        viewLoader.load(this, this);
 
         setContent(content);
+
+        initialize();
     }
 
-    public void setContent(Node content)
+    private void initialize()
     {
-        contentNode = content;
-        getChildren().add(0, contentNode);
+        iconImageView = new ImageView(Resources.CHECKMARK_ICON);
+
+        add(iconImageView, Position.LEFT, Position.CENTER, 0.0, 0.0);
+
+        setSelected(false);
     }
 
-    public void removeContent()
+    public void setSelected(boolean value)
     {
-        getChildren().remove(contentNode);
+        iconImageView.setVisible(value);
     }
 
-    public void showButton(int button)
+    public boolean isSelected()
     {
-        switch(button)
-        {
-            case ADD_BUTTON:
-                actionImageButton.setImage(addIconImage);
-                break;
-            case REMOVE_BUTTON:
-                actionImageButton.setImage(deleteIconImage);
-                break;
-        }
-
-        actionImageButton.setVisible(true);
-    }
-
-    public void hideButton()
-    {
-        actionImageButton.setVisible(false);
-    }
-
-    public void showIcon(int icon)
-    {
-        /*
-        switch (icon)
-        {
-            case SELECTED_ICON:
-
-                break;
-        }
-        */
-
-        iconImageView.setVisible(true);
-    }
-
-    public void hideIcon()
-    {
-        iconImageView.setVisible(false);
-    }
-
-    public void setOnButtonClicked(EventHandler<MouseEvent> handler)
-    {
-        actionImageButton.setOnMouseClicked(handler);
+        return iconImageView.isVisible();
     }
 }

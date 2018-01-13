@@ -26,7 +26,7 @@ public class SystemsSetupActivityView extends SplitPane
     private VBox setupVBox;
 
     @FXML
-    private ToolboxListView<System> systemsToolboxListView;
+    private ItemsListView<System> systemItemsListView;
 
     public SystemsSetupActivityView()
     {
@@ -42,21 +42,21 @@ public class SystemsSetupActivityView extends SplitPane
 
     private void initialize()
     {
-        systemsToolboxListView.enableMultipleSelection(true);
+        systemItemsListView.enableMultipleSelection(true);
 
-        systemsToolboxListView.getItemsList().setItemViewFactory(this::getSystemView);
+        systemItemsListView.getItemsList().setViewFactory(this::getSystemView);
 
-        systemsToolboxListView.setOnItemClicked(this::onSystemClicked);
+        systemItemsListView.setOnItemClicked(this::onSystemClicked);
     }
 
     public List<System> getSystems()
     {
-        return systemsToolboxListView.getItemsList().getAll();
+        return systemItemsListView.getItemsList().getAll();
     }
 
     public List<System> getSelectedSystems()
     {
-        return systemsToolboxListView.getItemsList().getAllSelected();
+        return systemItemsListView.getItemsList().getAllSelected();
     }
 
     public void setSystems(System... systems)
@@ -67,69 +67,70 @@ public class SystemsSetupActivityView extends SplitPane
 
     public void addSystems(System... systems)
     {
-        systemsToolboxListView.getItemsList().addAll(systems);
+        systemItemsListView.getItemsList().addAll(systems);
     }
 
     public void load()
     {
-        systemsToolboxListView.load();
+        systemItemsListView.load();
     }
 
     public void unload()
     {
-        systemsToolboxListView.unload();
+        systemItemsListView.unload();
 
         detailVBox.getChildren().clear();
         setupVBox.getChildren().clear();
     }
 
-    public void setSelectedSytems(System system)
+    private void setSelectedSytem(System system)
     {
         setSetupView(system.getView(ViewType.SETUP));
         setDetailView(system.getView(ViewType.DETAILS));
     }
 
-    public void setSetupView(Node view)
+    private void setSetupView(Node view)
     {
         clearSetupView();
         setupVBox.getChildren().add(view);
     }
 
-    public void setDetailView(Node view)
+    private void setDetailView(Node view)
     {
         clearDetailView();
         detailVBox.getChildren().add(view);
     }
 
-    public void clearListView()
+    private void clearListView()
     {
-        systemsToolboxListView.unload();
+        systemItemsListView.unload();
     }
 
-    public void clearDetailView()
+    private void clearDetailView()
     {
         detailVBox.getChildren().clear();
     }
 
-    public void clearSetupView()
+    private void clearSetupView()
     {
         setupVBox.getChildren().clear();
     }
 
-    public void clear()
+    private void clear()
     {
         clearListView();
         clearDetailView();
         clearSetupView();
     }
 
-    private ItemView getSystemView(Item<System> item)
+    private Node getSystemView(Item<System> item)
     {
-        ItemView itemView = item.getView();
+        Node itemView = item.getView();
 
         if (itemView == null)
         {
-            itemView = new ItemView(item.getValue().getView(ViewType.ICON));
+            itemView = item.getValue().getView(ViewType.ICON);
+            itemView = new ItemView(itemView);
         }
 
         return itemView;
@@ -141,17 +142,9 @@ public class SystemsSetupActivityView extends SplitPane
 
         if (itemView != null)
         {
-            if (item.isSelected())
-            {
-                itemView.showIcon(ItemView.SELECTED_ICON);
-                setSelectedSytems(item.getValue());
-            }
-            else
-            {
-                itemView.hideIcon();
-                clearSetupView();
-                clearDetailView();
-            }
+            itemView.setSelected(item.isSelected());
+
+            setSelectedSytem(item.getValue());
         }
     }
 }

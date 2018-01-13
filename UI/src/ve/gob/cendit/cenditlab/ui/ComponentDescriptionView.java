@@ -9,8 +9,7 @@ public class ComponentDescriptionView extends GridPane
 {
     private static final String FXML_URL  = "fxml/component-description-view.fxml";
 
-    private static final ViewLoader viewLoader =
-            new ViewLoader(FXML_URL);
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private Label componentNameLabel;

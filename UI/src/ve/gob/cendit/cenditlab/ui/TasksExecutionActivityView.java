@@ -22,7 +22,7 @@ public class TasksExecutionActivityView extends SplitPane
     private VBox outputVBox;
 
     @FXML
-    private ToolboxListView<Task> tasksToolboxListView;
+    private ItemsListView<Task> tasksItemsListView;
 
     @FXML
     private ExecutionToolbar mainExecutionToolbar;
@@ -51,9 +51,9 @@ public class TasksExecutionActivityView extends SplitPane
         executionToolbar.setOnStart(this::onStartTaskButtonClicked);
         executionToolbar.setOnStop(this::onStopTaskButtonClicked);
 
-        tasksToolboxListView.setOnItemClicked(this::onTaskClicked);
+        tasksItemsListView.setOnItemClicked(this::onTaskClicked);
 
-        tasksToolboxListView.getItemsList().setItemViewFactory(this::getTaskView);
+        tasksItemsListView.getItemsList().setViewFactory(this::getTaskView);
     }
 
     public void setTasks(Task... tasks)
@@ -65,7 +65,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void addTasks(Task... tasks)
     {
-        tasksToolboxListView.getItemsList().addAll(tasks);
+        tasksItemsListView.getItemsList().addAll(tasks);
     }
 
     public void addResult(Node node)
@@ -75,7 +75,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void clearTaskList()
     {
-        tasksToolboxListView.getItemsList().clear();
+        tasksItemsListView.getItemsList().clear();
     }
 
     public void clearResults()
@@ -104,12 +104,12 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void load()
     {
-        tasksToolboxListView.load();
+        tasksItemsListView.load();
     }
 
     public void unload()
     {
-        tasksToolboxListView.unload();
+        tasksItemsListView.unload();
 
         clearResults();
 
@@ -160,13 +160,13 @@ public class TasksExecutionActivityView extends SplitPane
         }
     }
 
-    private ItemView getTaskView(Item<Task> item)
+    private Node getTaskView(Item<Task> item)
     {
-        ItemView itemView = item.getView();
+        Node itemView = item.getView();
 
         if (itemView == null)
         {
-            itemView = new ItemView(item.getValue().getView(ViewType.EXECUTION));
+            itemView = item.getValue().getView(ViewType.EXECUTION);
         }
 
         return itemView;

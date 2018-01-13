@@ -17,7 +17,7 @@
                 </icon>
                 <content>
                     <VBox>
-                        <ToolboxListView fx:id="tasksToolboxListView"/>
+                        <ItemsListView fx:id="tasksItemsListView"/>
                         <ExecutionToolbar fx:id="mainExecutionToolbar" />
                     </VBox>
                 </content>

@@ -8,8 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.VBox;
 
-
-public class ToolboxListView<T> extends VBox
+public class ItemsListView<T> extends VBox
 {
     private static final String FXML_URL = "fxml/toolbox-list-view.fxml";
 
@@ -18,11 +17,13 @@ public class ToolboxListView<T> extends VBox
 
     private ChangeListener<Item<T>> onItemSelectionChangedListener;
 
-    private ToolboxListEventListener<Item<T>> onItemClickedListener;
+    private EventListener<Item<T>> onItemClickedListener;
 
     private ItemsList<T> itemsList;
 
-    public ToolboxListView()
+    private Item<T> lastClickedItem;
+
+    public ItemsListView()
     {
         ViewLoader.load(FXML_URL, this, this);
 
@@ -38,7 +39,7 @@ public class ToolboxListView<T> extends VBox
 
         enableMultipleSelection(true);
 
-        listView.setCellFactory(listView -> new ToolboxListCell());
+        listView.setCellFactory(listView -> new ItemsListCell());
 
         listView.getSelectionModel()
                 .selectedItemProperty()
@@ -71,7 +72,12 @@ public class ToolboxListView<T> extends VBox
         return itemsList;
     }
 
-    public void setOnItemClicked(ToolboxListEventListener<Item<T>> listener)
+    public Item<T> getLastClickedItem()
+    {
+        return lastClickedItem;
+    }
+
+    public void setOnItemClicked(EventListener<Item<T>> listener)
     {
        onItemClickedListener = listener;
     }
@@ -90,7 +96,6 @@ public class ToolboxListView<T> extends VBox
         }
     }
 
-
     private void onAddedItem(Item<T> item)
     {
         listView.getItems().add(item);
@@ -107,15 +112,17 @@ public class ToolboxListView<T> extends VBox
     {
         item.toggleSelected();
 
+        lastClickedItem = item;
+
         if (onItemClickedListener != null)
         {
             onItemClickedListener.handle(item);
         }
     }
 
-    private class ToolboxListCell extends ListCell<Item<T>>
+    private class ItemsListCell extends ListCell<Item<T>>
     {
-        public ToolboxListCell()
+        public ItemsListCell()
         { }
 
         @Override
@@ -137,7 +144,7 @@ public class ToolboxListView<T> extends VBox
         }
     }
 
-    public interface ToolboxListEventListener<E>
+    public interface EventListener<E>
     {
         void handle(E arg);
     }

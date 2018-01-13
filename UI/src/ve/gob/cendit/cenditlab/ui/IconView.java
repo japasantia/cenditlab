@@ -4,52 +4,91 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 
-public class IconView extends VBox
+public class IconView extends HBox
 {
     private static final String FXML_URL = "fxml/icon-view.fxml";
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
+    @FXML
+    private Label nameLabel;
 
-    private static final String DEFAULT_ICON = "/ve/gob/cendit/cenditlab/ui/images/system-icon.png";
-    private static final Image DEFAULT_IMAGE =
-            new Image(IconView.class.getResource(DEFAULT_ICON).toExternalForm());
-    private static final String DEFAULT_CAPTION = "";
+    @FXML
+    private Label descriptionLabel;
 
     @FXML
     private ImageView iconImageView;
 
-    @FXML
-    private Label captionLabel;
 
     public IconView()
     {
-        this(DEFAULT_CAPTION, DEFAULT_IMAGE);
+        this(null, null, null);
     }
 
-    public IconView(String caption, Image image)
+    public IconView(ComponentDescriptor descriptor)
+    {
+        this(descriptor.getName(), descriptor.getDescription(), descriptor.getIcon());
+    }
+
+    public IconView(String name, String description, Image image)
     {
         viewLoader.load(this, this);
 
-        setCaption(caption);
+        setName(name);
         setIcon(image);
     }
 
-    public void setCaption(String caption)
+    public void setName(String value)
     {
-        caption = (caption != null ? caption : DEFAULT_CAPTION);
-        captionLabel.setText(caption);
+        setLabelText(nameLabel, value);
+    }
+
+    public String getName()
+    {
+        return nameLabel.getText();
+    }
+
+    public void setDescription(String value)
+    {
+        setLabelText(descriptionLabel, value);
+    }
+
+    public String getDescription()
+    {
+        return descriptionLabel.getText();
     }
 
     public void setIcon(Image image)
     {
-        image = (image != null ? image : DEFAULT_IMAGE);
-        iconImageView.setImage(image);
+        if (image != null)
+        {
+            iconImageView.setVisible(true);
+            iconImageView.setImage(image);
+        }
+        else
+        {
+            iconImageView.setVisible(false);
+        }
     }
 
     public Image getIcon()
     {
         return iconImageView.getImage();
+    }
+
+    private void setLabelText(Label label, String text)
+    {
+        if (text != null)
+        {
+            label.setVisible(true);
+            label.setText(text);
+        }
+        else
+        {
+            label.setVisible(false);
+        }
     }
 }

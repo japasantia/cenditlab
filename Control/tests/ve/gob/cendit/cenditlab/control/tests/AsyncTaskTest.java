@@ -2,6 +2,7 @@ package ve.gob.cendit.cenditlab.control.tests;
 
 import javafx.scene.Node;
 import ve.gob.cendit.cenditlab.control.AsyncTask;
+import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 import ve.gob.cendit.cenditlab.control.TaskContext;
 import ve.gob.cendit.cenditlab.data.DataContainer;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
@@ -49,9 +50,15 @@ class TestAsyncTask extends AsyncTask
 {
     private static Random random = new Random();
 
+    private static ComponentDescriptor descriptor =
+            new ComponentDescriptor("TestAsyncTask",
+            "Derived class of AsyncTask",
+            null,
+            args -> new TestAsyncTask());
+
     public TestAsyncTask()
     {
-        super("TestAsyncTask", "Derived class of AsyncTask", null);
+        super(descriptor);
     }
 
     @Override

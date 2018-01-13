@@ -95,7 +95,7 @@ public class ComponentViewFactory
             switch (viewType)
             {
                 case ICON:
-                    viewNode = new ComponentIconView(component);
+                    viewNode = new IconView(component.getComponentDescriptor());
                     break;
 
                 case DESCRIPTION:
@@ -107,7 +107,7 @@ public class ComponentViewFactory
                     break;
 
                 default:
-                    viewNode =  new ComponentIconView(component);
+                    viewNode =  new IconView(component.getComponentDescriptor());
             }
         }
         else if (component instanceof Task)
@@ -115,7 +115,7 @@ public class ComponentViewFactory
             switch (viewType)
             {
                 case ICON:
-                    viewNode = new ComponentIconView(component);
+                    viewNode = new IconView(component.getComponentDescriptor());
                     break;
 
                 case DESCRIPTION:
@@ -131,12 +131,12 @@ public class ComponentViewFactory
                     break;
 
                 default:
-                    viewNode = new ComponentIconView(component);
+                    viewNode = new IconView(component.getComponentDescriptor());
             }
         }
         else
         {
-            viewNode = new ComponentIconView(component);
+            viewNode = new IconView(component.getComponentDescriptor());
         }
 
         storeViewOnCache(component, viewType, viewNode);

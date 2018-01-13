@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import ve.gob.cendit.cenditlab.ui.HeaderFrameView?>
-<?import ve.gob.cendit.cenditlab.ui.ToolboxListView?>
+<?import ve.gob.cendit.cenditlab.ui.ItemsListView?>
 
 <?import ve.gob.cendit.cenditlab.ui.ContainerView?>
 <?import javafx.scene.text.Font?>
@@ -19,7 +19,7 @@
                <Image url="@../images/multimeter.png" />
            </icon>
            <content>
-               <ToolboxListView fx:id="taskDescriptorsToolboxListView" maxHeight="Infinity" maxWidth="Infinity" />
+               <ItemsListView fx:id="taskDescriptorsItemsListView" maxHeight="Infinity" maxWidth="Infinity" />
            </content>
        </HeaderFrameView>
 

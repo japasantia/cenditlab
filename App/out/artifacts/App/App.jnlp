@@ -3,12 +3,12 @@
   <information>
     <title>CenditLab</title>
     <vendor>Jose Arias</vendor>
-    <description>App</description>
+    <description>Sample JavaFX 2.0 application.</description>
     <offline-allowed/>
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="App.jar" size="600461" download="eager" />
+    <jar href="App.jar" size="600448" download="eager" />
     <jar href="Control.jar" size="27888" download="eager" />
     <jar href="Data.jar" size="33981" download="eager" />
     <jar href="Systems.jar" size="13961" download="eager" />

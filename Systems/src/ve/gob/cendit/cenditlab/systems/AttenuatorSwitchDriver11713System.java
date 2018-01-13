@@ -83,8 +83,6 @@ public class AttenuatorSwitchDriver11713System extends System
             return null;
         }
 
-
-
         @Override
         public Node getView(ViewType viewType)
         {
