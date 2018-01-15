@@ -7,8 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Control" level="project" />
-    <orderEntry type="library" name="Data" level="project" />
+    <orderEntry type="library" name="Core" level="project" />
     <orderEntry type="library" name="UI" level="project" />
     <orderEntry type="library" name="UI-Base" level="project" />
   </component>

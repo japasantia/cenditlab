@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import ve.gob.cendit.cenditlab.ui.IndicatorsView?>
+
+<fx:root type="IndicatorsView" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+
+</fx:root>

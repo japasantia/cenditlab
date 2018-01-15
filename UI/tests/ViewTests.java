@@ -1,12 +1,10 @@
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -323,10 +321,10 @@ public class ViewTests extends Application
 
     private static void overlayViewTest()
     {
-        OverlayView overlayView = new OverlayView();
-        overlayView.setMaxSize(200.0, 200.0);
+        IndicatorsView indicatorsView = new IndicatorsView();
+        indicatorsView.setMaxSize(200.0, 200.0);
 
-        OverlayView.Position[] positions = OverlayView.Position.values();
+        IndicatorsView.Position[] positions = IndicatorsView.Position.values();
 
         for (int i = 0; i < positions.length; i++)
         {
@@ -334,11 +332,11 @@ public class ViewTests extends Application
             {
                 ImageButton imageButton = new ImageButton();
                 imageButton.setImage(Resources.ADD_ICON);
-                overlayView.add(imageButton, positions[i], positions[j], 0.0, 0.0);
+                indicatorsView.add(imageButton, positions[i], positions[j], 0.0, 0.0);
             }
         }
 
-        showView(overlayView, "CenditLab.Reduced | OverlayView Test", 600.0, 400.0);
+        showView(indicatorsView, "CenditLab.Reduced | IndicatorsView Test", 600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)

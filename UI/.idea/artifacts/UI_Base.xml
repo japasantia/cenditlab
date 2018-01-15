@@ -2,6 +2,9 @@
   <artifact type="jar" name="UI-Base">
     <output-path>$PROJECT_DIR$/out/artifacts/UI_Base</output-path>
     <root id="archive" name="UI-Base.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/UI_Base/META-INF/MANIFEST.MF" />
+      </element>
       <element id="directory" name="ve">
         <element id="directory" name="gob">
           <element id="directory" name="cendit">

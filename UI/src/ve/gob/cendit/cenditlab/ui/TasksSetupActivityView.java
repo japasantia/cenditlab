@@ -185,7 +185,7 @@ public class TasksSetupActivityView extends SplitPane
     {
         ItemView itemView = (ItemView) item.getView();
 
-        itemView.add(addButton, OverlayView.Position.RIGHT, OverlayView.Position.TOP,
+        itemView.add(addButton, IndicatorsView.Position.RIGHT, IndicatorsView.Position.TOP,
                 -40.0, 0.0);
     }
 

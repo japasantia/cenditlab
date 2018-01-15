@@ -1,14 +1,10 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import ve.gob.cendit.cenditlab.control.Component;
-
-import java.io.IOException;
 
 public class ComponentIconView extends GridPane
 {

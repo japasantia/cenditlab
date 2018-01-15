@@ -1,37 +1,17 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.beans.NamedArg;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class OverlayView extends StackPane
 {
-    private static final ViewLoader viewLoader = new ViewLoader("fxml/overlay-view.fxml");
-
-    private static final int HORZ_POS_MASK = 0x0F;
-    private static final int VERT_POS_MASK = 0xF0;
-
-    private static final int CENTER = 0x00;
-    private static final int LEFT = 0x01;
-    private static final int RIGHT = 0x02;
-    private static final int TOP = 0x10;
-    private static final int BOTTOM = 0x20;
-
-    public static final int CENTER_CENTER = CENTER | CENTER;
-    public static final int CENTER_LEFT = CENTER | LEFT;
-    public static final int CENTER_RIGHT = CENTER | RIGHT;
-
-    public static final int TOP_CENTER = TOP | CENTER;
-    public static final int TOP_LEFT = TOP | LEFT;
-    public static final int TOP_RIGHT = TOP | RIGHT;
-
-    public static final int BOTTOM_CENTER = BOTTOM | CENTER;
-    public static final int BOTTOM_LEFT = BOTTOM | LEFT;
-    public static final int BOTTOM_RIGHT = BOTTOM | RIGHT;
+    private static final ViewLoader viewLoader = new ViewLoader("fxml/indicators-view.fxml");
 
     @FXML
-    private AnchorPane anchorPane;
+    private Pane innerPane;
 
     public OverlayView()
     {
@@ -42,84 +22,125 @@ public class OverlayView extends StackPane
     {
         this();
 
-        addContent(content, CENTER_CENTER);
-    }
-    public void addContent(Node node, int position)
-    {
-        addContent(node, position, 0.0, 0.0);
+        add(content, Position.CENTER, Position.CENTER, 0.0, 0.0);
     }
 
-    public void addContent(Node node, int position, double offsetX, double offsetY)
+    public void setContent(Node content)
     {
-        int xPosition = HORZ_POS_MASK & position;
-        int yPosition = VERT_POS_MASK & position;
-        
-        switch (xPosition) 
+        innerPane.getChildren().add(content);
+    }
+
+    public Node getContent()
+    {
+        return innerPane.getChildren().get(0);
+    }
+
+    public void add(Node node, Position xPosition, Position yPosition)
+    {
+        add(node, xPosition, yPosition, 0.0, 0.0);
+    }
+
+    public void add(Node node, Position xPosition, Position yPosition,
+                    double xOffset, double yOffset)
+    {
+
+        positionNode(node, xPosition, yPosition, xOffset, yOffset);
+
+        getChildren().add(node);
+    }
+
+    public void remove(Node node)
+    {
+        getChildren().remove(node);
+    }
+
+    public void clear()
+    {
+        getChildren().clear();
+    }
+    
+    private void positionNode(Node node, Position xPosition, Position yPosition,
+                              double xOffset, double yOffset)
+    {
+        switch (xPosition)
         {
             case CENTER:
-                setXPropertyToCenter(node, offsetX);
+                setXPropertyToCenter(node, xOffset);
                 break;
             case LEFT:
-                setXPropertyToLeft(node, offsetX);
+                setXPropertyToLeft(node, xOffset);
                 break;
             case RIGHT:
-                setXPropertyToRight(node, offsetX);
+                setXPropertyToRight(node, xOffset);
                 break;
         }
 
         switch (yPosition)
         {
             case CENTER:
-                setYPropertyToCenter(node, offsetY);
+                setYPropertyToCenter(node, yOffset);
                 break;
             case TOP:
-                setYPropertyToTop(node, offsetY);
+                setYPropertyToTop(node, yOffset);
                 break;
             case BOTTOM:
-                setYPropertyToBottom(node, offsetY);
+                setYPropertyToBottom(node, yOffset);
                 break;
-        }
-
-        getChildren().add(node);
+        }   
     }
 
-    public void removeContent(Node node)
+    private void setXPropertyToCenter(Node node, double xOffset)
     {
-        getChildren().remove(node);
+        // node.setLayoutX(this.getWidth() / 2.0 + xOffset);
+        node.translateXProperty().unbind();
+        node.translateXProperty().bind(this.widthProperty().divide(2).add(xOffset));
     }
 
-    public void clearContent()
+    private void setXPropertyToLeft(Node node, double xOffset)
     {
-        getChildren().clear();
-    }
-
-    private void setXPropertyToCenter(Node node, double offsetX)
-    {
-        node.translateXProperty().bind(this.widthProperty().divide(2).add(offsetX));
-    }
-
-    private void setXPropertyToLeft(Node node, double offsetX)
-    {
+        // AnchorPane.setLeftAnchor(node, xOffset);
+        // node.setLayoutX(xOffset);
+        node.translateXProperty().unbind();
         node.translateXProperty().set(0.0);
     }
 
-    private void setXPropertyToRight(Node node, double offsetX)
+    private void setXPropertyToRight(Node node, double xOffset)
     {
-        node.translateXProperty().bind(this.widthProperty().add(offsetX));
+        // AnchorPane.setRightAnchor(node, xOffset);
+        // node.setLayoutX(this.getWidth() + xOffset);
+        node.translateXProperty().unbind();
+        node.translateXProperty().bind(this.widthProperty().add(xOffset));
     }
 
-    private void setYPropertyToCenter(Node node, double offsetY)
+    private void setYPropertyToCenter(Node node, double yOffset)
     {
-        node.translateYProperty().bind(this.heightProperty().divide(2).add(offsetY));
+        // node.setLayoutY(this.getHeight() / 2.0 + yOffset);
+        node.translateYProperty().unbind();
+        node.translateYProperty().bind(this.heightProperty().divide(2).add(yOffset));
     }
 
-    private void setYPropertyToTop(Node node, double offsetY)
+    private void setYPropertyToTop(Node node, double yOffset)
     {
+        // AnchorPane.setTopAnchor(node, yOffset);
+        // node.setLayoutY(yOffset);
+        node.translateYProperty().unbind();
         node.translateYProperty().set(0.0);
     }
 
-    private void setYPropertyToBottom(Node node, double offsetY)
+    private void setYPropertyToBottom(Node node, double yOffset)
     {
-        node.translateYProperty().bind(this.heightProperty().add(node.getBoundsInParent().getHeight()).add(offsetY));
+        // AnchorPane.setBottomAnchor(node, yOffset);
+        // node.setLayoutY(this.getHeight() + yOffset);
+        node.translateYProperty().unbind();
+        node.translateYProperty().bind(this.heightProperty().add(yOffset));
+    }
+    
+    public enum Position
+    {
+        TOP,
+        LEFT,
+        RIGHT,
+        BOTTOM,
+        CENTER
     }
 }
