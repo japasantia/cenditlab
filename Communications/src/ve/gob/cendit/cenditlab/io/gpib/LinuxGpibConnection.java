@@ -11,7 +11,26 @@ import java.util.Arrays;
 
 public class LinuxGpibConnection implements IGpibConnection
 {
-    private static int ERR = 0x8000;
+    public static int ERR = 0x8000;
+
+    public static int TNONE    = 0;
+    public static int T10US    = 1;
+    public static int T30US    = 2;
+    public static int T100US   = 3;
+    public static int T300US   = 4;
+    public static int T1MS     = 5;
+    public static int T3MS     = 6;
+    public static int T10MS    = 7;
+    public static int T30MS    = 8;
+    public static int T100MS   = 9;
+    public static int T300MS   = 10;
+    public static int T1S      = 11;
+    public static int T3S      = 12;
+    public static int T10S     = 13;
+    public static int T30S     = 14;
+    public static int T100S    = 15;
+    public static int T300S    = 16;
+    public static int T1000S   = 17;
 
     private static ILinuxGpib library = LinuxGpibLibrary.getLibrary();
 
@@ -155,6 +174,32 @@ public class LinuxGpibConnection implements IGpibConnection
         }
 
         return dataRead;
+    }
+
+    public void wait(int status)
+    {
+        library.ibwait(deviceDescriptor, status);
+    }
+
+    public void waitCompletion()
+    {
+        int status = 0;
+
+        do
+        {
+            status = library.ThreadIbsta();
+        }
+        while ( (status & 0x100) != 1  && (status & 0x8000) != 0);
+    }
+
+    public void disableTimeout()
+    {
+        library.ibtmo(deviceDescriptor, TNONE);
+    }
+
+    public void setTimeout(int timeout)
+    {
+        library.ibtmo(deviceDescriptor, timeout);
     }
 
     private void checkStatusThrowIfError(int ibsta, String errorMessage)

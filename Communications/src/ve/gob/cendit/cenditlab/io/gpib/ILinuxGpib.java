@@ -152,6 +152,7 @@ public interface ILinuxGpib extends Library
     int ibsre(int ud, int enable);
     int ibstop(int ud);
     int ibwait(int ud, int status_mask);
+    int ibtmo(int ud, int timeout);
 
     int ThreadIbcnt();
     long ThreadIbcntl();

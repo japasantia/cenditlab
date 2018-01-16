@@ -1,7 +1,10 @@
-package ve.gob.cendit.cenditlab.io;
+package ve.gob.cendit.cenditlab.io.tests;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+
+import ve.gob.cendit.cenditlab.io.gpib.ILinuxGpib;
+import ve.gob.cendit.cenditlab.io.gpib.LinuxGpibWrapper;
 
 /**
  * Created by jsars on 05/06/17.
@@ -17,8 +20,8 @@ public class LinuxGpibTests
 
         int stb;
 
-        ILinuxGpib lib1 = LinuxGpibLoader.getLibrary();
-        ILinuxGpib lib2 = LinuxGpibLoader.getLibrary();
+        ILinuxGpib lib1 = LinuxGpibWrapper.get();
+        ILinuxGpib lib2 = LinuxGpibWrapper.get();
 
         int ud1 = lib1.ibdev(0, 10, 0, 13, 1, 0);
         int ud2 = lib2.ibdev(0, 11, 0, 13, 1, 0);

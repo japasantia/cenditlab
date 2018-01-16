@@ -3,7 +3,7 @@ package ve.gob.cendit.cenditlab.io.gpib;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
-public class LibGpibWrapper
+public class LinuxGpibWrapper
 {
 
     public static ve.gob.cendit.cenditlab.io.gpib.ILinuxGpib ILinuxGpib = null;
@@ -34,15 +34,18 @@ class Address4882
         this.secondaryAddress = secondaryAddress;
     }
 
-    public short getPrimaryAddress() {
+    public short getPrimaryAddress()
+    {
         return primaryAddress;
     }
 
-    public short getSecondaryAddress() {
+    public short getSecondaryAddress() 
+    {
         return secondaryAddress;
     }
 
-    public short toShort() {
+    public short toShort() 
+    {
         return Address4882.MakeAddress(primaryAddress, secondaryAddress);
     }
 
@@ -56,13 +59,15 @@ class Address4882
     }
 }
 
-class LibGpibTest {
+class LinuxGpibWrapperTest
+{
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
         int status;
 
-        ILinuxGpib linuxGpib = LibGpibWrapper.get();
+        ILinuxGpib linuxGpib = LinuxGpibWrapper.get();
 
         int udNfa = linuxGpib.ibdev(0, 10,0,
                 12, 1, 0);
@@ -77,7 +82,7 @@ class LibGpibTest {
         Pointer buffer = new Pointer(memory);
 
         status = linuxGpib.ibln(udNfa, 10,
-                LibGpibWrapper.ALL_SAD, buffer);
+                LinuxGpibWrapper.ALL_SAD, buffer);
 
         System.out.println(buffer.getShortArray(0, 30).toString());
 
