@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import jdk.nashorn.internal.ir.IdentNode;
 
 public class IndicatorsView extends StackPane
 {
@@ -15,13 +16,12 @@ public class IndicatorsView extends StackPane
     public IndicatorsView(Node content)
     {
         viewLoader.load(this, this);
-
         this.getChildren().add(content);
     }
 
-    public static Indicator createIndicator(Node content)
+    public Indicator createIndicator(Node content)
     {
-        return null;
+        return new Indicator(this, content);
     }
 
     public boolean containsIndicator(Indicator indicator)
@@ -29,9 +29,26 @@ public class IndicatorsView extends StackPane
         return indicatorsAnchorPane.getChildren().contains(indicator.getContent());
     }
 
+    public boolean containsIndicator(Node content)
+    {
+        return indicatorsAnchorPane.getChildren().contains(content);
+    }
+
     public void clearIndicators()
     {
         indicatorsAnchorPane.getChildren().clear();
+    }
+
+    public Indicator add(Node content)
+    {
+        Indicator indicator = new Indicator(content);
+
+        if (! containsIndicator(content) )
+        {
+            indicatorsAnchorPane.getChildren().add(indicator.getContent());
+            return indicator;
+        }
+
     }
 
     private void addIndicator(Indicator indicator)
@@ -51,6 +68,11 @@ public class IndicatorsView extends StackPane
     {
         private IndicatorsView parentIndicatorsView;
         private Node contentNode;
+
+        private Indicator(Node content)
+        {
+            contentNode = content;
+        }
 
         private Indicator(IndicatorsView parent, Node indicator)
         {
@@ -83,28 +105,36 @@ public class IndicatorsView extends StackPane
             return contentNode.isVisible();
         }
 
-        public void attachLeft(double offset)
+        public Indicator attachLeft(double offset)
         {
             AnchorPane.setLeftAnchor(contentNode,
                     offset != -1.0 ? offset : null);
+
+            return this;
         }
 
-        public void attachRight(double offset)
+        public Indicator attachRight(double offset)
         {
             AnchorPane.setLeftAnchor(contentNode,
                     offset != -1.0 ? offset : null);
+
+            return this;
         }
 
-        public void attachTop(double offset)
+        public Indicator attachTop(double offset)
         {
             AnchorPane.setTopAnchor(contentNode,
                     offset != -1.0 ? offset : null);
+
+            return this;
         }
 
-        public void attachBottom(double offset)
+        public Indicator attachBottom(double offset)
         {
             AnchorPane.setBottomAnchor(contentNode,
                     offset != -1.0 ? offset : null);
+
+            return this;
         }
     }
 }
