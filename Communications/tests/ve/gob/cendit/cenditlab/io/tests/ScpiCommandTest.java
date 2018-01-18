@@ -42,7 +42,7 @@ public class ScpiCommandTest
         ScpiCommand c5 = new ScpiCommand(":FETCH:ARRAY:CORRECTED:NFIGURE?");
         ScpiCommand c6 = new ScpiCommand(":FETCH:ARRAY:CORRECTED:GAIN?");
         ScpiCommand c7 = new ScpiCommand(":FETCH:ARRAY:UNCORRECTED:PHOT?");
-        ScpiCommand c8 = new ScpiCommand(":TRACE:DATA:CORRECTED:AMPLITUDE:MAXIMUM?NFIGURE,3.0GHZ");
+        ScpiCommand c8 = new ScpiCommand(":FETCH:ARRAY:CORRECTED:PCOLD?");
 
         c0.send(connection);
         c1.send(connection);
