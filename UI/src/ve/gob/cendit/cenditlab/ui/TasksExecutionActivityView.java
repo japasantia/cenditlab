@@ -29,8 +29,6 @@ public class TasksExecutionActivityView extends SplitPane
 
     private ExecutionToolbar executionToolbar;
 
-    private Task selectedTask;
-
     public TasksExecutionActivityView()
     {
         viewLoader.load(this, this);
@@ -118,12 +116,14 @@ public class TasksExecutionActivityView extends SplitPane
 
     private void onStartTaskButtonClicked(ActionEvent event)
     {
+        Task selectedTask = tasksItemsListView.getLastClickedItem().getValue();
+
         if (selectedTask != null)
         {
             executionToolbar.setEnableStart(false);
             executionToolbar.setEnableStop(true);
-            executionToolbar.setVisibleProgress(true);
             executionToolbar.setProgress(-1);
+            executionToolbar.setVisibleProgress(true);
 
             selectedTask.run(TaskContext.RUN);
         }
@@ -131,11 +131,15 @@ public class TasksExecutionActivityView extends SplitPane
 
     private void onStopTaskButtonClicked(ActionEvent event)
     {
+        Task selectedTask = tasksItemsListView.getLastClickedItem().getValue();
+
         if (selectedTask != null)
         {
             executionToolbar.setEnableStart(true);
             executionToolbar.setEnableStop(false);
             executionToolbar.setVisibleProgress(false);
+
+            selectedTask.stop();
         }
     }
 
@@ -143,11 +147,15 @@ public class TasksExecutionActivityView extends SplitPane
     {
         try
         {
+            Task selectedTask = item.getValue();
+
+            /*
             if (selectedTask != null)
             {
                 TaskExecutionView taskExecutionView = (TaskExecutionView) selectedTask.getView(ViewType.EXECUTION);
                 taskExecutionView.removeExecutionToolbar();
             }
+            */
 
             selectedTask = item.getValue();
 

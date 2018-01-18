@@ -130,7 +130,7 @@ public class SystemsSetupActivityView extends SplitPane
         if (itemView == null)
         {
             itemView = item.getValue().getView(ViewType.ICON);
-            itemView = new IndicatorsView(itemView);
+            itemView = new ItemView(itemView);
         }
 
         return itemView;
@@ -138,7 +138,7 @@ public class SystemsSetupActivityView extends SplitPane
 
     private void onSystemClicked(Item<System> item)
     {
-        IndicatorsView itemView = (IndicatorsView) item.getView();
+        ItemView itemView = (ItemView) item.getView();
 
         if (itemView != null)
         {

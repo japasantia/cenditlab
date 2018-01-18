@@ -40,7 +40,6 @@ public class ViewTests extends Application
         // toolboxViewTest();
         // containerViewTest();
         // itemsListViewTest();
-        overlayViewTest();
         // itemFrameViewTest();
     }
 
@@ -317,26 +316,6 @@ public class ViewTests extends Application
         containerView.getItemsList().setAll(values);
 
         showView(containerView, "CenditLab.Reduced | ContainerView Test", 600.0, 400.0);
-    }
-
-    private static void overlayViewTest()
-    {
-        IndicatorsView indicatorsView = new IndicatorsView();
-        indicatorsView.setMaxSize(200.0, 200.0);
-
-        IndicatorsView.Position[] positions = IndicatorsView.Position.values();
-
-        for (int i = 0; i < positions.length; i++)
-        {
-            for (int j = 0; j < positions.length; j++)
-            {
-                ImageButton imageButton = new ImageButton();
-                imageButton.setImage(Resources.ADD_ICON);
-                indicatorsView.add(imageButton, positions[i], positions[j], 0.0, 0.0);
-            }
-        }
-
-        showView(indicatorsView, "CenditLab.Reduced | IndicatorsView Test", 600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)

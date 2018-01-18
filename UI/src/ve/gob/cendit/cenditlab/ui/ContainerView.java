@@ -1,20 +1,9 @@
 package ve.gob.cendit.cenditlab.ui;
 
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ContainerView<T> extends ScrollPane
 {
@@ -25,6 +14,8 @@ public class ContainerView<T> extends ScrollPane
     private ContainerEventListener<Item> onItemClickedListener;
 
     private ItemsList<T> itemsList;
+
+    private Item<T> lastItemClicked;
 
     public ContainerView()
     {
@@ -45,21 +36,26 @@ public class ContainerView<T> extends ScrollPane
 
     public void load()
     {
-        if (itemsList.getItems().size() == 0)
+        if (containerPane.getChildren().isEmpty())
         {
             itemsList.getItems()
-                .forEach(item -> containerPane.getChildren().add(item.getView()));
+                    .forEach(item -> containerPane.getChildren().add(item.getView()));
         }
     }
 
     public void unload()
     {
-        itemsList.getItems().clear();
+        containerPane.getChildren().clear();
     }
 
     public ItemsList<T> getItemsList()
     {
         return itemsList;
+    }
+
+    public Item<T> getLastItemClicked()
+    {
+        return lastItemClicked;
     }
 
     public void setOnItemClickedListener(ContainerEventListener<Item> listener)
@@ -69,6 +65,8 @@ public class ContainerView<T> extends ScrollPane
 
     private void onItemClicked(Item<T> item)
     {
+        lastItemClicked = item;
+
         if (onItemClickedListener != null)
         {
             onItemClickedListener.handle(item);

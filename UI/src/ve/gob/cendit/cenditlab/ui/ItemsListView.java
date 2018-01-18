@@ -55,7 +55,7 @@ public class ItemsListView<T> extends VBox
 
     public void load()
     {
-        if (listView.getItems().size() == 0)
+        if (listView.getItems().isEmpty())
         {
             itemsList.getItems()
                 .forEach(item -> listView.getItems().add(item));

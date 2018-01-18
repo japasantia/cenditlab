@@ -71,16 +71,18 @@ public class TaskExecutionView extends GridPane
     {
         executionToolbar = toolbar;
         this.add(executionToolbar, 0, 1,3, 1);
-    }
 
-    public ExecutionToolbar getExecutionToolbar()
-    {
-        return executionToolbar;
+        executionToolbar.setTask(task);
     }
 
     public void removeExecutionToolbar()
     {
         this.getChildren().remove(executionToolbar);
         executionToolbar = null;
+    }
+
+    public ExecutionToolbar getExecutionToolbar()
+    {
+        return executionToolbar;
     }
 }

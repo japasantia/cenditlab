@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import ve.gob.cendit.cenditlab.ui.OverlayView?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import ve.gob.cendit.cenditlab.ui.IndicatorsView?>
+<fx:root type="IndicatorsView" xmlns="http://javafx.com/javafx/8.0.152" xmlns:fx="http://javafx.com/fxml/1">
 
+    <content>
 
-<fx:root type="OverlayView" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    </content>
+
+    <indicators>
+        <FXCollections fx:factory="observableArrayList">
+            <ImageView fx:id="selectedImageView" visible="false" IndicatorsView.attachBottom="5.0" IndicatorsView.attachLeft="5.0">
+                <image>
+                    <Image url="@../images/checkmark-icon.png" />
+                </image>
+            </ImageView>
+        </FXCollections>
+    </indicators>
 
 </fx:root>

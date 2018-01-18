@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.GridPane;
+import ve.gob.cendit.cenditlab.control.Task;
 
 
 public class ExecutionToolbar extends GridPane
@@ -40,12 +41,12 @@ public class ExecutionToolbar extends GridPane
 
     public void setEnableStart(boolean value)
     {
-        startButton.setDisable(! value);
+        startButton.setDisable( ! value );
     }
 
     public void setEnableStop(boolean value)
     {
-        stopButton.setDisable(! value);
+        stopButton.setDisable( ! value );
     }
 
     public void setVisibleProgress(boolean value)
@@ -61,5 +62,12 @@ public class ExecutionToolbar extends GridPane
     public double getProgress()
     {
         return progressIndicator.getProgress();
+    }
+
+    public void setTask(Task task)
+    {
+        startButton.setDisable(task.isRunning());
+
+        stopButton.setDisable(task.isPaused() || task.isStopped());
     }
 }

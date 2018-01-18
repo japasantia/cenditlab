@@ -61,7 +61,11 @@ public class TasksSetupActivityView extends SplitPane
         addButton = new ImageButton();
         removeButton = new ImageButton();
 
+        addButton.setImage(Resources.ADD_ICON);
+        removeButton.setImage(Resources.DELETE_ICON);
+
         addButton.setOnMouseClicked(this::onAddButtonClicked);
+        removeButton.setOnMouseClicked(this::onRemoveButtonClicked);
     }
 
     public void setSystems(System... systems)
@@ -178,6 +182,9 @@ public class TasksSetupActivityView extends SplitPane
 
     private void onTaskClicked(Item<Task> item)
     {
+        ItemView itemView = (ItemView) item.getView();
+        itemView.add(removeButton).attachTop(5.0).attachRight(5.0);
+
         setTaskSetupView(item.getValue().getView(ViewType.SETUP));
     }
 
@@ -185,8 +192,7 @@ public class TasksSetupActivityView extends SplitPane
     {
         ItemView itemView = (ItemView) item.getView();
 
-        itemView.add(addButton, IndicatorsView.Position.RIGHT, IndicatorsView.Position.TOP,
-                -40.0, 0.0);
+        itemView.add(addButton).attachTop(10.0).attachRight(10.0);
     }
 
     private void onAddButtonClicked(MouseEvent event)
@@ -201,6 +207,13 @@ public class TasksSetupActivityView extends SplitPane
 
             setTaskSetupView(task.getView(ViewType.SETUP));
         }
+    }
+
+    private void onRemoveButtonClicked(MouseEvent event)
+    {
+        Item<Task> item = tasksContainerView.getLastItemClicked();
+
+        removeTask(item.getValue());
     }
 
     /*

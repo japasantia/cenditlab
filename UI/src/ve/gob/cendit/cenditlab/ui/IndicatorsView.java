@@ -1,67 +1,141 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.beans.DefaultProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import jdk.nashorn.internal.ir.IdentNode;
 
+import java.util.List;
+
+//@DefaultProperty("indicators")
 public class IndicatorsView extends StackPane
 {
     private ViewLoader viewLoader = new ViewLoader("fxml/indicators-view.fxml");
 
+    private ObservableList<Node> list;
+
+    private ListChangeListener<Node> listChangeListener;
+
     @FXML
     AnchorPane indicatorsAnchorPane;
 
-    public IndicatorsView(Node content)
+    @FXML
+    Pane contentPane;
+
+    public IndicatorsView()
     {
         viewLoader.load(this, this);
-        this.getChildren().add(content);
+
+        list = FXCollections.observableArrayList();
+
+        //indicatorsAnchorPane.getChildren().setAll(list);
     }
 
-    public Indicator createIndicator(Node content)
+    public IndicatorsView(Node content)
     {
-        return new Indicator(this, content);
+        this();
+
+        setContent(content);
     }
 
-    public boolean containsIndicator(Indicator indicator)
+    public void setContent(Node content)
+    {
+        contentPane.getChildren().setAll(content);
+    }
+
+
+    public Node getContent()
+    {
+        return contentPane.getChildren().get(0);
+    }
+
+
+    public ObservableList<Node> getIndicators()
+    {
+        return indicatorsAnchorPane.getChildren();
+    }
+
+    public void setIndicators(ObservableList<Node> list)
+    {
+        this.list = list;
+        indicatorsAnchorPane.getChildren().setAll(list);
+    }
+
+    public boolean contains(Indicator indicator)
     {
         return indicatorsAnchorPane.getChildren().contains(indicator.getContent());
     }
 
-    public boolean containsIndicator(Node content)
+    public boolean contains(Node content)
     {
         return indicatorsAnchorPane.getChildren().contains(content);
     }
 
-    public void clearIndicators()
+    public Indicator add(Node content)
+    {
+        Indicator indicator = new Indicator(this, content);
+
+        if (! contains(content) )
+        {
+            indicatorsAnchorPane.getChildren().add(indicator.getContent());
+        }
+
+        return indicator;
+    }
+
+    public void remove(Node content)
+    {
+        indicatorsAnchorPane.getChildren().remove(content);
+    }
+
+    public void clear()
     {
         indicatorsAnchorPane.getChildren().clear();
     }
 
-    public Indicator add(Node content)
+    public static void setAttachLeft(Node indicator, double offset)
     {
-        Indicator indicator = new Indicator(content);
-
-        if (! containsIndicator(content) )
-        {
-            indicatorsAnchorPane.getChildren().add(indicator.getContent());
-            return indicator;
-        }
-
+        AnchorPane.setLeftAnchor(indicator, offset != -1.0 ? offset : null);
     }
 
-    private void addIndicator(Indicator indicator)
+    public static double getAttachLeft(Node indicator)
     {
-        if (! containsIndicator(indicator) )
-        {
-            indicatorsAnchorPane.getChildren().add(indicator.getContent());
-        }
+        return AnchorPane.getLeftAnchor(indicator);
     }
 
-    private void removeIndicator(Indicator indicator)
+    public static void setAttachRight(Node indicator, double offset)
     {
-        indicatorsAnchorPane.getChildren().remove(indicator.getContent());
+        AnchorPane.setRightAnchor(indicator, offset != -1.0 ? offset : null);
+    }
+
+    public static double getAttachRight(Node indicator)
+    {
+        return AnchorPane.getRightAnchor(indicator);
+    }
+
+    public static void setAttachTop(Node indicator, double offset)
+    {
+        AnchorPane.setTopAnchor(indicator, offset != -1.0 ? offset : null);
+    }
+
+    public static double getAttachTop(Node indicator)
+    {
+        return AnchorPane.getTopAnchor(indicator);
+    }
+
+    public static void setAttachBottom(Node indicator, double offset)
+    {
+        AnchorPane.setBottomAnchor(indicator, offset != -1.0 ? offset : null);
+    }
+
+    public static double getAttachBottom(Node indicator)
+    {
+        return AnchorPane.getBottomAnchor(indicator);
     }
 
     public class Indicator
@@ -85,14 +159,14 @@ public class IndicatorsView extends StackPane
             return contentNode;
         }
 
-        public void show()
+        public void add()
         {
-            addIndicator(this);
+            IndicatorsView.this.add(contentNode);
         }
 
-        public void hide()
+        public void remove()
         {
-            removeIndicator(this);
+            IndicatorsView.this.remove(contentNode);
         }
 
         public void setVisible(boolean value)
@@ -115,7 +189,7 @@ public class IndicatorsView extends StackPane
 
         public Indicator attachRight(double offset)
         {
-            AnchorPane.setLeftAnchor(contentNode,
+            AnchorPane.setRightAnchor(contentNode,
                     offset != -1.0 ? offset : null);
 
             return this;

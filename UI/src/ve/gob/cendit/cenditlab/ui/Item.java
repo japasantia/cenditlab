@@ -16,7 +16,7 @@ public class Item<T>
         this(value, null);
     }
 
-    protected Item(T value, ItemView itemView)
+    protected Item(T value, Node itemView)
     {
         setValue(value);
         setView(itemView);
