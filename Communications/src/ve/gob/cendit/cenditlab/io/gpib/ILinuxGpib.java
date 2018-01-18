@@ -120,6 +120,11 @@ public interface ILinuxGpib extends Library
     int ibfind(/* const char* name */ Pointer name);
     int ibfind(byte[] name);
     int ibfind(String name);
+    int ibrpp(int ud, int[] result);
+    int ibrpp(int ud, Pointer result);
+    int ibrsp(int ud, byte[] result);
+    int ibrsp(int ud, Pointer result);
+
 
 
     int iblines(int ud, /* short* */Pointer line_status);

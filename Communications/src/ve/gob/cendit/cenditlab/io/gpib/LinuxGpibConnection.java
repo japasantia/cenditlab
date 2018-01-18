@@ -1,6 +1,8 @@
 package ve.gob.cendit.cenditlab.io.gpib;
 
 
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import ve.gob.cendit.cenditlab.io.*;
 import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 import ve.gob.cendit.cenditlab.io.visa.VisaAddressFields;
@@ -78,7 +80,7 @@ public class LinuxGpibConnection implements IGpibConnection
     }
 
     @Override
-    public int write(byte[] buffer, int offset, int length)
+    public synchronized int write(byte[] buffer, int offset, int length)
     {
         byte[] data = Arrays.copyOfRange(buffer, offset, offset + length - 1);
 
@@ -86,7 +88,7 @@ public class LinuxGpibConnection implements IGpibConnection
     }
 
     @Override
-    public int write(byte[] buffer)
+    public synchronized int write(byte[] buffer)
     {
         int  status = library.ibwrt(deviceDescriptor,
                 buffer, buffer.length);
@@ -98,7 +100,7 @@ public class LinuxGpibConnection implements IGpibConnection
     }
 
     @Override
-    public int write(String buffer)
+    public synchronized int write(String buffer)
     {
         int status = library.ibwrt(deviceDescriptor, buffer, buffer.length());
 
@@ -109,7 +111,7 @@ public class LinuxGpibConnection implements IGpibConnection
     }
 
     @Override
-    public int read(byte[] buffer, int offset, int length)
+    public synchronized int read(byte[] buffer, int offset, int length)
     {
         if  (length == 0)
         {
@@ -128,7 +130,7 @@ public class LinuxGpibConnection implements IGpibConnection
     }
 
     @Override
-    public int read(byte[] buffer)
+    public synchronized int read(byte[] buffer)
     {
         int status = library.ibrd(deviceDescriptor, buffer, buffer.length);
 
@@ -139,7 +141,7 @@ public class LinuxGpibConnection implements IGpibConnection
     }
 
     @Override
-    public String read()
+    public synchronized String read()
     {
         ByteArrayOutputStream byteStream =
                 new ByteArrayOutputStream();
@@ -176,20 +178,31 @@ public class LinuxGpibConnection implements IGpibConnection
         return dataRead;
     }
 
+    public synchronized short lineStatus()
+    {
+        long memory = Native.malloc(2);
+        Pointer pointer = new Pointer(memory);
+
+        int ibsta = library.iblines(deviceDescriptor, pointer);
+
+        return pointer.getShort(0);
+    }
+
+    public synchronized byte serialPoll()
+    {
+        long memory = Native.malloc(1);
+        Pointer pointer = new Pointer(memory);
+
+        //byte[] result = {0};
+
+        int ibsta = library.ibrsp(deviceDescriptor, pointer);
+
+        return pointer.getByte(0);
+    }
+
     public void wait(int status)
     {
         library.ibwait(deviceDescriptor, status);
-    }
-
-    public void waitCompletion()
-    {
-        int status = 0;
-
-        do
-        {
-            status = library.ThreadIbsta();
-        }
-        while ( (status & 0x100) != 1  && (status & 0x8000) != 0);
     }
 
     public void disableTimeout()
