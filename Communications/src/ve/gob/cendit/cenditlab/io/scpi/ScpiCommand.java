@@ -1,5 +1,6 @@
 package ve.gob.cendit.cenditlab.io.scpi;
 
+import ve.gob.cendit.cenditlab.data.Data;
 import ve.gob.cendit.cenditlab.io.IConnection;
 
 import java.util.Objects;
@@ -9,13 +10,53 @@ public class ScpiCommand
     private String rawCommand;
     private String formattedCommand;
 
+    private Data[] argsArrayData;
+    private Data resultData;
+
     public ScpiCommand(String command)
     {
-        rawCommand = command;
-        formattedCommand = command;
+        this(command, null, null);
     }
 
+    public ScpiCommand(String command, Data... args)
+    {
+        this(command, null, args);
+    }
 
+    public ScpiCommand(String command,Data result)
+    {
+        this(command, result, null);
+    }
+
+    public ScpiCommand(String command, Data result, Data... args)
+    {
+        Objects.requireNonNull(command, "command must be not null");
+
+        rawCommand = formattedCommand = clean(command);
+
+        resultData = result;
+        argsArrayData = args;
+    }
+
+    public void setArguments(Data... args)
+    {
+        argsArrayData = args;
+    }
+
+    public Data[] getArguments()
+    {
+        return argsArrayData;
+    }
+
+    public void setResult(Data result)
+    {
+        resultData = result;
+    }
+
+    public Data getResult()
+    {
+        return resultData;
+    }
 
     public String applyArgs(String... args)
     {
@@ -23,20 +64,38 @@ public class ScpiCommand
         return formattedCommand;
     }
 
-    public void send(IConnection connection)
+    public String applyArgs(Data... args)
     {
+        formattedCommand = ScpiCommand.format(rawCommand, args);
+        return formattedCommand;
+    }
+
+    public Data execute(IConnection connection)
+    {
+        if (hasArguments())
+        {
+            applyArgs(argsArrayData);
+        }
+
         connection.write(formattedCommand);
+
+        if (hasResult())
+        {
+            String result = connection.read();
+            resultData.setValue(result);
+        }
+
+        return resultData;
     }
 
-    public String receive(IConnection connection)
+    public boolean hasArguments()
     {
-        return connection.read();
+        return argsArrayData != null;
     }
 
-    public String sendReceive(IConnection connection)
+    public boolean hasResult()
     {
-        send(connection);
-        return receive(connection);
+        return resultData != null;
     }
 
     private static final String ARG_FORMAT = "{%d}";
@@ -59,8 +118,34 @@ public class ScpiCommand
         {
             for (int i = 0; i < args.length; i++)
             {
-                String placeholder = String.format(ARG_FORMAT, i);
-                formattedCommand = formattedCommand.replace(placeholder, args[i]);
+                String arg = args[i];
+
+                if (Objects.nonNull(arg))
+                {
+                    String placeholder = String.format(ARG_FORMAT, i);
+                    formattedCommand = formattedCommand.replace(placeholder, args[i]);
+                }
+            }
+        }
+
+        return formattedCommand;
+    }
+
+    public static String format(String command, Data... args)
+    {
+        String formattedCommand = clean(command);
+
+        if (Objects.nonNull(command) && Objects.nonNull(args))
+        {
+            for (int i = 0; i < args.length; ++i)
+            {
+                Data data = args[i];
+
+                if (Objects.nonNull(data))
+                {
+                    String placeholder = String.format(ARG_FORMAT, i);
+                    formattedCommand = formattedCommand.replace(placeholder, data.toString());
+                }
             }
         }
 

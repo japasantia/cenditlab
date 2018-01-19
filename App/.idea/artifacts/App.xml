@@ -5,10 +5,8 @@
       <options>
         <option name="appClass" value="ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTests" />
         <option name="description" value="" />
-        <option name="htmlPlaceholderId" value="" />
         <option name="title" value="CenditLab" />
         <option name="vendor" value="Jose Arias" />
-        <option name="version" value="" />
       </options>
     </properties>
     <root id="root">

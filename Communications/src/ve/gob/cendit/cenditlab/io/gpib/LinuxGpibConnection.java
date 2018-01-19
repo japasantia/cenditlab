@@ -212,7 +212,9 @@ public class LinuxGpibConnection implements IGpibConnection
 
     public void setTimeout(int timeout)
     {
-        library.ibtmo(deviceDescriptor, timeout);
+        int ibsta = library.ibtmo(deviceDescriptor, timeout);
+
+        checkStatusThrowIfError(ibsta, "error setting timeout");
     }
 
     private void checkStatusThrowIfError(int ibsta, String errorMessage)

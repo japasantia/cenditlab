@@ -11,5 +11,6 @@
     <orderEntry type="library" name="junit" level="project" />
     <orderEntry type="library" name="jna-4.4.0" level="project" />
     <orderEntry type="library" name="jssc" level="project" />
+    <orderEntry type="library" name="Core" level="project" />
   </component>
 </module>

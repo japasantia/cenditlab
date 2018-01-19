@@ -4,20 +4,30 @@ import ve.gob.cendit.cenditlab.control.EventEmitter;
 
 public class Data
 {
+    private static final String DEFAULT_NAME = "Data";
+    private static final String DEFAULT_VALUE = "";
+
     private String name;
+    private String value;
 
     private EventEmitter<IUpdateListener> updateEventEmitter;
 
     public Data()
     {
-        this("Data");
+        this(DEFAULT_NAME);
     }
 
     public Data(String name)
     {
-        setName(name);
+        this(name, DEFAULT_VALUE);
+    }
 
+    public Data(String name, String value)
+    {
         updateEventEmitter = new EventEmitter<IUpdateListener>("OnUpdate", this::onUpdateEventCaller);
+
+        this.name = name;
+        this.value = value;
     }
 
     protected void setName(String value)
@@ -29,6 +39,19 @@ public class Data
     {
         return name;
     }
+
+    public void setValue(String value)
+    {
+        this.value = value;
+
+        update();
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
+
 
     public void update()
     {

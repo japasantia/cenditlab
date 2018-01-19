@@ -43,7 +43,7 @@ public class GeneralTest
 
         showId();
 
-        //calibrate();
+        calibrate();
 
         measureNF1();
 
