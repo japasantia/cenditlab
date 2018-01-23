@@ -1,10 +1,14 @@
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -41,6 +45,8 @@ public class ViewTests extends Application
         // containerViewTest();
         // itemsListViewTest();
         // itemFrameViewTest();
+        // dialogViewTest();
+        listDataViewTest();
     }
 
     public void setupViewTest()
@@ -316,6 +322,77 @@ public class ViewTests extends Application
         containerView.getItemsList().setAll(values);
 
         showView(containerView, "CenditLab.Reduced | ContainerView Test", 600.0, 400.0);
+    }
+
+    private static void dialogViewTest()
+    {
+        VBox rootVBox = new VBox();
+        rootVBox.setAlignment(Pos.CENTER);
+
+        Button dialogButton1 = new Button("Ok dialog");
+        Button dialogButton2 = new Button("Ok-Cancel dialog");
+        Button dialogButton3 = new Button("Retry-Abort-Ignore dialog");
+        Button dialogButton4 = new Button("Without buttons dialog");
+
+        rootVBox.getChildren().addAll(dialogButton1, dialogButton2,
+                dialogButton3, dialogButton4);
+
+        DialogView dialogView = DialogView.create(stage);
+        dialogView.setTitle("DialogView");
+
+        dialogButton1.setOnAction(event -> {
+            dialogView.setTitle("Ok dialog");
+            dialogView.setButtons(DialogView.OK);
+            dialogView.show();
+        });
+
+        dialogButton2.setOnAction(event -> {
+            dialogView.setTitle("Ok-Cancel dialog");
+            dialogView.setButtons(DialogView.OK_CANCEL);
+            dialogView.show();
+        });
+
+        dialogButton3.setOnAction(event -> {
+            dialogView.setTitle("Retry-Abort-Ignore dialog");
+            dialogView.setButtons(DialogView.RETRY_ABORT_IGNORE);
+            dialogView.show();
+        });
+
+        dialogButton4.setOnAction(event -> {
+            dialogView.setTitle("Without buttons dialog");
+            dialogView.setButtons(DialogView.NONE);
+            dialogView.show();
+        });
+
+        stage.getIcons().add(Resources.ADD_ICON);
+
+        showView(rootVBox, "CenditLab.Reduced | DialogView Test", 600.0, 400.0);
+    }
+
+    private static void listDataViewTest()
+    {
+        ListDataView listDataView = new ListDataView();
+
+        ListData listData = new ListData();
+        listData.setValue("0,1,2,3,4,5,6,7,8,9");
+
+        listDataView.setListData(listData);
+
+        VBox rootVBox = new VBox();
+
+        TextField textField = new TextField();
+        Button button = new Button("Select item");
+        button.setOnAction(event -> {
+            int index = Integer.parseInt(textField.getText());
+            listDataView.scrollToItem(index);
+        });
+        HBox hBox = new HBox(textField, button);
+
+        rootVBox.getChildren()
+            .addAll(listDataView, hBox);
+
+        showView(rootVBox, "CenditLab.Reduced | ListDataView Test", 600.0, 400.0);
+
     }
 
     private static void showView(Parent root, String title, double width, double height)

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- <TitledPane fx:id="titledPane" text="Dialog" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"> -->
+   <!-- <content> -->
+      <!-- <VBox> -->
+         <children>
+            <Pane fx:id="contentPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" prefHeight="300.0" prefWidth="300.0" text="Dialog" textAlignment="CENTER" />
+               </children>
+            </Pane>
+            <HBox fx:id="buttonsHBox" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+               <children>
+                  <Button fx:id="leftButton" mnemonicParsing="false" text="Aceptar">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="centerButton" mnemonicParsing="false" text="Cancelar">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="rightButton" mnemonicParsing="false" text="Reintentar">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      <!-- </VBox> -->
+   <!-- </content> -->
+   <!--
+   <graphic>
+      <ImageView fx:id="iconImageView" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/warning-icon.png" />
+         </image>
+      </ImageView>
+   </graphic>
+   -->
+<!-- </TitledPane> -->
+</fx:root>

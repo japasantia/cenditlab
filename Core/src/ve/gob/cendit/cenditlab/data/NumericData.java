@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NumericData extends Data
+public class NumericData extends ValueData
 {
     public static final String DEFAULT_VALUE = "0.0";
 
@@ -25,10 +25,6 @@ public class NumericData extends Data
     private float magnitude;
     private boolean normalizeEnabled = false;
 
-    private Unit unit;
-    private Multiplier multiplier = Multiplier.UNIT;
-
-    private Unit[] validUnits;
 
     public NumericData()
     {
@@ -111,61 +107,6 @@ public class NumericData extends Data
         setUpdateEnabled(true);
 
         update();
-    }
-
-    public void setUnit(Unit value)
-    {
-        if (isValidUnit(value))
-        {
-            unit = value;
-
-            update();
-        }
-    }
-
-    public Unit getUnit()
-    {
-        return unit;
-    }
-
-    public void setMultiplier(Multiplier value)
-    {
-        multiplier = value;
-
-        update();
-    }
-
-    public Multiplier getMultiplier()
-    {
-        return multiplier;
-    }
-
-    public void setValidUnits(Unit... units)
-    {
-        Objects.requireNonNull(units, "units must not be null");
-
-        validUnits = units;
-    }
-
-    public Unit[] getValidUnits()
-    {
-        return validUnits;
-    }
-
-    public List<Unit> getValidUnitsList()
-    {
-        return Arrays.asList(validUnits);
-    }
-
-    public boolean isValidUnit(Unit unit)
-    {
-        if (validUnits != null)
-        {
-            return Arrays.stream(validUnits)
-                    .anyMatch(u -> u == unit);
-        }
-
-        return true;
     }
 
     public boolean isNormalizeEnabled()
