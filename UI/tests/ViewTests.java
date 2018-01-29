@@ -8,7 +8,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -46,7 +45,8 @@ public class ViewTests extends Application
         // itemsListViewTest();
         // itemFrameViewTest();
         // dialogViewTest();
-        listDataViewTest();
+        // listDataViewTest();
+        tabularViewTest();
     }
 
     public void setupViewTest()
@@ -373,12 +373,12 @@ public class ViewTests extends Application
     {
         ListDataView listDataView = new ListDataView();
 
-        ListData listData = new ListData();
-        listData.setValue("0,1,2,3,4,5,6,7,8,9");
+        ListData listData = new ListData("Data", "0,1,2,3,4,5,6,7,8,9");
 
         listDataView.setListData(listData);
 
         VBox rootVBox = new VBox();
+        rootVBox.setFillWidth(false);
 
         TextField textField = new TextField();
         Button button = new Button("Select item");
@@ -392,7 +392,21 @@ public class ViewTests extends Application
             .addAll(listDataView, hBox);
 
         showView(rootVBox, "CenditLab.Reduced | ListDataView Test", 600.0, 400.0);
+    }
 
+    private static final void tabularViewTest()
+    {
+        TabularView tabularView = new TabularView();
+        VBox rootVBox = new VBox(tabularView);
+        rootVBox.setFillWidth(false);
+
+        tabularView.getItems()
+            .addAll(new ListData("C1", "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16"),
+                    new ListData("C2", "10,20,30,40,50,60,70,80,90"),
+                    new ListData("C3", "11,22,33,44,55,66,77,88,99"),
+                    new ListData("C4", "15,25,35,45,55,65,75,85,95"));
+
+        showView(rootVBox, "CenditLab.Reduced | TabularView Test", 600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)

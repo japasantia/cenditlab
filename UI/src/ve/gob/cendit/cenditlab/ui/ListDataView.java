@@ -1,6 +1,7 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -26,6 +27,13 @@ public class ListDataView extends TitledPane
         viewLoader.load(this, this);
     }
 
+    public ListDataView(ListData listData)
+    {
+        this();
+
+        setListData(listData);
+    }
+
     public void setListData(ListData listData)
     {
         clear();
@@ -43,8 +51,20 @@ public class ListDataView extends TitledPane
         return listData;
     }
 
+    public void setData(String list)
+    {
+        setListData(new ListData(list));
+    }
+
+    public String getData()
+    {
+        return listData != null ? listData.getValue() : null;
+    }
+
     private void loadListData()
     {
+        setTitle(listData.getName());
+
         listData.getAsStringList()
             .forEach(this::add);
     }
@@ -61,21 +81,43 @@ public class ListDataView extends TitledPane
         containerVBox.getChildren().clear();
     }
 
-    public void setVisibleHBar(boolean value)
+    public void setHBarVisible(boolean value)
     {
         scrollPane.setHbarPolicy(value ?
             ScrollPane.ScrollBarPolicy.AS_NEEDED : ScrollPane.ScrollBarPolicy.NEVER);
     }
 
-    public void setVisibleVBar(boolean value)
+    public void setVBarVisible(boolean value)
     {
         scrollPane.setVbarPolicy(value ?
                 ScrollPane.ScrollBarPolicy.AS_NEEDED : ScrollPane.ScrollBarPolicy.NEVER);
     }
 
+    public boolean isHBarVisible()
+    {
+        return scrollPane.getHbarPolicy() != ScrollPane.ScrollBarPolicy.NEVER;
+    }
+
+    public boolean isVBarVisible()
+    {
+        return scrollPane.getVbarPolicy() != ScrollPane.ScrollBarPolicy.NEVER;
+    }
+
+    public void setTitle(String value)
+    {
+        setText(value);
+    }
+
+    public String getTitle()
+    {
+        return getText();
+    }
+
     private Node getItemDataView(String data)
     {
         Label label = new Label(data);
+        label.setAlignment(Pos.CENTER);
+        label.setMaxWidth(Double.MAX_VALUE);
 
         return label;
     }

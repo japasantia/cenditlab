@@ -7,11 +7,31 @@ import java.util.List;
 
 public class ListData extends Data
 {
+    private static final String DEFAULT_NAME = "ListData";
     private ArrayList<String> dataArrayList;
 
     public ListData()
     {
         dataArrayList = new ArrayList<>();
+
+        setName(DEFAULT_NAME);
+    }
+
+
+    public ListData(String list)
+    {
+        this();
+
+        setName(DEFAULT_NAME);
+        setValue(list);
+    }
+
+    public ListData(String name, String list)
+    {
+        this();
+
+        setName(name);
+        setValue(list);
     }
 
     @Override
