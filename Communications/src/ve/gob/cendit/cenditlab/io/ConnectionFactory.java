@@ -24,6 +24,10 @@ public class ConnectionFactory
             {
                 return new LinuxVxi11Connection(visaAddress);
             }
+            else if (visaAddress.isTcpIp())
+            {
+                return new LinuxVxi11Connection(visaAddress);
+            }
             else
             {
                 throw new RuntimeException("Not supported operating visa address interface");

@@ -159,12 +159,12 @@ public class LinuxVxi11Connection implements IConnection
         }
 
         // Genera direccion de dispositivo
-        String device = (visaAddress.hasField(VisaAddressFields.RESOURCE) ?
-            visaAddress.getResource() : "gpib0,0");
+        String device = (visaAddress.hasField(VisaAddressFields.DEVICE_NAME) ?
+            visaAddress.getDeviceName() : "gpib0,0");
 
         int ret = library.vxi11_open_device(visaAddress.getHostAddress(), /* direccion ip */
                 clink, /* manejador / handler */
-                visaAddress.getResource() /* direccion gpib instrumento */);
+                device /* direccion gpib instrumento */);
 
         /* TODO: revisar valor de retorno se deberia lanzar excepcion acorde */
 
