@@ -1,14 +1,15 @@
 package ve.gob.cendit.cenditlab.systems;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.control.TaskContext;
-import ve.gob.cendit.cenditlab.data.DataContainer;
-import ve.gob.cendit.cenditlab.ui.ComponentViewFactory;
-import ve.gob.cendit.cenditlab.ui.base.ViewType;
+import ve.gob.cendit.cenditlab.data.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class AttenuatorSwitchDriver11713System extends System
 {
@@ -27,17 +28,20 @@ public class AttenuatorSwitchDriver11713System extends System
         ICON_IMAGE,
         arg -> new AttenuatorSwitchDriver11713System());
 
-    private static final ComponentViewFactory viewFactory = ComponentViewFactory.get();
-
     private static final ComponentDescriptor[] taskDescriptors =
         {
             SetSwitchStateTask.descriptor,
             SetAttenuationTask.descriptor
         };
 
+    private List<Setup> setupList = new ArrayList<>();
+
     public AttenuatorSwitchDriver11713System()
     {
         super(systemDescriptor);
+
+        setupList.add(new FrequencySetup());
+        setupList.add(new EnrSetup());
     }
 
     @Override
@@ -47,13 +51,13 @@ public class AttenuatorSwitchDriver11713System extends System
     }
 
     @Override
-    public Node getView(ViewType viewType)
+    public List<Setup> getSetup()
     {
-        return viewFactory.getView(this, viewType);
+        return setupList;
     }
 
     @Override
-    public DataContainer getSetupData()
+    public List<Data> getData()
     {
         return null;
     }
@@ -78,15 +82,15 @@ public class AttenuatorSwitchDriver11713System extends System
         }
 
         @Override
-        public DataContainer getSetupData()
+        public List<Setup> getSetup()
         {
             return null;
         }
 
         @Override
-        public Node getView(ViewType viewType)
+        public List<Data> getData()
         {
-            return viewFactory.getView(this, viewType);
+            return null;
         }
     }
 
@@ -110,15 +114,15 @@ public class AttenuatorSwitchDriver11713System extends System
         }
 
         @Override
-        public DataContainer getSetupData()
+        public List<Setup> getSetup()
         {
             return null;
         }
 
         @Override
-        public Node getView(ViewType viewType)
+        public List<Data> getData()
         {
-            return viewFactory.getView(this, viewType);
+            return null;
         }
     }
 }

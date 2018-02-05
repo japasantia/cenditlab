@@ -10,7 +10,6 @@ import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +30,8 @@ public class TasksSetupActivityView extends SplitPane
 
     private ImageButton addButton;
     private ImageButton removeButton;
+
+    private IconView taskSetupView;
 
     public TasksSetupActivityView()
     {
@@ -66,6 +67,8 @@ public class TasksSetupActivityView extends SplitPane
 
         addButton.setOnMouseClicked(this::onAddButtonClicked);
         removeButton.setOnMouseClicked(this::onRemoveButtonClicked);
+
+        taskSetupView = new IconView();
     }
 
     public void setSystems(System... systems)
@@ -111,10 +114,12 @@ public class TasksSetupActivityView extends SplitPane
         return tasksContainerView.getItemsList().getAll();
     }
 
-    public void setTaskSetupView(Node node)
+    public void updateTaskSetupView(Task task)
     {
+        taskSetupView.setComponentDescriptor(task.getComponentDescriptor());
+
         taskSetupVBox.getChildren().clear();
-        taskSetupVBox.getChildren().add(node);
+        taskSetupVBox.getChildren().add(taskSetupView);
     }
 
     public void clear()
@@ -174,7 +179,8 @@ public class TasksSetupActivityView extends SplitPane
 
         if (itemView == null)
         {
-            itemView = new ItemView(item.getValue().getView(ViewType.DESCRIPTION));
+            Task task = (Task) item.getValue();
+            itemView = new ItemView(new TaskDescriptionView(task));
         }
 
         return itemView;
@@ -185,7 +191,7 @@ public class TasksSetupActivityView extends SplitPane
         ItemView itemView = (ItemView) item.getView();
         itemView.add(removeButton).attachTop(5.0).attachRight(5.0);
 
-        setTaskSetupView(item.getValue().getView(ViewType.SETUP));
+        updateTaskSetupView(item.getValue());
     }
 
     private void onTaskDescriptorClicked(Item<ComponentDescriptor> item)
@@ -205,7 +211,9 @@ public class TasksSetupActivityView extends SplitPane
 
             addTask(task);
 
-            setTaskSetupView(task.getView(ViewType.SETUP));
+            taskSetupView.setComponentDescriptor(task.getComponentDescriptor());
+
+            updateTaskSetupView(task);
         }
     }
 
@@ -221,10 +229,10 @@ public class TasksSetupActivityView extends SplitPane
     {
         ComponentDescriptor descriptor = item.getValue();
 
-        Task task = (Task) descriptor.create(null);
+        Task task = (Task) descriptor.createModal(null);
         addTask(task);
 
-        setTaskSetupView(task.getView(ViewType.SETUP));
+        updateTaskSetupView(task.getView(ViewType.SETUP));
     }
     */
 }

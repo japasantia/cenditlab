@@ -2,7 +2,7 @@ package ve.gob.cendit.cenditlab.data;
 
 import java.util.List;
 
-public class FrequencySetup
+public class FrequencySetup extends Setup
 {
     public static final int FREQUENCY_SWEEP = 0;
     public static final int FREQUENCY_LIST = 1;

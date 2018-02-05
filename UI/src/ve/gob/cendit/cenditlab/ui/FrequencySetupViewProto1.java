@@ -45,22 +45,27 @@ public class FrequencySetupViewProto1 extends HBox
 
     public FrequencySetupViewProto1()
     {
+        this(new FrequencySetup());
+    }
+
+    public FrequencySetupViewProto1(FrequencySetup setup)
+    {
         ViewLoader.load(FXML_URL, this, this);
 
         initialize();
+
+        setSetup(setup);
     }
 
     private void initialize()
     {
-        setFrequencySetup(new FrequencySetup());
-
         currentFrequencySetupNode = frequencyRangeSetupView;
 
         frequencyModeOptionsView.valueProperty()
             .addListener((observable, oldValue, newValue) -> changeSetupView(newValue));
     }
 
-    public void setFrequencySetup(FrequencySetup frequencySetup)
+    public void setSetup(FrequencySetup frequencySetup)
     {
         this.frequencySetup = frequencySetup;
 

@@ -1,8 +1,12 @@
 package ve.gob.cendit.cenditlab.control;
 
 import javafx.scene.Node;
+import ve.gob.cendit.cenditlab.data.Data;
 import ve.gob.cendit.cenditlab.data.DataContainer;
+import ve.gob.cendit.cenditlab.data.Setup;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
+
+import java.util.List;
 
 public class AsyncTaskProto1 extends Task
 {
@@ -19,18 +23,6 @@ public class AsyncTaskProto1 extends Task
         }
 
         this.task = task;
-    }
-
-    @Override
-    public DataContainer getSetupData()
-    {
-        return task.getSetupData();
-    }
-
-    @Override
-    public Node getView(ViewType viewType)
-    {
-        return task.getView(viewType);
     }
 
     @Override
@@ -126,5 +118,17 @@ public class AsyncTaskProto1 extends Task
         run(context);
 
         setState(TaskState.STOPPED);
+    }
+
+    @Override
+    public List<Data> getData()
+    {
+        return task.getData();
+    }
+
+    @Override
+    public List<Setup> getSetup()
+    {
+        return task.getSetup();
     }
 }

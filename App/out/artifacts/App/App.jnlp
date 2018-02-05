@@ -3,17 +3,15 @@
   <information>
     <title>CenditLab</title>
     <vendor>Jose Arias</vendor>
-    <description>Sample JavaFX 2.0 application.</description>
+    <description>App</description>
     <offline-allowed/>
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="App.jar" size="600448" download="eager" />
-    <jar href="Control.jar" size="27888" download="eager" />
-    <jar href="Data.jar" size="33981" download="eager" />
-    <jar href="Systems.jar" size="13961" download="eager" />
-    <jar href="UI-Base.jar" size="1851" download="eager" />
-    <jar href="UI.jar" size="535802" download="eager" />
+    <jar href="App.jar" size="2166" download="eager" />
+    <jar href="Core.jar" size="67983" download="eager" />
+    <jar href="Systems.jar" size="18631" download="eager" />
+    <jar href="UI.jar" size="12282895" download="eager" />
   </resources>
   <jfx:javafx-desc  width="600" height="400" main-class="ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTests"  name="App" />
   <update check="background"/>

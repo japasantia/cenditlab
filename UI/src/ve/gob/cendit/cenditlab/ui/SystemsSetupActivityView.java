@@ -3,10 +3,8 @@ package ve.gob.cendit.cenditlab.ui;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.System;
-import ve.gob.cendit.cenditlab.ui.base.ViewType;
 
 import java.util.List;
 
@@ -16,9 +14,6 @@ public class SystemsSetupActivityView extends SplitPane
 
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
-    private static final Image DEFAULT_ICON =
-            new Image(SystemsSetupActivityView.class.getResource("/ve/gob/cendit/cenditlab/ui/images/system-icon.png").toExternalForm());
-
     @FXML
     private VBox detailVBox;
 
@@ -27,6 +22,9 @@ public class SystemsSetupActivityView extends SplitPane
 
     @FXML
     private ItemsListView<System> systemItemsListView;
+
+    private Node setupView;
+    private IconView detailView;
 
     public SystemsSetupActivityView()
     {
@@ -47,6 +45,9 @@ public class SystemsSetupActivityView extends SplitPane
         systemItemsListView.getItemsList().setViewFactory(this::getSystemView);
 
         systemItemsListView.setOnItemClicked(this::onSystemClicked);
+
+        setupView = new IconView();
+        detailView = new IconView();
     }
 
     public List<System> getSystems()
@@ -79,26 +80,32 @@ public class SystemsSetupActivityView extends SplitPane
     {
         systemItemsListView.unload();
 
-        detailVBox.getChildren().clear();
-        setupVBox.getChildren().clear();
+        clearDetailView();
+        clearSetupView();
     }
 
     private void setSelectedSytem(System system)
     {
-        setSetupView(system.getView(ViewType.SETUP));
-        setDetailView(system.getView(ViewType.DETAILS));
+        updateDetailView(system);
+        updateSetupView(system);
     }
 
-    private void setSetupView(Node view)
+    private void updateSetupView(System system)
     {
         clearSetupView();
-        setupVBox.getChildren().add(view);
+
+        setupView = ViewFactory.buildSetupView(system.getSetup());
+
+        if (setupView != null)
+            setupVBox.getChildren().add(setupView);
     }
 
-    private void setDetailView(Node view)
+    private void updateDetailView(System system)
     {
         clearDetailView();
-        detailVBox.getChildren().add(view);
+
+        detailView.setComponentDescriptor(system.getComponentDescriptor());
+        detailVBox.getChildren().add(detailView);
     }
 
     private void clearListView()
@@ -129,7 +136,7 @@ public class SystemsSetupActivityView extends SplitPane
 
         if (itemView == null)
         {
-            itemView = item.getValue().getView(ViewType.ICON);
+            itemView = new IconView(item.getValue().getComponentDescriptor());
             itemView = new ItemView(itemView);
         }
 

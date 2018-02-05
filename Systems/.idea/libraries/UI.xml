@@ -4,8 +4,6 @@
       <root url="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../UI/out/artifacts/UI/UI.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

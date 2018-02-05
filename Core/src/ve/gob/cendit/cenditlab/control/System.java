@@ -9,7 +9,5 @@ public abstract class System extends Component
         super(descriptor);
     }
 
-    public abstract DataContainer getSetupData();
-
     public abstract ComponentDescriptor[] getTaskDescriptors();
 }

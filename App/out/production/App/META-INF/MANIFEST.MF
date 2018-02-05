@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Class-Path: UI.jar Data.jar Control.jar
+Class-Path: UI.jar Data.jar Control.jar Systems.jar Core.jar
 Main-Class: ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTest
  s
 

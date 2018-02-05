@@ -26,7 +26,7 @@ public class OptionsView extends ChoiceBox<String>
 
         getItems().setAll(options.getValues());
 
-        setValue(options.getDefault());
+        setValue(options.getSelected());
     }
 
     public Options getOptions()

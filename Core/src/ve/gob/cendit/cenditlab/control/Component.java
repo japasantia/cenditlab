@@ -1,8 +1,10 @@
 package ve.gob.cendit.cenditlab.control;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
-import ve.gob.cendit.cenditlab.ui.base.ViewType;
+import ve.gob.cendit.cenditlab.data.Data;
+import ve.gob.cendit.cenditlab.data.Setup;
+
+import java.util.List;
 
 public abstract class Component
 {
@@ -43,5 +45,7 @@ public abstract class Component
         return componentDescriptor.getIcon();
     }
 
-    public abstract Node getView(ViewType viewType);
+    public abstract List<Data> getData();
+
+    public abstract List<Setup> getSetup();
 }

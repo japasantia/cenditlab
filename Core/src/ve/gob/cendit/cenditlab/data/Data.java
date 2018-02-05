@@ -52,7 +52,6 @@ public class Data
         return value;
     }
 
-
     public void update()
     {
         updateEventEmitter.call(this, (Object) null);
@@ -73,7 +72,7 @@ public class Data
         updateEventEmitter.addListener(listener);
     }
 
-    public void removeListener(IUpdateListener listener)
+    public void removeUpdateListener(IUpdateListener listener)
     {
         updateEventEmitter.removeListener(listener);
     }

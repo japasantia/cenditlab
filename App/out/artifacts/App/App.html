@@ -15,14 +15,14 @@
 </script>
 
 <script>
-    function javafxEmbed_App_id() {
+    function javafxEmbedApp_id() {
         dtjava.embed(
             {
                 id : 'App_id',
                 url : 'App.jnlp',
                 placeholder : 'javafx-app-placeholder',
-                width : 600,
-                height : 400
+                width : '600',
+                height : '400'
             },
             {
                 javafx : '8.0+'
@@ -31,7 +31,7 @@
         );
     }
     <!-- Embed FX application into web page once page is loaded -->
-    dtjava.addOnloadCallback(javafxEmbed_App_id);
+    dtjava.addOnloadCallback(javafxEmbedApp_id);
 </script>
 
 </head><body>

@@ -1,7 +1,6 @@
 package ve.gob.cendit.cenditlab.systems;
 
 import javafx.scene.Node;
-import ve.gob.cendit.cenditlab.control.ActivityFlow;
 import ve.gob.cendit.cenditlab.control.Activity;
 import ve.gob.cendit.cenditlab.control.IApplicationController;
 import ve.gob.cendit.cenditlab.control.System;

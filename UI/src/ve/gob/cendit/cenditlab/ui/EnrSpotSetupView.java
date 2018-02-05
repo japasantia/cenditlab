@@ -59,6 +59,9 @@ public class EnrSpotSetupView extends GridPane
 
     private void changeSpotEnrValueView(String spotMode)
     {
+        if (spotMode == null)
+            return;
+
         switch (spotMode)
         {
             case "ENR":

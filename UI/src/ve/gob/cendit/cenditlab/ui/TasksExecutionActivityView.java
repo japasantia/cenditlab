@@ -110,7 +110,6 @@ public class TasksExecutionActivityView extends SplitPane
         tasksItemsListView.unload();
 
         clearResults();
-
         clearOutput();
     }
 
@@ -149,17 +148,7 @@ public class TasksExecutionActivityView extends SplitPane
         {
             Task selectedTask = item.getValue();
 
-            /*
-            if (selectedTask != null)
-            {
-                TaskExecutionView taskExecutionView = (TaskExecutionView) selectedTask.getView(ViewType.EXECUTION);
-                taskExecutionView.removeExecutionToolbar();
-            }
-            */
-
-            selectedTask = item.getValue();
-
-            TaskExecutionView taskExecutionView = (TaskExecutionView) selectedTask.getView(ViewType.EXECUTION);
+            TaskExecutionView taskExecutionView = (TaskExecutionView)item.getView();
             taskExecutionView.setExecutionToolbar(executionToolbar);
         }
         catch (Exception ex)
@@ -174,7 +163,7 @@ public class TasksExecutionActivityView extends SplitPane
 
         if (itemView == null)
         {
-            itemView = item.getValue().getView(ViewType.EXECUTION);
+            itemView = new TaskExecutionView(item.getValue());
         }
 
         return itemView;

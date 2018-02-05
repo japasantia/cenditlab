@@ -13,9 +13,6 @@ public class EnrSetupViewProto1 extends HBox
 
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
-    private static final int SETUP_TO_VIEW = 0;
-    private static final int VIEW_TO_SETUP = 1;
-
     @FXML
     OptionsView enrModeOptionsView;
 
@@ -51,20 +48,23 @@ public class EnrSetupViewProto1 extends HBox
 
     public EnrSetupViewProto1()
     {
+        this(new EnrSetup());
+    }
+
+    public EnrSetupViewProto1(EnrSetup setup)
+    {
         viewLoader.load(this, this);
 
         initialize();
         makeBindings();
+
+        setSetup(setup);
     }
 
     private void initialize()
     {
-        enrSetup = new EnrSetup();
-
         enrCommonTableSetupView = new EnrTableSetupView();
         enrMeasurementTableSetupView = new EnrTableSetupView();
-
-        setSetup(enrSetup);
     }
 
     private void makeBindings()
@@ -74,7 +74,6 @@ public class EnrSetupViewProto1 extends HBox
         enrModeOptionsView.valueProperty()
             .addListener((observable, oldValue, newValue) -> changeSetupView(newValue));
     }
-
 
     public EnrSetup getSetup()
     {
@@ -106,11 +105,14 @@ public class EnrSetupViewProto1 extends HBox
 
     private void changeSetupView(String setupView)
     {
+        if (setupView == null)
+            return;
+
         switch (setupView)
         {
             case "Tabla":
 
-                enrDataVBox.getChildren().remove(enrSpotSetupView);
+                enrDataVBox.getChildren().clear();
 
                 enrDataVBox.getChildren().add(enrCommonTableSetupView);
 
@@ -128,7 +130,7 @@ public class EnrSetupViewProto1 extends HBox
 
             case "Spot":
 
-                enrDataVBox.getChildren().remove(enrCommonTableSetupView);
+                enrDataVBox.getChildren().clear();
                 enrDataVBox.getChildren().remove(enrMeasurementTableSetupView);
 
                 enrDataVBox.getChildren().add(enrSpotSetupView);

@@ -75,7 +75,7 @@ public class ValueView extends HBox
 
         if (data != null)
         {
-            data.removeListener(dataUpdateListener);
+            data.removeUpdateListener(dataUpdateListener);
         }
 
         data = value;

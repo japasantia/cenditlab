@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import ve.gob.cendit.cenditlab.data.*;
 import ve.gob.cendit.cenditlab.ui.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,7 +48,8 @@ public class ViewTests extends Application
         // itemFrameViewTest();
         // dialogViewTest();
         // listDataViewTest();
-        tabularViewTest();
+        // tabularViewTest();
+        viewFactoryTest();
     }
 
     public void setupViewTest()
@@ -337,8 +340,9 @@ public class ViewTests extends Application
         rootVBox.getChildren().addAll(dialogButton1, dialogButton2,
                 dialogButton3, dialogButton4);
 
-        DialogView dialogView = DialogView.create(stage);
+        DialogView dialogView = DialogView.createModal(stage);
         dialogView.setTitle("DialogView");
+        dialogView.setContent(new FrequencySetupViewProto1());
 
         dialogButton1.setOnAction(event -> {
             dialogView.setTitle("Ok dialog");
@@ -407,6 +411,17 @@ public class ViewTests extends Application
                     new ListData("C4", "15,25,35,45,55,65,75,85,95"));
 
         showView(rootVBox, "CenditLab.Reduced | TabularView Test", 600.0, 400.0);
+    }
+
+    private static final void viewFactoryTest()
+    {
+        List<Setup> setupList = new ArrayList<Setup>();
+        setupList.add(new FrequencySetup());
+        setupList.add(new EnrSetup());
+
+        ScrollPane setupView = (ScrollPane) ViewFactory.buildSetupView(setupList);
+
+        showView(setupView,"CenditLab.Reduced | ViewFactory Test", 600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)

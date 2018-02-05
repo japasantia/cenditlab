@@ -4,22 +4,21 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import ve.gob.cendit.cenditlab.control.*;
 import ve.gob.cendit.cenditlab.control.System;
-import ve.gob.cendit.cenditlab.data.DataContainer;
-import ve.gob.cendit.cenditlab.ui.ComponentViewFactory;
+import ve.gob.cendit.cenditlab.data.*;
+import ve.gob.cendit.cenditlab.ui.Resources;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoiseFigureAnalyzer8975ASystem extends System
 {
     private static final String NAME = "Noise Figure Analyzer 8975A";
     private static final String DESCRIPTION = "Performs noise figure measurements";
 
-    private static final Image ICON_IMAGE =
-            new Image(NoiseFigureAnalyzer8975ASystem.class.getResource("/ve/gob/cendit/cenditlab/ui/images/task-icon.jpg").toExternalForm());
+    private static final Image ICON_IMAGE = Resources.TASK_ICON;
 
-    private static final Image TASK_ICON_IMAGE =
-            new Image(NoiseFigureAnalyzer8975ASystem.class.getResource("/ve/gob/cendit/cenditlab/ui/images/task-icon.jpg").toExternalForm());
-
-    private static final ComponentViewFactory viewFactory = ComponentViewFactory.get();
+    private static final Image TASK_ICON_IMAGE = Resources.TASK_ICON;
 
     private static final ComponentDescriptor systemDescriptor = new ComponentDescriptor(
             NAME,
@@ -33,9 +32,14 @@ public class NoiseFigureAnalyzer8975ASystem extends System
                 NoisePowerMeasureTask.descriptor
         };
 
+    private List<Setup> setupList = new ArrayList<Setup>();
+
     public NoiseFigureAnalyzer8975ASystem()
     {
         super(systemDescriptor);
+
+        setupList.add(new FrequencySetup());
+        setupList.add(new EnrSetup());
     }
 
     @Override
@@ -45,13 +49,13 @@ public class NoiseFigureAnalyzer8975ASystem extends System
     }
 
     @Override
-    public Node getView(ViewType viewType)
+    public List<Setup> getSetup()
     {
-        return viewFactory.getView(this, viewType);
+        return setupList;
     }
 
     @Override
-    public DataContainer getSetupData()
+    public List<Data> getData()
     {
         return null;
     }
@@ -76,15 +80,15 @@ public class NoiseFigureAnalyzer8975ASystem extends System
         }
 
         @Override
-        public DataContainer getSetupData()
+        public List<Setup> getSetup()
         {
             return null;
         }
 
         @Override
-        public Node getView(ViewType viewType)
+        public List<Data> getData()
         {
-            return viewFactory.getView(this, viewType);
+            return null;
         }
     }
 
@@ -108,15 +112,15 @@ public class NoiseFigureAnalyzer8975ASystem extends System
         }
 
         @Override
-        public DataContainer getSetupData()
+        public List<Setup> getSetup()
         {
             return null;
         }
 
         @Override
-        public Node getView(ViewType viewType)
+        public List<Data> getData()
         {
-            return viewFactory.getView(this, viewType);
+            return null;
         }
     }
 }

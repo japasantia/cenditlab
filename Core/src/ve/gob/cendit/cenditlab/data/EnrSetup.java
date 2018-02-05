@@ -1,6 +1,6 @@
 package ve.gob.cendit.cenditlab.data;
 
-public class EnrSetup
+public class EnrSetup extends Setup
 {
     private Options enrModeOptions =
             new Options("Modo ENR", "Tabla", "Spot");

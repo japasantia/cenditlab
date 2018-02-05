@@ -12,8 +12,6 @@ public abstract class Task extends Component
         super(descriptor);
     }
 
-    public abstract DataContainer getSetupData();
-
     public abstract void run(TaskContext context);
 
     public void pause()

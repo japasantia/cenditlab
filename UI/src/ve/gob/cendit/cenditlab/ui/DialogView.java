@@ -30,7 +30,7 @@ public class DialogView extends VBox
     public static final int OK_CANCEL = 2;
     public static final int RETRY_ABORT_IGNORE = 3;
 
-    private static final String[] BUTTONS_TEXT =
+    private static final String[] BUTTON_CAPTIONS =
     {
         "Ok",
         "Cancel",
@@ -64,7 +64,7 @@ public class DialogView extends VBox
 
     private int clickedButtonId = NONE;
 
-    public static DialogView create(Window owner)
+    public static DialogView createModal(Window owner)
     {
         Stage stage = new Stage();
         stage.initOwner(owner);
@@ -79,9 +79,28 @@ public class DialogView extends VBox
         return dialogView;
     }
 
-    protected DialogView(Stage stage)
+    public DialogView()
     {
         viewLoader.load(this, this);
+    }
+
+    public DialogView(Node content, Image icon)
+    {
+        this();
+
+        setContent(content);
+        setIconImage(icon);
+    }
+
+    public DialogView(Node content)
+    {
+        this(content, null);
+    }
+
+    protected DialogView(Stage stage)
+    {
+        this();
+
         this.stage = stage;
 
         initialize();
@@ -120,6 +139,8 @@ public class DialogView extends VBox
 
     public void setContent(Node content)
     {
+        clearContent();
+
         contentPane.getChildren().add(content);
     }
 
@@ -140,17 +161,20 @@ public class DialogView extends VBox
 
     public void show()
     {
-        stage.show();
+        if (stage != null)
+            stage.show();
     }
 
     public void hide()
     {
-        stage.hide();
+        if (stage != null)
+            stage.hide();
     }
 
     public void close()
     {
-        stage.close();
+        if (stage != null)
+            stage.close();
     }
 
     public void setButtons(int buttons)
@@ -188,7 +212,7 @@ public class DialogView extends VBox
     private void loadLeftButton(int buttonId)
     {
         leftButtonId = buttonId;
-        leftButton.setText(BUTTONS_TEXT[buttonId]);
+        leftButton.setText(BUTTON_CAPTIONS[buttonId]);
 
         buttonsHBox.getChildren().add(leftButton);
     }
@@ -196,7 +220,7 @@ public class DialogView extends VBox
     private void loadCenterButton(int buttonId)
     {
         centerButtonId = buttonId;
-        centerButton.setText(BUTTONS_TEXT[buttonId]);
+        centerButton.setText(BUTTON_CAPTIONS[buttonId]);
 
         buttonsHBox.getChildren().add(centerButton);
     }
@@ -204,7 +228,7 @@ public class DialogView extends VBox
     private void loadRightButton(int buttonId)
     {
         rightButtonId = buttonId;
-        rightButton.setText(BUTTONS_TEXT[buttonId]);
+        rightButton.setText(BUTTON_CAPTIONS[buttonId]);
 
         buttonsHBox.getChildren().add(rightButton);
     }
@@ -219,25 +243,4 @@ public class DialogView extends VBox
 
         close();
     }
-
-    /*
-    private class Action
-    {
-        private int id;
-        private Button button;
-        private String buttonText;
-
-        public Action(int id, Button button, String buttonText)
-        {
-            this.id = id;
-            this.button = button;
-            this.buttonText = buttonText;
-        }
-
-        public void load()
-        {
-            button.setText(buttonText);
-        }
-    }
-    */
 }

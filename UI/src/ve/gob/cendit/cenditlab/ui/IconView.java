@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
 
 public class IconView extends HBox
@@ -25,12 +24,21 @@ public class IconView extends HBox
 
     public IconView()
     {
-        this(null, null, null);
+        viewLoader.load(this, this);
     }
 
     public IconView(ComponentDescriptor descriptor)
     {
-        this(descriptor.getName(), descriptor.getDescription(), descriptor.getIcon());
+        this();
+
+        setComponentDescriptor(descriptor);
+    }
+
+    public void setComponentDescriptor(ComponentDescriptor descriptor)
+    {
+        setName(descriptor.getName());
+        setDescription(descriptor.getDescription());
+        setIcon(descriptor.getIcon());
     }
 
     public IconView(String name, String description, Image image)

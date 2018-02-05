@@ -1,23 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="App">
+  <artifact type="jar" name="App">
     <output-path>$PROJECT_DIR$/out/artifacts/App</output-path>
-    <properties id="javafx-properties">
-      <options>
-        <option name="appClass" value="ve.gob.cendit.cenditlab.tests.app.CenditLabApplicationTests" />
-        <option name="description" value="" />
-        <option name="title" value="CenditLab" />
-        <option name="vendor" value="Jose Arias" />
-      </options>
-    </properties>
-    <root id="root">
-      <element id="archive" name="App.jar">
-        <element id="module-output" name="App" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/App.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/Control.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/Data.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/UI-Base.jar" path-in-jar="/" />
-        <element id="extracted-dir" path="$PROJECT_DIR$/out/artifacts/App/UI.jar" path-in-jar="/" />
-      </element>
+    <root id="archive" name="App.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+      <element id="dir-copy" path="$PROJECT_DIR$/tests" />
+      <element id="file-copy" path="$PROJECT_DIR$/tests/ve/gob/cendit/cenditlab/tests/app/CenditLabApplicationTests.java" />
+      <element id="module-output" name="App" />
     </root>
   </artifact>
 </component>
