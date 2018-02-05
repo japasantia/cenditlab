@@ -6,6 +6,7 @@ import ve.gob.cendit.cenditlab.io.IConnection;
 import ve.gob.cendit.cenditlab.io.gpib.LinuxGpibConnection;
 import ve.gob.cendit.cenditlab.io.scpi.ScpiCommand;
 import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
+import ve.gob.cendit.cenditlab.io.vxi11.LinuxVxi11Connection;
 
 import java.util.Arrays;
 
@@ -13,10 +14,35 @@ public class ScpiCommandTest
 {
     public static void main(String[] args)
     {
+        // IConnection connection = getLinuxGpibConnection("GPIB0::10::INSTR");
+        IConnection connection = getTcpIpConnection("TCPIP0::192.168.151.100::gpib0,10::INSTR");
+
         // basicTest();
-        // commandsTest1();
-        // commandsTest2();
-        commandsTest3();
+        commandsTest1(connection);
+        commandsTest2(connection);
+        commandsTest3(connection);
+    }
+
+    private static IConnection getLinuxGpibConnection(String address)
+    {
+        LinuxGpibConnection connection =
+                (LinuxGpibConnection) ConnectionFactory.CreateConnection(new VisaAddress("GPIB0::10::INSTR"));
+
+        connection.open();
+
+        connection.setTimeout(LinuxGpibConnection.TNONE);
+
+        return connection;
+    }
+
+    private static IConnection getTcpIpConnection(String address)
+    {
+        LinuxVxi11Connection connection =
+                (LinuxVxi11Connection) ConnectionFactory.CreateConnection(new VisaAddress(address));
+
+        connection.open();
+
+        return connection;
     }
 
     public static void basicTest()
@@ -30,15 +56,8 @@ public class ScpiCommandTest
         command = ScpiCommand.format(":SENSE:{1}:COUNT {0}", "2", "AVERAGE");
     }
 
-    private static void commandsTest1()
+    private static void commandsTest1(IConnection connection)
     {
-        LinuxGpibConnection connection =
-            (LinuxGpibConnection) ConnectionFactory.CreateConnection(new VisaAddress("GPIB0::10::INSTR"));
-
-        connection.open();
-
-        connection.setTimeout(LinuxGpibConnection.TNONE);
-
         Data nfData = new Data("Noise Figure");
         Data gainData = new Data("Gain");
         Data photData = new Data("Phot");
@@ -57,28 +76,34 @@ public class ScpiCommandTest
         ScpiCommand[] commands =
         {
             new ScpiCommand("*CLS"),
-            new ScpiCommand(":INITIATE:CONTINUOUS:ALL ON"),
+            new ScpiCommand(":INITIATE:CONTINUOUS:ALL OFF"),
             new ScpiCommand("*OPC"),
             new ScpiCommand(":INITIATE:IMMEDIATE"),
-            new ScpiCommand("*WAI"),
-            new ScpiCommand("*OPC?", okData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:NFIGURE? DB", nfData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:GAIN? DB", gainData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:PHOT?", photData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:PCOLD?", pcoldData)
+            //new ScpiCommand("*WAI"),
+            new ScpiCommand("*OPC?", 30000, okData),
+            new ScpiCommand(":FETCH:ARRAY:CORRECTED:NFIGURE? DB", 1000, nfData),
+            new ScpiCommand(":FETCH:ARRAY:CORRECTED:GAIN? DB", 1000, gainData),
+            new ScpiCommand(":FETCH:ARRAY:CORRECTED:PHOT?", 1000, photData),
+            new ScpiCommand(":FETCH:ARRAY:CORRECTED:PCOLD?", 1000, pcoldData)
         };
 
 
         Arrays.stream(commands)
             .forEach(command ->
                 {
+                    String message;
+
                     try
                     {
+                        message = String.format("Executing: %s", command.getFormattedCommand());
+                        System.out.println(message);
                         command.execute(connection);
                     }
                     catch (Exception ex)
                     {
-                        ex.printStackTrace();
+                        message = String.format("[Exception: %s] command: %s",
+                                ex.getMessage(), command.getFormattedCommand());
+                        System.out.println(message);
                     }
                 });
 
@@ -89,15 +114,8 @@ public class ScpiCommandTest
                 });
     }
 
-    private static void commandsTest2()
+    private static void commandsTest2(IConnection connection)
     {
-        LinuxGpibConnection connection =
-                (LinuxGpibConnection) ConnectionFactory.CreateConnection(new VisaAddress("GPIB0::10::INSTR"));
-
-        connection.open();
-
-        connection.setTimeout(LinuxGpibConnection.TNONE);
-
         Data gainData = new Data("Gain");
         Data nfData = new Data("Noise Figure");
         Data pcoldData = new Data("Pcold");
@@ -115,11 +133,11 @@ public class ScpiCommandTest
 
         ScpiCommand[] commands =
         {
-            new ScpiCommand("READ:ARRAY:DATA:CORRECTED:GAIN?", gainData),
-            new ScpiCommand("READ:ARRAY:DATA:CORRECTED:NFIGURE?", nfData),
-            new ScpiCommand("READ:ARRAY:DATA:CORRECTED:PCOLD?", pcoldData),
-            new ScpiCommand("READ:ARRAY:DATA:CORRECTED:PHOT?", photData),
-            new ScpiCommand("READ:ARRAY:DATA:CORRECTED:TEFFECTIVE?", teffData),
+            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:GAIN?", gainData),
+            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:NFIGURE?", nfData),
+            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:PCOLD?", pcoldData),
+            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:PHOT?", photData),
+            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:TEFFECTIVE?", teffData),
         };
 
         Arrays.stream(commands)
@@ -142,14 +160,8 @@ public class ScpiCommandTest
             });
     }
 
-    private static void commandsTest3()
+    private static void commandsTest3(IConnection connection)
     {
-        LinuxGpibConnection connection =
-                (LinuxGpibConnection) ConnectionFactory.CreateConnection(new VisaAddress("GPIB0::10::INSTR"));
-
-        connection.open();
-
-        connection.setTimeout(LinuxGpibConnection.TNONE);
 
         Data opcData = new Data("Op completed");
         Data gainData = new Data("Gain");

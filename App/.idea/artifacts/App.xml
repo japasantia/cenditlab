@@ -4,7 +4,6 @@
     <root id="archive" name="App.jar">
       <element id="dir-copy" path="$PROJECT_DIR$/src" />
       <element id="dir-copy" path="$PROJECT_DIR$/tests" />
-      <element id="file-copy" path="$PROJECT_DIR$/tests/ve/gob/cendit/cenditlab/tests/app/CenditLabApplicationTests.java" />
       <element id="module-output" name="App" />
     </root>
   </artifact>

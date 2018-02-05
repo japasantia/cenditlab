@@ -2,6 +2,7 @@ package ve.gob.cendit.cenditlab.io.vxi11;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import ve.gob.cendit.cenditlab.io.ConnectionException;
 import ve.gob.cendit.cenditlab.io.IConnection;
 import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 import ve.gob.cendit.cenditlab.io.visa.VisaAddressFields;
@@ -38,33 +39,31 @@ public class LinuxVxi11Connection implements IConnection
 
         String dataRead = null;
         byte[] buffer = new byte[1024];
-        int bytesRead = 0;
-        long ret = 0;
+        long bytesReceived = 0;
 
         try
         {
             // TODO: revisar este proceso de lectura
-            //while (ret != 0)
-            // {
-                ret = library.vxi11_receive(clink,
-                        buffer, buffer.length,
-                        IVxi11.VXI11_READ_TIMEOUT);
+            do
+            {
+                bytesReceived = read(buffer);
 
-                if (ret != 0 || ret == IVxi11.VXI11_NULL_READ_RESP)
-                {
-                    // TODO: lanzar excepcion
-                }
+                checkReturnThrowExceptionIfError(bytesReceived, "Error reading from device",
+                        true);
 
                 byteStream.write(buffer,
                         byteStream.size(),
-                        buffer.length);
-            // }
+                        (int)bytesReceived);
+            }
+            while (bytesReceived >= buffer.length);
 
             dataRead = byteStream.toString();
             byteStream.close();
         }
         catch (IOException ex)
-        { }
+        {
+            throw new ConnectionException("IO exception on read operation", ex);
+        }
 
         return dataRead;
     }
@@ -72,53 +71,44 @@ public class LinuxVxi11Connection implements IConnection
     @Override
     public int read(byte[] buffer)
     {
-        long ret = library.vxi11_receive(clink, buffer, buffer.length,
+        int bytesReceived = (int)library.vxi11_receive(clink, buffer, (long)buffer.length,
                 IVxi11.VXI11_READ_TIMEOUT);
 
-        /* TODO: revisar valor de retorno se deberia lanzar excepcion acorde */
-        if (ret != 0)
-        {
+        checkReturnThrowExceptionIfError(bytesReceived, "Error reading from device",
+                true);
 
-        }
-
-        return buffer.length;
+        return bytesReceived;
     }
 
     @Override
     public int read(byte[] buffer, int offset, int length)
     {
-        long ret;
+        int bytesReceived;
         byte[] data = new byte[length];
 
-        ret  = library.vxi11_receive(clink, data, (long)length,
+        bytesReceived  = (int) library.vxi11_receive(clink, data, (long)length,
                 IVxi11.VXI11_READ_TIMEOUT);
 
-        if (ret != 0 || ret != IVxi11.VXI11_NULL_READ_RESP)
-        {
-            // TODO: lanzar excepcion
-        }
+        checkReturnThrowExceptionIfError(bytesReceived, "Error reading from device",
+                true);
 
         System.arraycopy(data, 0, buffer, offset, length);
 
-        return length;
+        return (int)bytesReceived;
     }
 
     @Override
     public int write(String data)
     {
-        long ret;
+        int ret;
         byte[] buffer = data.getBytes();
 
         ret = library.vxi11_send(clink, buffer, buffer.length);
 
-        if (ret != 0 || ret == IVxi11.VXI11_NULL_WRITE_RESP)
-        {
-            // TODO: Lanzar excepcion
-        }
+        checkReturnThrowExceptionIfError(ret, "Error writing to device");
 
         return data.length();
     }
-
 
     @Override
     public int write(byte[] buffer)
@@ -138,12 +128,7 @@ public class LinuxVxi11Connection implements IConnection
 
         int ret = library.vxi11_send(clink, data, length);
 
-        /* TODO: revisar valor de retorno se deberia lanzar excepcion acorde */
-
-        if (ret != 0)
-        {
-
-        }
+        checkReturnThrowExceptionIfError(ret, "Error writing to device");
 
         return length;
     }
@@ -151,26 +136,29 @@ public class LinuxVxi11Connection implements IConnection
     @Override
     public void open()
     {
-        // Verifica que se direccione una interfaz TCPIP
-        if ( ! visaAddress.isTcpIp() )
+        // Para interfaz TCPIP
+        if ( visaAddress.isTcpIp() )
         {
-            /* TODO: lanzar excepcion mas acorde */
-            throw new IllegalArgumentException("Visa address does not correspond to a GPIB-VXI device");
+            if (visaAddress.hasField(VisaAddressFields.HOST_ADDRESS) &&
+                    visaAddress.hasField(VisaAddressFields.DEVICE_NAME))
+            {
+
+                String hostAddress = visaAddress.getHostAddress();
+                String deviceName = visaAddress.getDeviceName();
+
+                int ret = library.vxi11_open_device(
+                        hostAddress, /* direccion ip */
+                        clink, /* manejador / handler */
+                        deviceName /* direccion gpib instrumento */);
+
+                // Revisa apertura exitosa
+                checkReturnThrowExceptionIfError(ret, "Error opening device");
+            }
         }
-
-        // Genera direccion de dispositivo
-        String device = (visaAddress.hasField(VisaAddressFields.DEVICE_NAME) ?
-            visaAddress.getDeviceName() : "gpib0,0");
-
-        int ret = library.vxi11_open_device(visaAddress.getHostAddress(), /* direccion ip */
-                clink, /* manejador / handler */
-                device /* direccion gpib instrumento */);
-
-        /* TODO: revisar valor de retorno se deberia lanzar excepcion acorde */
-
-        if (ret != 0)
+        else
         {
-
+            // El dispositivo no puede ser abierto con esta libreria
+            throw new ConnectionException("Visa address does not correspond to a TCPIP device");
         }
     }
 
@@ -179,11 +167,33 @@ public class LinuxVxi11Connection implements IConnection
     {
         int ret = library.vxi11_close_device(visaAddress.getHostAddress(), clink);
 
-        /* TODO: revisar valor de retorno se deberia lanzar excepcion acorde */
+        // Revisa cierre exitoso
+        checkReturnThrowExceptionIfError(ret, "Error closing device");
+    }
 
-        if (ret != 0)
+    private static void checkReturnThrowExceptionIfError(long ret, String errorMessage)
+    {
+        checkReturnThrowExceptionIfError(ret, errorMessage, false);
+    }
+
+    private static void checkReturnThrowExceptionIfError(long ret, String errorMessage, boolean wasReading)
+    {
+        if (ret == IVxi11.VXI11_NULL_WRITE_RESP)
         {
-
+            throw new ConnectionException(String.format("Null write response. %s", errorMessage));
+        }
+        else if (ret == IVxi11.VXI11_NULL_READ_RESP)
+        {
+            throw new ConnectionException(String.format("Null read response. %s", errorMessage));
+        }
+        else if (wasReading && ret ==  IVxi11.VXI11_NOTHING_RECEIVED)
+        {
+            throw new ConnectionException(String.format("Nothing received. %s", errorMessage));
+        }
+        else if (ret < 0 /*&& ret != IVxi11.VXI11_NOTHING_RECEIVED*/)
+        {
+            throw new ConnectionException(errorMessage);
         }
     }
+
 }

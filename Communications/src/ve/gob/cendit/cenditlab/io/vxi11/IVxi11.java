@@ -41,6 +41,8 @@ public interface IVxi11 extends Library
      */
     static final long VXI11_NULL_WRITE_RESP = -51;
 
+    static final long VXI11_NOTHING_RECEIVED = -15;
+
     /**
      * Permite abrir un enlace (link) y un canal VXI11 a un
      * instrumento direccionado por su direccion IP de cuatro

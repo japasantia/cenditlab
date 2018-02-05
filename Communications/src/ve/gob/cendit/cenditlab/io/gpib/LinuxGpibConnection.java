@@ -76,7 +76,7 @@ public class LinuxGpibConnection implements IGpibConnection
     {
         int status = library.ibonl(deviceDescriptor, 0);
 
-        checkStatusThrowIfError(status, "Unable to close connection");
+        checkStatusThrowExceptionIfError(status, "Unable to close connection");
     }
 
     @Override
@@ -94,7 +94,7 @@ public class LinuxGpibConnection implements IGpibConnection
                 buffer, buffer.length);
 
         // Revisar status retornado en busca de error
-        checkStatusThrowIfError(status, "Failed to write byte array to GPIB device");
+        checkStatusThrowExceptionIfError(status, "Failed to write byte array to GPIB device");
 
         return library.ThreadIbcnt();
     }
@@ -105,7 +105,7 @@ public class LinuxGpibConnection implements IGpibConnection
         int status = library.ibwrt(deviceDescriptor, buffer, buffer.length());
 
         // Revisar status retornado en busca de error
-        checkStatusThrowIfError(status, "Failed to write string to GPIB device");
+        checkStatusThrowExceptionIfError(status, "Failed to write string to GPIB device");
 
         return library.ThreadIbcnt();
     }
@@ -122,7 +122,7 @@ public class LinuxGpibConnection implements IGpibConnection
         int status = library.ibrd(deviceDescriptor, data, length);
 
         // Revisar status retornado en busca de error
-        checkStatusThrowIfError(status, "Failed to read byte array on GPIB device");
+        checkStatusThrowExceptionIfError(status, "Failed to read byte array on GPIB device");
 
         System.arraycopy(data, 0, buffer, offset, length);
 
@@ -135,7 +135,7 @@ public class LinuxGpibConnection implements IGpibConnection
         int status = library.ibrd(deviceDescriptor, buffer, buffer.length);
 
         // Revisar status retornado en busca de error
-        checkStatusThrowIfError(status, "Failed to read byte array on GPIB device");
+        checkStatusThrowExceptionIfError(status, "Failed to read byte array on GPIB device");
 
         return library.ThreadIbcnt();
     }
@@ -178,7 +178,7 @@ public class LinuxGpibConnection implements IGpibConnection
         return dataRead;
     }
 
-    public synchronized short lineStatus()
+    public short lineStatus()
     {
         long memory = Native.malloc(2);
         Pointer pointer = new Pointer(memory);
@@ -188,7 +188,7 @@ public class LinuxGpibConnection implements IGpibConnection
         return pointer.getShort(0);
     }
 
-    public synchronized byte serialPoll()
+    public byte serialPoll()
     {
         long memory = Native.malloc(1);
         Pointer pointer = new Pointer(memory);
@@ -214,10 +214,10 @@ public class LinuxGpibConnection implements IGpibConnection
     {
         int ibsta = library.ibtmo(deviceDescriptor, timeout);
 
-        checkStatusThrowIfError(ibsta, "error setting timeout");
+        checkStatusThrowExceptionIfError(ibsta, "error setting timeout");
     }
 
-    private void checkStatusThrowIfError(int ibsta, String errorMessage)
+    private void checkStatusThrowExceptionIfError(int ibsta, String errorMessage)
     {
         if ((ibsta & ERR) != 0)
         {

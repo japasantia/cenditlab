@@ -13,6 +13,8 @@ public class ScpiCommand
     private Data[] argsArrayData;
     private Data resultData;
 
+    private long responseDelay = 0L;
+
     public ScpiCommand(String command)
     {
         this(command, null, null);
@@ -23,12 +25,12 @@ public class ScpiCommand
         this(command, null, args);
     }
 
-    public ScpiCommand(String command,Data result)
+    public ScpiCommand(String command, long responseWaitMillis, Data result)
     {
-        this(command, result, null);
+        this(command, responseWaitMillis, result, null);
     }
 
-    public ScpiCommand(String command, Data result, Data... args)
+    public ScpiCommand(String command, long responseWaitMillis, Data result, Data... args)
     {
         Objects.requireNonNull(command, "command must be not null");
 
@@ -36,6 +38,28 @@ public class ScpiCommand
 
         resultData = result;
         argsArrayData = args;
+
+        responseDelay = responseWaitMillis;
+    }
+
+    public ScpiCommand(String command, Data result)
+    {
+        this(command, 0L, result);
+    }
+
+    public ScpiCommand(String command, Data result, Data... args)
+    {
+        this(command, 0L, result, args);
+    }
+
+    public String getFormattedCommand()
+    {
+        return formattedCommand;
+    }
+
+    public String getCommand()
+    {
+        return rawCommand;
     }
 
     public void setArguments(Data... args)
@@ -79,6 +103,8 @@ public class ScpiCommand
 
         connection.write(formattedCommand);
 
+        waitForResponse();
+
         if (hasResult())
         {
             String result = connection.read();
@@ -96,6 +122,21 @@ public class ScpiCommand
     public boolean hasResult()
     {
         return resultData != null;
+    }
+
+    private void waitForResponse()
+    {
+        if (responseDelay <= 0)
+            return;
+
+        try
+        {
+            Thread.sleep(responseDelay);
+        }
+        catch (InterruptedException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     private static final String ARG_FORMAT = "{%d}";
