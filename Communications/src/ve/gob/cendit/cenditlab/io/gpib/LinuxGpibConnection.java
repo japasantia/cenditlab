@@ -13,27 +13,6 @@ import java.util.Arrays;
 
 public class LinuxGpibConnection implements IGpibConnection
 {
-    public static int ERR = 0x8000;
-
-    public static int TNONE    = 0;
-    public static int T10US    = 1;
-    public static int T30US    = 2;
-    public static int T100US   = 3;
-    public static int T300US   = 4;
-    public static int T1MS     = 5;
-    public static int T3MS     = 6;
-    public static int T10MS    = 7;
-    public static int T30MS    = 8;
-    public static int T100MS   = 9;
-    public static int T300MS   = 10;
-    public static int T1S      = 11;
-    public static int T3S      = 12;
-    public static int T10S     = 13;
-    public static int T30S     = 14;
-    public static int T100S    = 15;
-    public static int T300S    = 16;
-    public static int T1000S   = 17;
-
     private static ILinuxGpib library = LinuxGpibLibrary.getLibrary();
 
     private VisaAddress visaAddress;
@@ -63,7 +42,7 @@ public class LinuxGpibConnection implements IGpibConnection
         }
 
         deviceDescriptor = library.ibdev(board, primaryAddress, secondaryAddress,
-                ILinuxGpib.T3s, 1, 0);
+                ILinuxGpib.T3S, 1, 0);
 
         if (deviceDescriptor < 0)
         {
@@ -76,7 +55,7 @@ public class LinuxGpibConnection implements IGpibConnection
     {
         int status = library.ibonl(deviceDescriptor, 0);
 
-        checkStatusThrowExceptionIfError(status, "Unable to close connection");
+        checkStatusForException(status, "Unable to close connection");
     }
 
     @Override
@@ -94,7 +73,7 @@ public class LinuxGpibConnection implements IGpibConnection
                 buffer, buffer.length);
 
         // Revisar status retornado en busca de error
-        checkStatusThrowExceptionIfError(status, "Failed to write byte array to GPIB device");
+        checkStatusForException(status, "Failed to write byte array to GPIB device");
 
         return library.ThreadIbcnt();
     }
@@ -105,7 +84,7 @@ public class LinuxGpibConnection implements IGpibConnection
         int status = library.ibwrt(deviceDescriptor, buffer, buffer.length());
 
         // Revisar status retornado en busca de error
-        checkStatusThrowExceptionIfError(status, "Failed to write string to GPIB device");
+        checkStatusForException(status, "Failed to write string to GPIB device");
 
         return library.ThreadIbcnt();
     }
@@ -122,7 +101,7 @@ public class LinuxGpibConnection implements IGpibConnection
         int status = library.ibrd(deviceDescriptor, data, length);
 
         // Revisar status retornado en busca de error
-        checkStatusThrowExceptionIfError(status, "Failed to read byte array on GPIB device");
+        checkStatusForException(status, "Failed to read byte array on GPIB device");
 
         System.arraycopy(data, 0, buffer, offset, length);
 
@@ -135,7 +114,7 @@ public class LinuxGpibConnection implements IGpibConnection
         int status = library.ibrd(deviceDescriptor, buffer, buffer.length);
 
         // Revisar status retornado en busca de error
-        checkStatusThrowExceptionIfError(status, "Failed to read byte array on GPIB device");
+        checkStatusForException(status, "Failed to read byte array on GPIB device");
 
         return library.ThreadIbcnt();
     }
@@ -178,6 +157,55 @@ public class LinuxGpibConnection implements IGpibConnection
         return dataRead;
     }
 
+    public void deviceClear()
+    {
+        int ibsta = library.ibclr(deviceDescriptor);
+
+        checkStatusForException(ibsta, "Error executing device clear");
+    }
+
+    public void interfaceClear()
+    {
+        int ibsta = library.ibsic(deviceDescriptor);
+
+        checkStatusForException(ibsta, "Error executing interface clear");
+    }
+
+    public enum GpibLines
+    {
+        DAV(0x0100),
+        NDAC(0x0200),
+        NRFD(0x0400),
+        IFC(0x0800),
+        REN(0x1000),
+        ATN(0x4000),
+        EOI(0x8000);
+
+        private int value;
+
+        private GpibLines(int value)
+        {
+            this.value = value;
+        }
+
+        public int getValue()
+        {
+            return value;
+        }
+    }
+
+    public int getLine(GpibLines line)
+    {
+        short status = lineStatus();
+
+        int validMask = line.getValue() >> 8;
+
+        if ((status & validMask) == 0)
+            return -1;
+
+        return (status & line.getValue()) ;
+    }
+
     public short lineStatus()
     {
         long memory = Native.malloc(2);
@@ -205,21 +233,54 @@ public class LinuxGpibConnection implements IGpibConnection
         library.ibwait(deviceDescriptor, status);
     }
 
+    public void waitForCompletion()
+    {
+        // Espera culminacion de operacion IO
+        // la funcion opera en dispositivo y tarjeta
+        // a diferencia de espera a RQS que solo opera en tarjeta
+        library.ibwait(deviceDescriptor, ILinuxGpib.CMPL);
+    }
+
+    public void waitForServiceRequest()
+    {
+        //TODO: probar opciones, hay dos
+
+        // Espera por bit RQS en ibsta.
+        // Funciona unicamente si se ha establecido serial poll automatico
+        // con ibconfig
+        library.ibconfig(deviceDescriptor, ILinuxGpib.AUTOPOLL, 1);
+        library.ibconfig(deviceDescriptor, ILinuxGpib.SPOLLBIT, 1);
+        library.ibwait(deviceDescriptor, ILinuxGpib.RQS);
+
+        /*
+        // Espera por medio de llamada a funcion
+        long memory = Native.malloc(2);
+        Pointer pointer = new Pointer(memory);
+
+        library.WaitSRQ(deviceDescriptor, pointer);
+        */
+    }
+
     public void disableTimeout()
     {
-        library.ibtmo(deviceDescriptor, TNONE);
+        library.ibtmo(deviceDescriptor, ILinuxGpib.TNONE);
     }
 
-    public void setTimeout(int timeout)
+    public void setTimeout(int millis)
     {
+        millis = (millis > 0 ? millis : ILinuxGpib.T1MS);
+
+        int timeout = (int)(5.02134F + 0.86856F * Math.log(millis));
+        timeout = Math.min(timeout, ILinuxGpib.T1000S);
+
         int ibsta = library.ibtmo(deviceDescriptor, timeout);
 
-        checkStatusThrowExceptionIfError(ibsta, "error setting timeout");
+        checkStatusForException(ibsta, "error setting timeout");
     }
 
-    private void checkStatusThrowExceptionIfError(int ibsta, String errorMessage)
+    private void checkStatusForException(int ibsta, String errorMessage)
     {
-        if ((ibsta & ERR) != 0)
+        if ((ibsta & ILinuxGpib.ERR) != 0 || (ibsta & ILinuxGpib.TIMO) != 0)
         {
             throw new LinuxGpibConnectionException(errorMessage, ibsta);
         }

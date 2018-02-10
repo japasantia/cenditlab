@@ -60,7 +60,7 @@ public class GpibConnection implements IGpibConnection
         }
 
         deviceDescriptor = library.ibdev(board, primaryAddress, secondaryAddress,
-                ILinuxGpib.T3s, 1, 0);
+                ILinuxGpib.TNONE, 1, 0);
 
         if (deviceDescriptor < 0)
         {

@@ -66,7 +66,7 @@ public class LinuxGpibLibraryTest
         byte[] buffer = new byte[1024];
 
         int ud1 = linuxGpib.ibdev(0, 10, 0,
-                ILinuxGpib.T1s, 1, 0);
+                ILinuxGpib.T1S, 1, 0);
         stb = linuxGpib.ibwrt(ud1, "*IDN?\n".getBytes(),6);
         printStatusByte(stb);
 
@@ -96,7 +96,7 @@ public class LinuxGpibLibraryTest
 */
 
         udBoard = linuxGpib.ibdev(0,11,0,
-                ILinuxGpib.T3s, 1, 0);
+                ILinuxGpib.T3S, 1, 0);
         //stb = linuxGpib.ibcac(udBoard, 0);
         //printStatusByte(stb);
 

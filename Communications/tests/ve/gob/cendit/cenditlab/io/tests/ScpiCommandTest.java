@@ -30,7 +30,7 @@ public class ScpiCommandTest
 
         connection.open();
 
-        connection.setTimeout(LinuxGpibConnection.TNONE);
+        connection.disableTimeout();
 
         return connection;
     }

@@ -29,7 +29,7 @@ public class GeneralTest
         connection.open();
         adapterConnection.open();
 
-        connection.setTimeout(LinuxGpibConnection.T1000S);
+        connection.setTimeout(1000);
 
         connection.write("*CLS");
 
@@ -126,7 +126,7 @@ public class GeneralTest
 
         showOperationConditionRegister();
         connection.write("*OPC;");
-        connection.write("READ:ARRAY:DATA:CORRECTED:NFIGURE?;");
+        connection.write(":READ:ARRAY:DATA:CORRECTED:NFIGURE?;");
         response = readPrint();
 
         showEsr();
