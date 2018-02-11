@@ -195,8 +195,7 @@ public interface IVxi11 extends Library
      * @return          retorna cero en caso de exito
      *                  devuelve un valor negativo en caso de error
      */
-    long vxi11_obtain_long_value(Pointer clink, String cmd,
-                 long timeout);
+    long vxi11_obtain_long_value(Pointer clink, String cmd, long timeout);
 
     /**
      * Permite enviar una cadena de comandos <code>cmd</code> al
@@ -211,6 +210,5 @@ public interface IVxi11 extends Library
      * @return          retorna cero en caso de exito
      *                  devuelve un valor negativo en caso de error
      */
-    double vxi11_obtain_double_value(Pointer clink, String cmd,
-                 long timeout);
+    double vxi11_obtain_double_value(Pointer clink, String cmd, long timeout);
 }

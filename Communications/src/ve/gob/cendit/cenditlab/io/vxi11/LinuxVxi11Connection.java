@@ -48,7 +48,7 @@ public class LinuxVxi11Connection implements IConnection
             {
                 bytesReceived = read(buffer);
 
-                checkReturnThrowExceptionIfError(bytesReceived, "Error reading from device",
+                checkReturnForException(bytesReceived, "Error reading from device",
                         true);
 
                 byteStream.write(buffer,
@@ -74,7 +74,7 @@ public class LinuxVxi11Connection implements IConnection
         int bytesReceived = (int)library.vxi11_receive(clink, buffer, (long)buffer.length,
                 IVxi11.VXI11_READ_TIMEOUT);
 
-        checkReturnThrowExceptionIfError(bytesReceived, "Error reading from device",
+        checkReturnForException(bytesReceived, "Error reading from device",
                 true);
 
         return bytesReceived;
@@ -89,7 +89,7 @@ public class LinuxVxi11Connection implements IConnection
         bytesReceived  = (int) library.vxi11_receive(clink, data, (long)length,
                 IVxi11.VXI11_READ_TIMEOUT);
 
-        checkReturnThrowExceptionIfError(bytesReceived, "Error reading from device",
+        checkReturnForException(bytesReceived, "Error reading from device",
                 true);
 
         System.arraycopy(data, 0, buffer, offset, length);
@@ -105,7 +105,7 @@ public class LinuxVxi11Connection implements IConnection
 
         ret = library.vxi11_send(clink, buffer, buffer.length);
 
-        checkReturnThrowExceptionIfError(ret, "Error writing to device");
+        checkReturnForException(ret, "Error writing to device");
 
         return data.length();
     }
@@ -128,7 +128,7 @@ public class LinuxVxi11Connection implements IConnection
 
         int ret = library.vxi11_send(clink, data, length);
 
-        checkReturnThrowExceptionIfError(ret, "Error writing to device");
+        checkReturnForException(ret, "Error writing to device");
 
         return length;
     }
@@ -152,7 +152,7 @@ public class LinuxVxi11Connection implements IConnection
                         deviceName /* direccion gpib instrumento */);
 
                 // Revisa apertura exitosa
-                checkReturnThrowExceptionIfError(ret, "Error opening device");
+                checkReturnForException(ret, "Error opening device");
             }
         }
         else
@@ -168,15 +168,21 @@ public class LinuxVxi11Connection implements IConnection
         int ret = library.vxi11_close_device(visaAddress.getHostAddress(), clink);
 
         // Revisa cierre exitoso
-        checkReturnThrowExceptionIfError(ret, "Error closing device");
+        checkReturnForException(ret, "Error closing device");
     }
 
-    private static void checkReturnThrowExceptionIfError(long ret, String errorMessage)
+    @Override
+    public void waitForCompletion()
     {
-        checkReturnThrowExceptionIfError(ret, errorMessage, false);
+
     }
 
-    private static void checkReturnThrowExceptionIfError(long ret, String errorMessage, boolean wasReading)
+    private static void checkReturnForException(long ret, String errorMessage)
+    {
+        checkReturnForException(ret, errorMessage, false);
+    }
+
+    private static void checkReturnForException(long ret, String errorMessage, boolean wasReading)
     {
         if (ret == IVxi11.VXI11_NULL_WRITE_RESP)
         {

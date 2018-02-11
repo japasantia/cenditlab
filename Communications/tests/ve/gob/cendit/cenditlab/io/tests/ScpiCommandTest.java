@@ -4,7 +4,8 @@ import ve.gob.cendit.cenditlab.data.Data;
 import ve.gob.cendit.cenditlab.io.ConnectionFactory;
 import ve.gob.cendit.cenditlab.io.IConnection;
 import ve.gob.cendit.cenditlab.io.gpib.LinuxGpibConnection;
-import ve.gob.cendit.cenditlab.io.scpi.ScpiCommand;
+import ve.gob.cendit.cenditlab.io.scpi.Scpi;
+import ve.gob.cendit.cenditlab.io.scpi.ScpiBuilder;
 import ve.gob.cendit.cenditlab.io.visa.VisaAddress;
 import ve.gob.cendit.cenditlab.io.vxi11.LinuxVxi11Connection;
 
@@ -50,10 +51,10 @@ public class ScpiCommandTest
         String command;
         boolean ret;
 
-        ret = ScpiCommand.isValid(":SENSE:BANDWIDTH {0}");
-        ret = ScpiCommand.isValid(":SENSE:{1}:COUNT {0}");
-        command = ScpiCommand.format(":SENSE:BANDWIDTH {0}", "400000");
-        command = ScpiCommand.format(":SENSE:{1}:COUNT {0}", "2", "AVERAGE");
+        ret = Scpi.isValid(":SENSE:BANDWIDTH {0}");
+        ret = Scpi.isValid(":SENSE:{1}:COUNT {0}");
+        command = Scpi.format(":SENSE:BANDWIDTH {0}", "400000");
+        command = Scpi.format(":SENSE:{1}:COUNT {0}", "2", "AVERAGE");
     }
 
     private static void commandsTest1(IConnection connection)
@@ -73,20 +74,19 @@ public class ScpiCommandTest
             pcoldData
         };
 
-        ScpiCommand[] commands =
+        Scpi[] commands =
         {
-            new ScpiCommand("*CLS"),
-            new ScpiCommand(":INITIATE:CONTINUOUS:ALL OFF"),
-            new ScpiCommand("*OPC"),
-            new ScpiCommand(":INITIATE:IMMEDIATE"),
-            //new ScpiCommand("*WAI"),
-            new ScpiCommand("*OPC?", 30000, okData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:NFIGURE? DB", 1000, nfData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:GAIN? DB", 1000, gainData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:PHOT?", 1000, photData),
-            new ScpiCommand(":FETCH:ARRAY:CORRECTED:PCOLD?", 1000, pcoldData)
+            ScpiBuilder.create("*CLS").get(),
+            ScpiBuilder.create(":INITIATE:CONTINUOUS:ALL OFF").get(),
+            ScpiBuilder.create("*OPC").get(),
+            ScpiBuilder.create(":INITIATE:IMMEDIATE").get(),
+            // ScpiBuilder.create("*WAI").get(),
+            ScpiBuilder.create("*OPC?").out(okData).delay(30000).get(),
+            ScpiBuilder.create(":FETCH:ARRAY:CORRECTED:NFIGURE? DB").out(nfData).delay(1000).get(),
+            ScpiBuilder.create(":FETCH:ARRAY:CORRECTED:GAIN? DB").out(gainData).delay(1000).get(),
+            ScpiBuilder.create(":FETCH:ARRAY:CORRECTED:PHOT?").out(photData).delay(1000).get(),
+            ScpiBuilder.create(":FETCH:ARRAY:CORRECTED:PCOLD?").out(pcoldData).delay(1000).get()
         };
-
 
         Arrays.stream(commands)
             .forEach(command ->
@@ -131,13 +131,13 @@ public class ScpiCommandTest
             teffData
         };
 
-        ScpiCommand[] commands =
+        Scpi[] commands =
         {
-            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:GAIN?", gainData),
-            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:NFIGURE?", nfData),
-            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:PCOLD?", pcoldData),
-            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:PHOT?", photData),
-            new ScpiCommand(":READ:ARRAY:DATA:CORRECTED:TEFFECTIVE?", teffData),
+            ScpiBuilder.create(":READ:ARRAY:DATA:CORRECTED:GAIN?").out(gainData).get(),
+            ScpiBuilder.create(":READ:ARRAY:DATA:CORRECTED:NFIGURE?").out(nfData).get(),
+            ScpiBuilder.create(":READ:ARRAY:DATA:CORRECTED:PCOLD?").out(pcoldData).get(),
+            ScpiBuilder.create(":READ:ARRAY:DATA:CORRECTED:PHOT?").out(photData).get(),
+            ScpiBuilder.create(":READ:ARRAY:DATA:CORRECTED:TEFFECTIVE?").out(teffData).get()
         };
 
         Arrays.stream(commands)
@@ -182,18 +182,18 @@ public class ScpiCommandTest
 
         // calibrate(connection);
 
-        ScpiCommand[] commands =
+        Scpi[] commands =
         {
-            new ScpiCommand(":SENSE:FREQUENCY:MODE FIXED"),
-            new ScpiCommand(":SENSE:FREQUENCY:FIXED 7GHZ"),
-            new ScpiCommand("*OPC"),
-            new ScpiCommand(":SENSE:CORRECTION:COLLECT:ACQUIRE STANDARD"),
-            new ScpiCommand("*OPC?", opcData),
-            new ScpiCommand(":FETCH:SCALAR:DATA:CORRECTED:GAIN?", gainData),
-            new ScpiCommand(":FETCH:SCALAR:DATA:UNCORRECTED:NFIGURE?", nfData),
-            new ScpiCommand(":FETCH:SCALAR:DATA:CORRECTED:PCOLD?", pcoldData),
-            new ScpiCommand(":FETCH:SCALAR:DATA:CORRECTED:PHOT?", photData),
-            new ScpiCommand(":FETCH:SCALAR:DATA:UNCORRECTED:TEFFECTIVE?", teffData)
+            ScpiBuilder.create(":SENSE:FREQUENCY:MODE FIXED").get(),
+            ScpiBuilder.create(":SENSE:FREQUENCY:FIXED 7GHZ").get(),
+            ScpiBuilder.create("*OPC").get(),
+            ScpiBuilder.create(":SENSE:CORRECTION:COLLECT:ACQUIRE STANDARD").get(),
+            ScpiBuilder.create("*OPC?").out(opcData).get(),
+            ScpiBuilder.create(":FETCH:SCALAR:DATA:CORRECTED:GAIN?").out(gainData).get(),
+            ScpiBuilder.create(":FETCH:SCALAR:DATA:UNCORRECTED:NFIGURE?").out(nfData).get(),
+            ScpiBuilder.create(":FETCH:SCALAR:DATA:CORRECTED:PCOLD?").out(pcoldData).get(),
+            ScpiBuilder.create(":FETCH:SCALAR:DATA:CORRECTED:PHOT?").out(photData).get(),
+            ScpiBuilder.create(":FETCH:SCALAR:DATA:UNCORRECTED:TEFFECTIVE?").out(teffData).get()
         };
 
         Arrays.stream(commands)
@@ -220,11 +220,11 @@ public class ScpiCommandTest
     {
         Data opcData = new Data("Op completed");
 
-        ScpiCommand[] commands =
+        Scpi[] commands =
         {
-            new ScpiCommand("*OPC"),
-            new ScpiCommand(":SENSE:CORRECTION:COLLECT:ACQUIRE STANDARD"),
-            new ScpiCommand("*OPC?", opcData)
+            ScpiBuilder.create("*OPC").get(),
+            ScpiBuilder.create(":SENSE:CORRECTION:COLLECT:ACQUIRE STANDARD").get(),
+            ScpiBuilder.create("*OPC?").out(opcData).get()
         };
 
         try

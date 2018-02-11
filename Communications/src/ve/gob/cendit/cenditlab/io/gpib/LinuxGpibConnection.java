@@ -228,7 +228,7 @@ public class LinuxGpibConnection implements IGpibConnection
         return pointer.getByte(0);
     }
 
-    public void wait(int status)
+    public void waitForStatus(int status)
     {
         library.ibwait(deviceDescriptor, status);
     }

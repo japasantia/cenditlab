@@ -12,4 +12,6 @@ public interface IConnection
     int write(String data);
     int write(byte[] buffer);
     int write(byte[] buffer, int offset, int length);
+
+    void waitForCompletion();
 }
