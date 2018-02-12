@@ -68,4 +68,8 @@ public class SerialConnection implements ISerialConnection
     {
         return 0;
     }
+
+    @Override
+    public void waitForCompletion()
+    {}
 }

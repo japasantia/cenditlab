@@ -1,6 +1,7 @@
 package ve.gob.cendit.cenditlab.io.vxi11;
 
 
+import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -48,6 +49,23 @@ public interface IVxi112 extends Library
     static final long VXI11_NOTHING_RECEIVED = -15;
 
     /**
+     * <code>Vxi11_CreateHandle</code> crea un handle necesario para las llamadas a funcion de
+     * en esta libreria. Dentro de la libreria la estructura <code>VxiHandle</code> se define
+     * como
+     *      typedef struct tagVxiHandle
+     *      {
+     *          CLIENT* pClient;
+     *          Create_LinkResp* pLink;
+     *      } VxiHandle;
+     * */
+    public static Pointer Vxi11_CreateHandle()
+    {
+        /* La estructura VxiHandle ocupa 16 bytes como maximo en un sitema de 64 bits. */
+        long memory = Native.malloc(16);
+        return new Pointer(memory);
+    }
+
+    /**
      * Permite abrir un enlace (link) y un canal VXI11 a un
      * instrumento direccionado por su direccion IP de cuatro
      * puntos (IP dotted quad address) y especificando el
@@ -67,24 +85,6 @@ public interface IVxi112 extends Library
      * @see             VisaAddress
      * @see             Pointer
      */
-
-    /**
-     * <code>Vxi11_CreateHandle</code> crea un handle necesario para las llamadas a funcion de
-     * en esta libreria. Dentro de la libreria la estructura <code>VxiHandle</code> se define
-     * como
-     *      typedef struct tagVxiHandle
-     *      {
-     *          CLIENT* pClient;
-     *          Create_LinkResp* pLink;
-     *      } VxiHandle;
-     * */
-    static Pointer Vxi11_CreateHandle()
-    {
-        /* La estructura VxiHandle ocupa 16 bytes como maximo en un sitema de 64 bits. */
-        long memory = Native.malloc(16);
-        return new Pointer(memory);
-    }
-
     int	Vxi11_OpenDevice(Pointer handle, String ip, String device);
 
     /**
@@ -168,4 +168,13 @@ public interface IVxi112 extends Library
 
     int Vxi11_DeviceEnableSRQ(Pointer handle, boolean enable);
 
+    int Vxi11_LibraryId(byte[] buffer, int len);
+
+    // JNA Callback
+    public interface SRQCallback extends Callback
+    {
+        int callback(/* char* */ Pointer arg );
+    }
+
+    public int Vxi11_RegisterSRQHandler(SRQCallback callback);
 }
