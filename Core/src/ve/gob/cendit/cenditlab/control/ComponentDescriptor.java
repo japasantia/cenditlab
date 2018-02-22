@@ -2,6 +2,7 @@ package ve.gob.cendit.cenditlab.control;
 
 import javafx.scene.image.Image;
 
+import java.util.Iterator;
 import java.util.function.Function;
 
 public class ComponentDescriptor

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Communications">
+    <output-path>$PROJECT_DIR$/out/artifacts/Communications</output-path>
+    <root id="archive" name="Communications.jar">
+      <element id="module-output" name="Communications" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+    </root>
+  </artifact>
+</component>

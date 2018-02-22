@@ -45,7 +45,7 @@ public abstract class Component
         return componentDescriptor.getIcon();
     }
 
-    public abstract List<Data> getData();
+    public abstract Data[] getData(DataDirection direction);
 
-    public abstract List<Setup> getSetup();
+    public abstract Setup[] getSetup();
 }

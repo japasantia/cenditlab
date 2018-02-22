@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<fx:root type="TabPane"  tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+    <!-- <TabPane tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"> -->
+      <tabs>
+        <Tab text="Input Data">
+             <content>
+                <ListView fx:id="inputDataListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+             </content>
+        </Tab>
+        <Tab text="Output Data">
+             <content>
+                <ListView fx:id="outputDataListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+             </content>
+        </Tab>
+      </tabs>
+    <!-- </TabPane> -->
+</fx:root>

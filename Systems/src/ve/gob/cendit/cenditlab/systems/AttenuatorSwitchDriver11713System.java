@@ -1,14 +1,9 @@
 package ve.gob.cendit.cenditlab.systems;
 
 import javafx.scene.image.Image;
-import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
+import ve.gob.cendit.cenditlab.control.*;
 import ve.gob.cendit.cenditlab.control.System;
-import ve.gob.cendit.cenditlab.control.Task;
-import ve.gob.cendit.cenditlab.control.TaskContext;
 import ve.gob.cendit.cenditlab.data.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class AttenuatorSwitchDriver11713System extends System
@@ -34,14 +29,18 @@ public class AttenuatorSwitchDriver11713System extends System
             SetAttenuationTask.descriptor
         };
 
-    private List<Setup> setupList = new ArrayList<>();
+    private static final Setup[] setupArray =
+        { new FrequencySetup(), new EnrSetup() };
+
+    private static final Data[] inputDataArray =
+        { new ValueData(), new FrequencyData(), new EnrData(), new ListData("List Data", "0,1,2,3,4,5,6,7,8,9") };
+
+    private static final Data[] outputDataArray =
+        { new GraphData("Graph", "[0,1,2,3,4,5,6,7,8,9][9,8,7,6,5,4,3,2,1,0]") };
 
     public AttenuatorSwitchDriver11713System()
     {
         super(systemDescriptor);
-
-        setupList.add(new FrequencySetup());
-        setupList.add(new EnrSetup());
     }
 
     @Override
@@ -51,13 +50,13 @@ public class AttenuatorSwitchDriver11713System extends System
     }
 
     @Override
-    public List<Setup> getSetup()
+    public Setup[] getSetup()
     {
-        return setupList;
+        return setupArray;
     }
 
     @Override
-    public List<Data> getData()
+    public Data[] getData(DataDirection direction)
     {
         return null;
     }
@@ -82,15 +81,23 @@ public class AttenuatorSwitchDriver11713System extends System
         }
 
         @Override
-        public List<Setup> getSetup()
+        public Setup[] getSetup()
         {
             return null;
         }
 
         @Override
-        public List<Data> getData()
+        public Data[] getData(DataDirection direction)
         {
-            return null;
+            switch (direction)
+            {
+                case INPUT:
+                    return inputDataArray;
+                case OUTPUT:
+                    return outputDataArray;
+                default:
+                    return null;
+            }
         }
     }
 
@@ -114,15 +121,23 @@ public class AttenuatorSwitchDriver11713System extends System
         }
 
         @Override
-        public List<Setup> getSetup()
+        public Setup[] getSetup()
         {
             return null;
         }
 
         @Override
-        public List<Data> getData()
+        public Data[] getData(DataDirection direction)
         {
-            return null;
+            switch (direction)
+            {
+                case INPUT:
+                    return inputDataArray;
+                case OUTPUT:
+                    return outputDataArray;
+                default:
+                    return null;
+            }
         }
     }
 }

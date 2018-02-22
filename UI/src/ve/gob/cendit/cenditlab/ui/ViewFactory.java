@@ -4,17 +4,17 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import ve.gob.cendit.cenditlab.data.EnrSetup;
-import ve.gob.cendit.cenditlab.data.FrequencySetup;
-import ve.gob.cendit.cenditlab.data.Setup;
+import ve.gob.cendit.cenditlab.control.DataDirection;
+import ve.gob.cendit.cenditlab.data.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ViewFactory
 {
-    public static Node buildSetupView(List<Setup> setupList)
+    public static Node buildSetupView(Setup[] setupArray)
     {
-        if (setupList == null || setupList.size() == 0)
+        if (setupArray == null || setupArray.length == 0)
             return null;
 
         VBox containerVBox = new VBox();
@@ -23,9 +23,10 @@ public class ViewFactory
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-        setupList.forEach(setup ->
+        Arrays.stream(setupArray)
+            .forEach(setup ->
         {
-            Node setupView = buildSetupView(setup);
+            Node setupView = ViewFactory.buildSetupView(setup);
 
             if (setupView != null)
                 containerVBox.getChildren().add(setupView);
@@ -48,5 +49,26 @@ public class ViewFactory
         }
 
         return setupView;
+    }
+
+    public static Node buildDataView(Data data, DataDirection direction)
+    {
+        Node dataView = null;
+
+        if (data instanceof ValueData || data instanceof NumericData ||
+                data instanceof EnrData || data instanceof FrequencyData)
+        {
+            dataView = new ValueView((ValueData) data);
+        }
+        else if (data instanceof ListData)
+        {
+            dataView = new ListDataView((ListData) data);
+        }
+        else if (data instanceof GraphData)
+        {
+            dataView = new GraphView(data.getName(), (GraphData) data);
+        }
+
+        return dataView;
     }
 }

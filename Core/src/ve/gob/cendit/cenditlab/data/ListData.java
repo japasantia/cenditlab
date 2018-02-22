@@ -17,7 +17,6 @@ public class ListData extends Data
         setName(DEFAULT_NAME);
     }
 
-
     public ListData(String list)
     {
         this();

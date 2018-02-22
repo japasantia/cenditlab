@@ -40,8 +40,7 @@ public class ViewTests extends Application
         // basicFrequencySetupTest();
         // genericMainViewTest();
         // componentViewTests();
-        // graphViewTest();
-        // graphViewTest2();
+        graphViewTest();
         // toolboxViewTest();
         // containerViewTest();
         // itemsListViewTest();
@@ -49,7 +48,8 @@ public class ViewTests extends Application
         // dialogViewTest();
         // listDataViewTest();
         // tabularViewTest();
-        viewFactoryTest();
+        // viewFactoryTest();
+        // dataContainerViewTest();
     }
 
     public void setupViewTest()
@@ -180,76 +180,56 @@ public class ViewTests extends Application
                 800, 600);
     }
 
-    private void graphViewTest()
+    private static void graphViewTest()
     {
-        GraphView graphView = new GraphView();
-        GraphData graphData = new GraphData("Data 1");
-
-        int size = 100;
-        double[] pointsX = new double[size];
-        double[] pointsY = new double[size];
-
-        for (int i = 0; i < size; i++)
-        {
-            pointsX[i] = 10.0 * Math.random();
-            pointsY[i] = 10.0 * Math.random();
-        }
-
-        graphData.addPoints(pointsX, pointsY);
-        graphView.setTitle("Random points graph");
-        graphView.addGraph(graphData);
-
-        showView(graphView, "CenditLab.Reduced | Component Views Tests",
-                600.0, 400.0);
-    }
-
-    private void graphViewTest2()
-    {
-        GraphView graphView = new GraphView();
-
-        int size = 100;
-
-        GraphData[] graphsData = new GraphData[]
+        GraphData[] graphDataArray1 =
             {
-                new GraphData("Data 1", size),
-                new GraphData("Data 2", size),
-                new GraphData("Data 3", size),
-                new GraphData("Data 4", size)
+                new GraphData("Graph 1",
+                        new ListData("X", "0,1,2,3,4,5,6,7,8,9"),
+                        new ListData("Y", "10,20,30,40,50,60,70,80,90,100")),
+                new GraphData("Graph 2",
+                        new ListData("X", "0,1,2,3,4,5,6,7,8,9"),
+                        new ListData("Y", "4,2,6,8,1,6,7,2,9,4")),
+                new GraphData("Graph 3",
+                        new ListData("X", "0,1,2,3,4,5,6,7,8,9"),
+                        new ListData("Y", "-5,5,-5,5,-5,5,-5,5,-5,5"))
             };
 
-        graphView.addGraphs(graphsData);
+        GraphData[] graphDataArray2 =
+            {
+                new GraphData("Graph 1",
+                        "0,1,2,3,4,5,6,7,8,9",
+                        "10,20,30,40,50,60,70,80,90,100"),
+                new GraphData("Graph 2",
+                        "0,1,2,3,4,5,6,7,8,9",
+                        "4,2,6,8,1,6,7,2,9,4"),
+                new GraphData("Graph 3",
+                        "0,1,2,3,4,5,6,7,8,9",
+                        "-5,5,-5,5,-5,5,-5,5,-5,5")
+            };
 
-        TimerTask timerTask = new TimerTask()
-        {
-            @Override
-           public void run()
-           {
-               for (int j = 0; j < graphsData.length; ++j)
-               {
-                   double phase = 2 * Math.PI * Math.random();
-                   double deltaX = 2 * Math.PI / size;
-                   double x = 0.0;
-                   double y = 0.0;
+        GraphData[] graphDataArray3 =
+            {
+                new GraphData("Graph 1",
+                        "[0,1,2,3,4,5,6,7,8,9][10,20,30,40,50,60,70,80,90,100]"),
+                new GraphData("Graph 2",
+                        "[0,1,2,3,4,5,6,7,8,9][4,2,6,8,1,6,7,2,9,4]"),
+                new GraphData("Graph 3",
+                        "[0,1,2,3,4,5,6,7,8,9][-5,5,-5,5,-5,5,-5,5,-5,5]")
+            };
 
-                   for (int i = 0; i < size; i++)
-                   {
-                       x += deltaX;
-                       y = Math.sin(x + phase);
+        GraphView graphView1 = new GraphView("Graph 1");
+        GraphView graphView2 = new GraphView("Graph 2");
+        GraphView graphView3 = new GraphView("Graph 3");
 
-                       graphsData[j].addPoint(x, y);
-                   }
-               }
-           }
-        };
+        graphView1.addGraphData(graphDataArray1);
+        graphView2.addGraphData(graphDataArray2);
+        graphView3.addGraphData(graphDataArray3);
 
-        Timer timer = new Timer();
+        VBox vBox = new VBox(graphView1, graphView2, graphView3);
 
-        timer.schedule(timerTask, 100, 500);
-
-        showView(graphView, "CenditLab.Reduced | GraphView Test",
-                600.0, 400.0);
-
-        stage.setOnCloseRequest(event -> timer.cancel());
+        showView(new ScrollPane(vBox), "CenditLab.Reduced | GraphView Test",
+                800, 600);
     }
 
     private static void toolboxViewTest()
@@ -415,13 +395,27 @@ public class ViewTests extends Application
 
     private static final void viewFactoryTest()
     {
-        List<Setup> setupList = new ArrayList<Setup>();
-        setupList.add(new FrequencySetup());
-        setupList.add(new EnrSetup());
+        Setup[] setupArray = { new FrequencySetup(), new EnrSetup() };
 
-        ScrollPane setupView = (ScrollPane) ViewFactory.buildSetupView(setupList);
+        ScrollPane setupView = (ScrollPane) ViewFactory.buildSetupView(setupArray);
 
         showView(setupView,"CenditLab.Reduced | ViewFactory Test", 600.0, 400.0);
+    }
+
+    private static final void dataContainerViewTest()
+    {
+        Data[] dataArray =
+            {
+                new ValueData(),
+                new NumericData("10.0", Unit.DB),
+                new FrequencyData("20.0", Unit.HZ),
+                new EnrData("30.0", Unit.DB),
+                new ListData("List Data", "1, 2 ,3 ,4, 5, 6, 7, 8, 9 , 0")
+            };
+
+        DataContainerView dataContainerView = new DataContainerView(dataArray, dataArray);
+
+        showView(dataContainerView, "CenditLab.Reduced | DataContainerView Test", 600.0, 400.0);
     }
 
     private static void showView(Parent root, String title, double width, double height)

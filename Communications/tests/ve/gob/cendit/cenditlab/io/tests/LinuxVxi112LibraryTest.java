@@ -16,7 +16,7 @@ public class LinuxVxi112LibraryTest
         int ret = library.Vxi11_LibraryId(buffer, buffer.length);
         System.out.println(new String(buffer));
 
-        ret = library.Vxi11_OpenDevice(handle, "186.88.137.129", "instr0");
+        ret = library.Vxi11_OpenDevice(handle, "127.0.0.1", "instr0");
 
         ret = library.Vxi11_RegisterSRQHandler(new IVxi112.SRQCallback()
         {

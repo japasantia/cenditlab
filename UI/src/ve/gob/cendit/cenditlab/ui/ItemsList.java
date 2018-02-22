@@ -72,6 +72,14 @@ public class ItemsList<T>
     {
         return list.get(index);
     }
+
+    public Item<T> getItem(T value)
+    {
+        return list.stream()
+            .filter(item -> item != null && item.getValue() == value)
+            .findFirst()
+            .orElse(null);
+    }
     
     public List<T> getAll()
     {
@@ -158,7 +166,7 @@ public class ItemsList<T>
         viewFactory = factory;
     }
 
-    protected Node getViewForItem(Item item)
+    protected Node getViewForItem(Item<T> item)
     {
         Node itemView;
 

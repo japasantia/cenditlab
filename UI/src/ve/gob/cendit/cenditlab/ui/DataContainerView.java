@@ -1,67 +1,108 @@
 package ve.gob.cendit.cenditlab.ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
+import ve.gob.cendit.cenditlab.control.Component;
+import ve.gob.cendit.cenditlab.control.DataDirection;
+import ve.gob.cendit.cenditlab.data.Data;
 import ve.gob.cendit.cenditlab.data.Options;
 import ve.gob.cendit.cenditlab.data.ValueData;
 
-public class DataContainerView extends VBox
-{
-    private static final String FXML_URL = "fxml/fields-view.fxml";
+import java.util.Objects;
 
-    private int nextRow = -1;
+public class DataContainerView extends TabPane
+{
+    private static final String FXML_URL = "fxml/data-container-view.fxml";
 
     @FXML
-    private GridPane parametersGridPane;
+    private ListView<Data> inputDataListView;
+
+    @FXML
+    private ListView<Data> outputDataListView;
 
     public DataContainerView()
     {
         ViewLoader.load(FXML_URL, this, this);
+
+        initialize();
     }
 
-    public void addField(String name, ValueData valueData)
+    public DataContainerView(Data[] inputData, Data[] outputData)
     {
-        int nextRow = nextRow();
+        this();
 
-        parametersGridPane.add(new Label(name), 0, nextRow);
-        parametersGridPane.add(new ValueView(valueData), 1, nextRow);
+        addInputData(inputData);
+        addOutputData(outputData);
     }
 
-    public void addOptions(String name, Options options)
+    private void initialize()
     {
-        int nextRow = nextRow();
-
-        ChoiceBox<String> choiceBox = new ChoiceBox();
-        choiceBox.getItems().addAll(options.getValues());
-        choiceBox.setValue(options.getDefault());
-
-        parametersGridPane.add(new Label(name), 0, nextRow);
-        parametersGridPane.add(choiceBox, 1, nextRow);
+        inputDataListView.setCellFactory(listView -> new DataListCell(DataDirection.INPUT));
+        outputDataListView.setCellFactory(listView -> new DataListCell(DataDirection.OUTPUT));
     }
 
-    public void addSectionLabel(String caption)
+    public void addInputData(Data... argsData)
     {
-        int nextRow = nextRow();
-
-        parametersGridPane.add(new Label(caption), 0, nextRow, 2, 1);
+        inputDataListView.getItems().addAll(argsData);
     }
 
-    public int getRows()
+    public void addOutputData(Data... argsData)
     {
-        return parametersGridPane.getRowConstraints().size();
+        outputDataListView.getItems().addAll(argsData);
     }
 
-    private int nextRow()
+    public void loadComponentData(Component component)
     {
-        RowConstraints rowConstraints =
-                parametersGridPane.getRowConstraints().get(0);
-        parametersGridPane.getRowConstraints()
-                .add(++nextRow, rowConstraints);
+        Objects.requireNonNull(component);
 
-        return nextRow;
+        clear();
+
+        addInputData(component.getData(DataDirection.INPUT));
+        addOutputData(component.getData(DataDirection.OUTPUT));
     }
+
+    public void clearInputData()
+    {
+        inputDataListView.getItems().clear();
+    }
+
+    public void clearOutputData()
+    {
+        outputDataListView.getItems().clear();
+    }
+
+    public void clear()
+    {
+        clearInputData();
+        clearOutputData();
+    }
+
+    private class DataListCell extends ListCell<Data>
+    {
+        private DataDirection direction;
+
+        public DataListCell(DataDirection direction)
+        {
+            this.direction = direction;
+        }
+
+        @Override
+        protected void updateItem(Data data, boolean empty)
+        {
+            super.updateItem(data, empty);
+
+            if (empty || data ==  null)
+                return;
+
+            Node dataView;
+
+            setGraphic(ViewFactory.buildDataView(data, direction));
+        }
+    }
+
 }

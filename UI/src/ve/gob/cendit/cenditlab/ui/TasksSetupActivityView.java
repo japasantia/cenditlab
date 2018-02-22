@@ -6,6 +6,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.control.ComponentDescriptor;
+import ve.gob.cendit.cenditlab.control.DataDirection;
 import ve.gob.cendit.cenditlab.control.System;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.ui.base.ViewType;
@@ -31,7 +32,7 @@ public class TasksSetupActivityView extends SplitPane
     private ImageButton addButton;
     private ImageButton removeButton;
 
-    private IconView taskSetupView;
+    private DataContainerView taskDataView;
 
     public TasksSetupActivityView()
     {
@@ -68,8 +69,10 @@ public class TasksSetupActivityView extends SplitPane
         addButton.setOnMouseClicked(this::onAddButtonClicked);
         removeButton.setOnMouseClicked(this::onRemoveButtonClicked);
 
-        taskSetupView = new IconView();
+        taskDataView = new DataContainerView();
+        taskSetupVBox.getChildren().setAll(taskDataView);
     }
+
 
     public void setSystems(System... systems)
     {
@@ -116,10 +119,7 @@ public class TasksSetupActivityView extends SplitPane
 
     public void updateTaskSetupView(Task task)
     {
-        taskSetupView.setComponentDescriptor(task.getComponentDescriptor());
-
-        taskSetupVBox.getChildren().clear();
-        taskSetupVBox.getChildren().add(taskSetupView);
+        taskDataView.loadComponentData(task);
     }
 
     public void clear()
@@ -143,7 +143,7 @@ public class TasksSetupActivityView extends SplitPane
 
     public void clearTaskSetup()
     {
-        taskSetupVBox.getChildren().clear();
+       taskDataView.clear();
     }
 
     public void load()
@@ -210,8 +210,6 @@ public class TasksSetupActivityView extends SplitPane
             Task task = (Task) item.getValue().create(null);
 
             addTask(task);
-
-            taskSetupView.setComponentDescriptor(task.getComponentDescriptor());
 
             updateTaskSetupView(task);
         }

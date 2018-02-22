@@ -121,13 +121,13 @@ public class AsyncTaskProto1 extends Task
     }
 
     @Override
-    public List<Data> getData()
+    public Data[] getData(DataDirection direction)
     {
-        return task.getData();
+        return task.getData(direction);
     }
 
     @Override
-    public List<Setup> getSetup()
+    public Setup[] getSetup()
     {
         return task.getSetup();
     }

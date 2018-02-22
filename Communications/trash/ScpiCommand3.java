@@ -1,4 +1,4 @@
-package ve.gob.cendit.cenditlab.io.scpi;
+package ve.gob.cendit.cenditlab.measurements;
 
 import java.util.HashSet;
 import java.util.Set;

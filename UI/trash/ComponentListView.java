@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 public class ComponentListView<T extends Component> extends ListView<T>
 {
-    private static final String FXML_URL = "fxml/toolbox-list-view.fxml";
+    private static final String FXML_URL = "fxml/items-list-view.fxml";
 
     private static final String DEFAULT_TITLE = "";
 

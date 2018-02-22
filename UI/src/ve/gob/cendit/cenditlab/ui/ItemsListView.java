@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 public class ItemsListView<T> extends VBox
 {
-    private static final String FXML_URL = "fxml/toolbox-list-view.fxml";
+    private static final String FXML_URL = "fxml/items-list-view.fxml";
 
     @FXML
     private ListView<Item<T>> listView;

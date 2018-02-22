@@ -11,26 +11,37 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ve.gob.cendit.cenditlab.data.GraphData;
+import ve.gob.cendit.cenditlab.data.ListData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class GraphView extends VBox
 {
-    private static final String FXML_URL =
-            "fxml/graph-view.fxml";
-    private static final ViewLoader viewLoader =
-            new ViewLoader(FXML_URL);
+    private static final String FXML_URL = "fxml/graph-view.fxml";
+    private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
     private LineChart lineChart;
 
-    private ObservableList<Series<Number, Number>> seriesList;
+    private List<GraphData> graphDataList;
 
-    public GraphView()
+    public GraphView(String title)
     {
         viewLoader.load(this, this);
 
         initialize();
+
+        setTitle(title);
+    }
+
+    public GraphView(String title, GraphData graphData)
+    {
+        this(title);
+
+        setGraphData(graphData);
     }
 
     private void initialize()
@@ -43,8 +54,39 @@ public class GraphView extends VBox
         yAxis.setAnimated(false);
         yAxis.setAutoRanging(true);
 
-        seriesList = FXCollections.observableArrayList();
-        lineChart.setData(seriesList);
+        graphDataList = new ArrayList<>();
+
+        lineChart.setData(FXCollections.<Series>observableArrayList());
+    }
+
+    public void setGraphData(GraphData... graphDataArgs)
+    {
+        clear();
+
+        addGraphData(graphDataArgs);
+    }
+
+    public void addGraphData(GraphData... graphDataArgs)
+    {
+        Objects.requireNonNull(graphDataArgs);
+
+        Arrays.stream(graphDataArgs)
+            .forEach(this::addGraphData);
+    }
+
+    public void addGraphData(GraphData graphData)
+    {
+        Objects.requireNonNull(graphData);
+
+        Series series = new Series(graphData.getName(), graphData.getPointsObservableList());
+
+        lineChart.getData().add(series);
+    }
+
+    public void clear()
+    {
+        graphDataList.clear();
+        lineChart.getData().clear();
     }
 
     public void setTitle(String value)
@@ -57,32 +99,5 @@ public class GraphView extends VBox
         lineChart.getTitle();
     }
 
-    public void addGraph(GraphData graphData)
-    {
-        if (graphData != null)
-        {
-            Series<Number, Number> series = new Series();
-            series.setName(graphData.getName());
-            series.setData(graphData.getPointsObservableList());
 
-            seriesList.add(series);
-        }
-    }
-
-    public void addGraph(String name, double[] pointsX, double[] pointsY)
-    {
-        GraphData graphData = new GraphData(name);
-        graphData.addPoints(pointsX, pointsY);
-
-        addGraph(graphData);
-    }
-
-    public void addGraphs(GraphData... graphs)
-    {
-        if (graphs != null)
-        {
-            Arrays.stream(graphs)
-                    .forEach(g -> addGraph(g));
-        }
-    }
 }

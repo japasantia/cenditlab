@@ -1,13 +1,19 @@
 package ve.gob.cendit.cenditlab.ui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
+import ve.gob.cendit.cenditlab.control.DataDirection;
 import ve.gob.cendit.cenditlab.control.Task;
 import ve.gob.cendit.cenditlab.control.TaskContext;
-import ve.gob.cendit.cenditlab.ui.base.ViewType;
+import ve.gob.cendit.cenditlab.control.TaskExecutor;
+import ve.gob.cendit.cenditlab.data.Data;
+
+import java.util.Arrays;
 
 public class TasksExecutionActivityView extends SplitPane
 {
@@ -16,18 +22,20 @@ public class TasksExecutionActivityView extends SplitPane
     private static final ViewLoader viewLoader = new ViewLoader(FXML_URL);
 
     @FXML
-    private VBox resultsVBox;
-
-    @FXML
     private VBox outputVBox;
 
     @FXML
     private ItemsListView<Task> tasksItemsListView;
 
     @FXML
+    private ContainerView<Task> resultsContainerView;
+
+    @FXML
     private ExecutionToolbar mainExecutionToolbar;
 
     private ExecutionToolbar executionToolbar;
+
+    private TaskExecutor taskExecutor;
 
     public TasksExecutionActivityView()
     {
@@ -45,13 +53,22 @@ public class TasksExecutionActivityView extends SplitPane
 
     private void initialize()
     {
+        taskExecutor = new TaskExecutor();
         executionToolbar = new ExecutionToolbar();
-        executionToolbar.setOnStart(this::onStartTaskButtonClicked);
-        executionToolbar.setOnStop(this::onStopTaskButtonClicked);
+
+        mainExecutionToolbar.setOnStart(this::onStartTaskButtonClicked);
+        mainExecutionToolbar.setOnStop(this::onStopTaskButtonClicked);
+
+        executionToolbar.setOnStart(this::onStartSelectedTaskButtonClicked);
+        executionToolbar.setOnStop(this::onStopSelectedTaskButtonClicked);
 
         tasksItemsListView.setOnItemClicked(this::onTaskClicked);
 
         tasksItemsListView.getItemsList().setViewFactory(this::getTaskView);
+        resultsContainerView.getItemsList().setViewFactory(this::getTaskResultsView);
+
+        taskExecutor.setOnSuccessHandler(this::onTasksExecutionSuccess);
+        taskExecutor.setOnErrorHandler(this::onTasksExecutionError);
     }
 
     public void setTasks(Task... tasks)
@@ -63,12 +80,10 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void addTasks(Task... tasks)
     {
-        tasksItemsListView.getItemsList().addAll(tasks);
-    }
+        taskExecutor.addTasks(tasks);
 
-    public void addResult(Node node)
-    {
-        resultsVBox.getChildren().add(node);
+        tasksItemsListView.getItemsList().addAll(tasks);
+        resultsContainerView.getItemsList().addAll(tasks);
     }
 
     public void clearTaskList()
@@ -78,7 +93,7 @@ public class TasksExecutionActivityView extends SplitPane
 
     public void clearResults()
     {
-        resultsVBox.getChildren().clear();
+        resultsContainerView.getItemsList().clear();
     }
 
     public void addOutput(Node node)
@@ -115,6 +130,22 @@ public class TasksExecutionActivityView extends SplitPane
 
     private void onStartTaskButtonClicked(ActionEvent event)
     {
+        mainExecutionToolbar.setEnableStart(false);
+        mainExecutionToolbar.setEnableStop(true);
+
+        // resultsContainerView.unload();
+
+        taskExecutor.execute();
+    }
+
+    private void onStopTaskButtonClicked(ActionEvent event)
+    {
+        mainExecutionToolbar.setEnableStart(true);
+        mainExecutionToolbar.setEnableStop(false);
+    }
+
+    private void onStartSelectedTaskButtonClicked(ActionEvent event)
+    {
         Task selectedTask = tasksItemsListView.getLastClickedItem().getValue();
 
         if (selectedTask != null)
@@ -128,7 +159,7 @@ public class TasksExecutionActivityView extends SplitPane
         }
     }
 
-    private void onStopTaskButtonClicked(ActionEvent event)
+    private void onStopSelectedTaskButtonClicked(ActionEvent event)
     {
         Task selectedTask = tasksItemsListView.getLastClickedItem().getValue();
 
@@ -167,5 +198,46 @@ public class TasksExecutionActivityView extends SplitPane
         }
 
         return itemView;
+    }
+
+    private Node getTaskResultsView(Item<Task> item)
+    {
+        Task task = item.getValue();
+
+        Data[] outputDataArray = item.getValue().getData(DataDirection.OUTPUT);
+
+        if (outputDataArray == null)
+            return null;
+
+        VBox containerVBox = new VBox();
+
+        Arrays.stream(outputDataArray)
+            .forEach(data ->
+                containerVBox.getChildren().add(ViewFactory.buildDataView(data, DataDirection.OUTPUT)));
+
+        return containerVBox;
+    }
+
+    private void onTasksExecutionSuccess()
+    {
+        Platform.runLater(() ->
+            {
+                mainExecutionToolbar.setEnableStart(true);
+                mainExecutionToolbar.setEnableStop(false);
+
+                outputVBox.getChildren().add(new Label("Execution success"));
+            });
+
+    }
+
+    private void onTasksExecutionError()
+    {
+        Platform.runLater(() ->
+        {
+            mainExecutionToolbar.setEnableStart(true);
+            mainExecutionToolbar.setEnableStop(false);
+
+            outputVBox.getChildren().add(new Label("Execution error"));
+        });
     }
 }

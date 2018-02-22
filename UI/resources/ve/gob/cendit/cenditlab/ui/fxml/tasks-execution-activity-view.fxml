@@ -11,30 +11,30 @@
 
         <SplitPane dividerPositions="0.3" maxWidth="Infinity" maxHeight="Infinity" >
 
-            <HeaderFrameView fx:id="tasksContainerView" text="Selected Tasks" maxWidth="Infinity" maxHeight="Infinity">
+            <HeaderFrameView text="Selected Tasks" maxWidth="Infinity" maxHeight="Infinity">
                 <icon>
                     <Image url="@../images/multimeter.png" />
                 </icon>
                 <content>
                     <VBox>
-                        <ItemsListView fx:id="tasksItemsListView"/>
                         <ExecutionToolbar fx:id="mainExecutionToolbar" />
+                        <ItemsListView fx:id="tasksItemsListView"/>
                     </VBox>
                 </content>
             </HeaderFrameView>
 
-            <HeaderFrameView fx:id="resultsContainerView" text="Results" maxWidth="Infinity" maxHeight="Infinity">
+            <HeaderFrameView text="Results" maxWidth="Infinity" maxHeight="Infinity">
                 <icon>
                     <Image url="@../images/multimeter.png" />
                 </icon>
                 <content>
-                    <VBox fx:id="resultsVBox"/>
+                    <ContainerView fx:id="resultsContainerView"/>
                 </content>
             </HeaderFrameView>
 
         </SplitPane>
 
-        <HeaderFrameView fx:id="outputContainerView" text="Output" maxWidth="Infinity" maxHeight="Infinity">
+        <HeaderFrameView text="Output" maxWidth="Infinity" maxHeight="Infinity">
             <icon>
                 <Image url="@../images/multimeter.png" />
             </icon>
